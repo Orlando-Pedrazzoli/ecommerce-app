@@ -1,15 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { Link } from 'react-router-dom';
 
 const ProductItem = ({ id, image, name, price }) => {
   const { currency } = useContext(ShopContext);
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Link className='text-gray-700 cursor-pointer' to={`/product/${id}`}>
+    <Link
+      onClick={() => scrollTo(0, 0)}
+      className='text-gray-700 cursor-pointer'
+      to={`/product/${id}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className='overflow-hidden'>
         <img
-          className='hover:scale-110 transition ease-in-out'
-          src={image[0]}
+          className='hover:scale-110 transition ease-linear'
+          src={isHovered ? image[1] : image[0]}
           alt=''
         />
       </div>

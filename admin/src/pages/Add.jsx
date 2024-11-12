@@ -12,7 +12,9 @@ const Add = ({ token }) => {
   const [image5, setImage5] = useState(false);
 
   const [name, setName] = useState('');
+  const [cod, setCod] = useState('');
   const [description, setDescription] = useState('');
+  const [description2, setDescription2] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('Capas');
   const [subCategory, setSubCategory] = useState('Topwear');
@@ -25,7 +27,9 @@ const Add = ({ token }) => {
       const formData = new FormData();
 
       formData.append('name', name);
+      formData.append('cod', cod);
       formData.append('description', description);
+      formData.append('description2', description2);
       formData.append('price', price);
       formData.append('category', category);
       formData.append('subCategory', subCategory);
@@ -46,7 +50,9 @@ const Add = ({ token }) => {
       if (response.data.success) {
         toast.success(response.data.message);
         setName('');
+        setCod('');
         setDescription('');
+        setDescription2('');
         setImage1(false);
         setImage2(false);
         setImage3(false);
@@ -151,10 +157,32 @@ const Add = ({ token }) => {
         />
       </div>
       <div className='w-full'>
+        <p className='mb-2'>Código do produto</p>
+        <input
+          onChange={e => setCod(e.target.value)}
+          value={cod}
+          className='w-full max-w-[500px] px-3 py-2'
+          type='text'
+          placeholder='Type code here'
+          required
+        />
+      </div>
+      <div className='w-full'>
         <p className='mb-2'>Product description</p>
         <textarea
           onChange={e => setDescription(e.target.value)}
           value={description}
+          className='w-full max-w-[500px] px-3 py-2'
+          type='text'
+          placeholder='Write content here'
+          required
+        />
+      </div>
+      <div className='w-full'>
+        <p className='mb-2'>Product description 2</p>
+        <textarea
+          onChange={e => setDescription2(e.target.value)}
+          value={description2}
           className='w-full max-w-[500px] px-3 py-2'
           type='text'
           placeholder='Write content here'
@@ -190,6 +218,7 @@ const Add = ({ token }) => {
             <option value='Sarcofago'>Sarcófago</option>
             <option value='CapaSkate'>Skake</option>
             <hr />
+            <option value='DeckSaquarema'>Saquarema</option>
             <option value='DeckNoronha'>Noronha</option>
             <option value='DeckJBay'>J-Bay</option>
             <option value='DeckFiji'>Fiji</option>
@@ -198,6 +227,8 @@ const Add = ({ token }) => {
             <option value='DeckTrestles'>Trestles</option>
             <option value='DeckIndonesia'>Indonésia</option>
             <option value='DeckTahiti'>Tahiti</option>
+            <option value='DeckCombate'>Combate</option>
+            <option value='DeckFrontal'>Frontal</option>
             <option value='DeckLongboard'>Longboard</option>
             <option value='DeckStandUp'>Stand Up</option>
             <hr />

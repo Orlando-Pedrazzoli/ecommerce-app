@@ -28,3 +28,20 @@ a.active hr {
     color: white;
   }
 }
+
+.cursor-pointer-zoom {
+  overflow: hidden;
+  position: relative;
+}
+
+.cursor-pointer-zoom img {
+  transition: transform 0.3s ease;
+}
+
+.cursor-pointer-zoom:hover img {
+  transform: scale(1.1); /* Adjust the scale factor as desired */
+}
+
+.cursor-zoom {
+  cursor: zoom-in;
+}

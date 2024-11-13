@@ -4,6 +4,10 @@ import Title from './Title';
 
 const CartTotal = () => {
   const { currency, delivery_fee, getCartAmount } = useContext(ShopContext);
+  const formattedSubtotal = getCartAmount().toFixed(2);
+  const formattedDeliveryFee = delivery_fee.toFixed(2);
+  const formattedTotal = (getCartAmount() + delivery_fee).toFixed(2);
+
   return (
     <div className='w-full'>
       <div className='text-2xl'>
@@ -14,7 +18,7 @@ const CartTotal = () => {
           <p>Subtotal</p>
           <p>
             {currency}
-            {getCartAmount()}
+            {formattedSubtotal}
           </p>
         </div>
         <hr />
@@ -22,7 +26,7 @@ const CartTotal = () => {
           <p>Shipping Fee</p>
           <p>
             {currency}
-            {delivery_fee}
+            {formattedDeliveryFee}
           </p>
         </div>
         <hr />
@@ -30,7 +34,7 @@ const CartTotal = () => {
           <b>Total</b>
           <b>
             {currency}
-            {getCartAmount() === 0 ? 0 : getCartAmount() + delivery_fee}
+            {formattedTotal}
           </b>
         </div>
       </div>

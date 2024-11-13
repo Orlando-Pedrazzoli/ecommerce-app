@@ -111,17 +111,6 @@ const Collection = () => {
           {/* Renderização de Categorias */}
           {[
             {
-              name: 'Capas',
-              subCategories: [
-                'RefletivaCombate',
-                'RefletivaPremium',
-                'RefletivaTermica',
-                'CapaToalha',
-                'Sarcofago',
-                'CapaSkate',
-              ],
-            },
-            {
               name: 'Decks',
               subCategories: [
                 'DeckSaquarema',
@@ -152,6 +141,17 @@ const Collection = () => {
                 'LeashStandUp',
                 'LeashStandUpEspiral',
                 'LeashBody',
+              ],
+            },
+            {
+              name: 'Capas',
+              subCategories: [
+                'RefletivaCombate',
+                'RefletivaPremium',
+                'RefletivaTermica',
+                'CapaToalha',
+                'Sarcofago',
+                'CapaSkate',
               ],
             },
             {

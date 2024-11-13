@@ -55,6 +55,9 @@ const Cart = () => {
                   <p className='text-xs sm:text-lg font-medium'>
                     {productData.name}
                   </p>
+                  <p className='text-xs sm:text-lg font-medium'>
+                    {productData.cod}
+                  </p>
                   <div className='flex items-center gap-5 mt-2'>
                     <p>
                       {currency}
@@ -66,21 +69,55 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
-              <input
-                onChange={e =>
-                  e.target.value === '' || e.target.value === '0'
-                    ? null
-                    : updateQuantity(
+
+              <div className='input-group max-w-32' data-input-number>
+                <span className='input-group-text gap-3'>
+                  <button
+                    type='button'
+                    className='btn btn-soft size-[22px] rounded min-h-0 p-0'
+                    aria-label='Decrement button'
+                    data-input-number-decrement
+                    onClick={() =>
+                      updateQuantity(
                         item._id,
                         item.size,
-                        Number(e.target.value)
+                        Math.max(1, item.quantity - 1)
                       )
-                }
-                className='border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1'
-                type='number'
-                min={1}
-                defaultValue={item.quantity}
-              />
+                    }
+                  >
+                    <span className='icon-[tabler--minus] size-3.5 flex-shrink-0'></span>
+                  </button>
+                </span>
+                <input
+                  className='input text-center'
+                  id='number-input-mini'
+                  type='text'
+                  value={item.quantity}
+                  onChange={e =>
+                    e.target.value === '' || e.target.value === '0'
+                      ? null
+                      : updateQuantity(
+                          item._id,
+                          item.size,
+                          Number(e.target.value)
+                        )
+                  }
+                />
+                <span className='input-group-text gap-3'>
+                  <button
+                    type='button'
+                    className='btn btn-soft size-[22px] rounded min-h-0 p-0'
+                    aria-label='Increment button'
+                    data-input-number-increment
+                    onClick={() =>
+                      updateQuantity(item._id, item.size, item.quantity + 1)
+                    }
+                  >
+                    <span className='icon-[tabler--plus] size-3.5 flex-shrink-0'></span>
+                  </button>
+                </span>
+              </div>
+
               <img
                 onClick={() => updateQuantity(item._id, item.size, 0)}
                 className='w-4 mr-4 sm:w-5 cursor-pointer'

@@ -22,6 +22,38 @@ a.active hr {
   display: none;
 }
 
+/* Sobrescreve a posição do container do toast */
+.Toastify__toast-container {
+  top: 50% !important; /* Centraliza verticalmente */
+  transform: translateY(-50%) !important; /* Corrige o deslocamento vertical */
+  right: 1rem !important; /* Define a posição no lado direito */
+}
+
+/* Para garantir que as notificações individuais tenham padding adequado */
+.Toastify__toast {
+  margin-bottom: 1rem;
+}
+
+/* Botões de navegação */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #c7c1c1; /* Cor dos botões */
+  font-size: 20px; /* Tamanho maior */
+  width: 40px; /* Largura do botão */
+  height: 40px; /* Altura do botão */
+  font-weight: 700; /* Fonte mais grossa (negrito) */
+}
+
+@media (max-width: 640px) {
+  /* Telas pequenas (mobile) */
+  .swiper-button-next,
+  .swiper-button-prev {
+    font-size: 14px; /* Tamanho menor das setas */
+    width: 40px; /* Largura reduzida para dispositivos menores */
+    height: 40px; /* Altura reduzida para dispositivos menores */
+  }
+}
+
 @media (max-width: 640px) {
   a.active {
     background-color: black;

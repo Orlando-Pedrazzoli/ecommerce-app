@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { Link } from 'react-router-dom';
 
-const ProductItem = ({ id, image, name, price }) => {
+const ProductItem = ({ id, image, name, price, cod }) => {
   const { currency } = useContext(ShopContext);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -21,8 +21,12 @@ const ProductItem = ({ id, image, name, price }) => {
           alt=''
         />
       </div>
-      <p className='pt-3 pb-1 text-sm'>{name}</p>
-      <p className='text-sm font-medium'>
+      <p className='pt-3 pb-1 text-sm'>
+        <span>{cod}</span>
+        <span className='ml-2'>{name}</span>
+      </p>
+
+      <p className='text-lg font-medium'>
         {currency}
         {price}
       </p>

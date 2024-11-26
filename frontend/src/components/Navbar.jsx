@@ -46,9 +46,13 @@ const Navbar = () => {
           <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
         </NavLink>
       </ul>
+
       <div className='flex items-center gap-6'>
         <img
-          onClick={() => setShowSearch(true)}
+          onClick={() => {
+            setShowSearch(true);
+            navigate('/collection');
+          }}
           src={assets.search_icon}
           className='w-5 cursor-pointer'
           alt=''
@@ -92,7 +96,8 @@ const Navbar = () => {
           alt=''
         />
       </div>
-      {/*Sidebar menu for small screens */}
+
+      {/* Sidebar menu for small screens */}
       <div
         className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
           visible ? 'w-full' : 'w-0'

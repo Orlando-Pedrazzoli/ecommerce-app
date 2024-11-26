@@ -33,7 +33,6 @@ const Contact = () => {
           </button>
         </div>
       </div>
-      <NewsLetterBox />
     </div>
   );
 };

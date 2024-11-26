@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
@@ -6,12 +7,27 @@ import ProductItem from '../components/ProductItem';
 
 const Collection = () => {
   const { products, search, showSearch } = useContext(ShopContext);
+  const location = useLocation();
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState(null); // Subcategoria começa como null
   const [sortType, setSortType] = useState('relavent');
   const [expandedCategories, setExpandedCategories] = useState({});
+
+  // Configurar categorias e subcategorias iniciais com base no estado recebido
+  useEffect(() => {
+    if (location.state?.category) {
+      setCategory([location.state.category]); // Define a categoria
+      setExpandedCategories(prev => ({
+        ...prev,
+        [location.state.category]: true, // Expande a categoria
+      }));
+    }
+    if (location.state?.subCategory) {
+      setSubCategory(location.state.subCategory); // Define a subcategoria se existirem
+    }
+  }, [location.state]);
 
   // Função para alternar a categoria principal e mostrar/ocultar subcategorias
   const toggleCategory = e => {
@@ -29,31 +45,30 @@ const Collection = () => {
 
   const toggleSubCategory = e => {
     const value = e.target.value;
-    setSubCategory(prev =>
-      prev.includes(value)
-        ? prev.filter(item => item !== value)
-        : [...prev, value]
-    );
+    setSubCategory(value); // Define a subcategoria quando clicada
   };
 
   const applyFilter = () => {
     let productsCopy = products.slice();
 
+    // Filtro por busca
     if (showSearch && search) {
       productsCopy = productsCopy.filter(item =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
+    // Filtro por categoria
     if (category.length > 0) {
       productsCopy = productsCopy.filter(item =>
         category.includes(item.category)
       );
     }
 
-    if (subCategory.length > 0) {
-      productsCopy = productsCopy.filter(item =>
-        subCategory.includes(item.subCategory)
+    // Filtro por subcategoria se houver uma selecionada
+    if (subCategory) {
+      productsCopy = productsCopy.filter(
+        item => item.subCategory === subCategory
       );
     }
 
@@ -115,12 +130,12 @@ const Collection = () => {
               subCategories: [
                 'DeckSaquarema',
                 'DeckNoronha',
-                'DeckJBay',
-                'DeckFiji',
+                'DeckJ-Bay',
+                'DeckJBayCnc',
+                'DeckFijiClassic',
+                'DeckFijiCnc',
                 'DeckHawaii',
                 'DeckPeniche',
-                'DeckTrestles',
-                'DeckIndonesia',
                 'DeckTahiti',
                 'DeckCombate',
                 'DeckFrontal',
@@ -131,24 +146,24 @@ const Collection = () => {
             {
               name: 'Leashes',
               subCategories: [
-                'LeashSuperComp',
-                'LeashCompetição',
-                'LeashRegular',
-                'LeashPipeline',
-                'LeashLongTornozelo',
-                'LeashLongCalfKnee',
-                'LeashLongboard',
-                'LeashStandUp',
-                'LeashStandUpEspiral',
-                'LeashBody',
+                'SuperComp',
+                'Competição',
+                'Regular',
+                'Pipeline',
+                'LongTornozelo',
+                'LongCalfKnee',
+                'Longboard',
+                'StandUp',
+                'StandUpEspiral',
+                'Bodyboard',
               ],
             },
             {
               name: 'Capas',
               subCategories: [
-                'RefletivaCombate',
-                'RefletivaPremium',
-                'RefletivaTermica',
+                'Refletiva Combate',
+                'Refletiva Premium',
+                'Refletiva Termica',
                 'CapaToalha',
                 'Sarcofago',
                 'CapaSkate',
@@ -165,6 +180,7 @@ const Collection = () => {
                   className='w-3'
                   type='checkbox'
                   value={cat.name}
+                  checked={category.includes(cat.name)}
                   onChange={toggleCategory}
                 />
                 {cat.name}
@@ -177,6 +193,7 @@ const Collection = () => {
                         className='w-3'
                         type='checkbox'
                         value={subCat}
+                        checked={subCategory === subCat} // Verifica se é a subcategoria selecionada
                         onChange={toggleSubCategory}
                       />
                       {subCat}

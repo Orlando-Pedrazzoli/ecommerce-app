@@ -221,11 +221,11 @@ const Add = ({ token }) => {
             <option value='DeckSaquarema'>Saquarema</option>
             <option value='DeckNoronha'>Noronha</option>
             <option value='DeckJBay'>J-Bay</option>
-            <option value='DeckFiji'>Fiji</option>
+            <option value='DeckJBayCnc'>J-Bay Cnc</option>
+            <option value='DeckFijiClassic'>Fiji Classic</option>
+            <option value='DeckFijiCnc'>Fiji Cnc</option>
             <option value='DeckHawaii'> Hawaii</option>
             <option value='DeckPeniche'>Peniche</option>
-            <option value='DeckTrestles'>Trestles</option>
-            <option value='DeckIndonesia'>Indonésia</option>
             <option value='DeckTahiti'>Tahiti</option>
             <option value='DeckCombate'>Combate</option>
             <option value='DeckFrontal'>Frontal</option>

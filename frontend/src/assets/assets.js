@@ -24,6 +24,13 @@ import productCollection10 from './productCollection10.jpg';
 import productCollection11 from './productCollection11.jpg';
 import productCollection12 from './productCollection12.jpg';
 import productCollection13 from './productCollection13.jpg';
+import banner04 from './banner04.jpg';
+import banner05 from './banner05.jpg';
+import banner06 from './banner06.jpg';
+import banner07 from './banner07.jpg';
+import banner08 from './banner08.jpg';
+import banner09 from './banner09.jpg';
+import banner10 from './banner10.jpg';
 
 export const assets = {
   logo,
@@ -52,4 +59,11 @@ export const assets = {
   productCollection11,
   productCollection12,
   productCollection13,
+  banner04,
+  banner05,
+  banner06,
+  banner07,
+  banner08,
+  banner09,
+  banner10,
 };

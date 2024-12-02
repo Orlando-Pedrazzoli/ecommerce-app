@@ -100,7 +100,7 @@ const Collection = () => {
   }, [sortType]);
 
   return (
-    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
+    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 sm:px-6 lg:px-10'>
       {/* Filter Options */}
       <div className='min-w-60'>
         <p
@@ -222,7 +222,7 @@ const Collection = () => {
         </div>
 
         {/* Map Products */}
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-10'>
           {filterProducts.map((item, index) => (
             <ProductItem
               key={index}

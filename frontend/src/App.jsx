@@ -22,7 +22,7 @@ const App = () => {
   return (
     <div>
       <Announcement />
-      <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[5vw]'>
+      <div className='w-full overflow-x-hidden'>
         <ToastContainer />
         <Navbar />
         <SearchBar />

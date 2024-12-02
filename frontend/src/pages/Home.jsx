@@ -8,7 +8,7 @@ import VideoPlayer from '../components/VideoPlayer';
 
 const Home = () => {
   return (
-    <div>
+    <div className='w-full overflow-x-hidden'>
       <Hero />
       <ProductCollection />
       <VideoPlayer />

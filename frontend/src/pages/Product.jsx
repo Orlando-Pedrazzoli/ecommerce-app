@@ -11,8 +11,10 @@ const Product = () => {
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState('');
   const [size, setSize] = useState('original');
+  const [quantity, setQuantity] = useState(1); // Estado para quantidade
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Função para buscar os dados do produto
   const fetchProductData = () => {
     const foundProduct = products.find(item => item._id === productId);
     if (foundProduct) {
@@ -25,13 +27,28 @@ const Product = () => {
     fetchProductData();
   }, [productId, products]);
 
+  // Função para adicionar ao carrinho
   const handleAddToCart = () => {
-    addToCart(productData._id, size || null);
-    toast.success('Product added to cart'); // Show toast notification
+    if (quantity > 0) {
+      addToCart(productData._id, size || null, quantity); // Envia a quantidade para o carrinho
+      toast.success(`${quantity} item(s) added to cart`); // Show toast notification
+    } else {
+      toast.error('Please select a valid quantity.');
+    }
   };
 
+  // Função para abrir e fechar o modal de zoom da imagem
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  // Funções de incremento e decremento da quantidade
+  const incrementQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity(prev => (prev > 1 ? prev - 1 : 1)); // Evita quantidade menor que 1
   };
 
   return productData ? (
@@ -55,61 +72,11 @@ const Product = () => {
             className='w-full sm:w-[80%] cursor-zoom relative'
             onClick={handleModalToggle}
           >
-            <div
-              id='imageZoom'
-              style={{
-                position: 'relative',
-                overflow: 'hidden',
-                width: '100%',
-                height: 'auto',
-                '--display': 'none',
-                '--zoom-x': '0%',
-                '--zoom-y': '0%',
-              }}
-              onMouseMove={event => {
-                const zoomElement = document.getElementById('imageZoom');
-                zoomElement.style.setProperty('--display', 'block');
-                const pointer = {
-                  x:
-                    (event.nativeEvent.offsetX * 100) / zoomElement.offsetWidth,
-                  y:
-                    (event.nativeEvent.offsetY * 100) /
-                    zoomElement.offsetHeight,
-                };
-                zoomElement.style.setProperty('--zoom-x', pointer.x + '%');
-                zoomElement.style.setProperty('--zoom-y', pointer.y + '%');
-              }}
-              onMouseLeave={() => {
-                const zoomElement = document.getElementById('imageZoom');
-                zoomElement.style.setProperty('--display', 'none'); // Use onMouseLeave to reset
-              }}
-            >
-              <img
-                src={image}
-                alt=''
-                className='w-full h-auto transition-transform duration-300'
-                style={{
-                  objectFit: 'cover',
-                  objectPosition: '0 0',
-                  transform: 'scale(1.0)', // Adjust the scale for zoom effect
-                }}
-              />
-              <div
-                style={{
-                  display: 'var(--display)',
-                  content: '""',
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: 'black',
-                  backgroundImage: `url(${image})`,
-                  backgroundSize: '200%',
-                  backgroundPosition: 'var(--zoom-x) var(--zoom-y)',
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                }}
-              />
-            </div>
+            <img
+              src={image}
+              alt=''
+              className='w-full h-auto transition-transform duration-300'
+            />
           </div>
         </div>
 
@@ -123,7 +90,6 @@ const Product = () => {
             <img src={assets.star_icon} alt='' className='w-3 5' />
             <img src={assets.star_icon} alt='' className='w-3 5' />
             <img src={assets.star_icon} alt='' className='w-3 5' />
-
             <p className='pl-2'>(123)</p>
           </div>
           <p className='mt-5 text-3xl font-medium'>
@@ -133,6 +99,7 @@ const Product = () => {
           <p className='mt-5 text-gray-500 md:w-4/5'>
             {productData.description}
           </p>
+
           <div className='flex flex-col gap-4 my-8'>
             <p>Select Size (Optional)</p>
             <div className='flex gap-2'>
@@ -149,12 +116,32 @@ const Product = () => {
               ))}
             </div>
           </div>
+
+          {/* Increment/Decrement Input */}
+          <div className='flex items-center gap-4 mb-4'>
+            <button
+              onClick={decrementQuantity}
+              className='border px-4 py-2 bg-gray-100 hover:bg-gray-200'
+            >
+              -
+            </button>
+            <span className='text-lg'>{quantity}</span>
+            <button
+              onClick={incrementQuantity}
+              className='border px-4 py-2 bg-gray-100 hover:bg-gray-200'
+            >
+              +
+            </button>
+          </div>
+
+          {/* ADD TO CART Button */}
           <button
             onClick={handleAddToCart}
             className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'
           >
             ADD TO CART
           </button>
+
           <hr className='mt-8 sm:w-4/5' />
           <div className='text-sm text-gray-500 mt-5 flex flex-col gap-1'>
             <p>100% Original product.</p>
@@ -164,32 +151,7 @@ const Product = () => {
         </div>
       </div>
 
-      {/* ---------- Modal for Fullscreen Image ------------- */}
-      {isModalOpen && (
-        <div
-          className='fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center'
-          onClick={handleModalToggle}
-        >
-          <img
-            src={image}
-            alt=''
-            className='w-auto h-auto max-w-full max-h-full'
-          />
-        </div>
-      )}
-
-      {/* ---------- Description & Review Section ------------- */}
-      <div className='mt-20'>
-        <div className='flex'>
-          <b className='border px-5 py-3 text-sm'>Description</b>
-          <p className='border px-5 py-3 text-sm'>Reviews (122)</p>
-        </div>
-        <div className='flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500'>
-          <p>{productData.description2}</p>
-        </div>
-      </div>
-
-      {/* --------- display related products ---------- */}
+      {/* Related Products */}
       <RelatedProducts
         category={productData.category}
         subCategory={productData.subCategory}

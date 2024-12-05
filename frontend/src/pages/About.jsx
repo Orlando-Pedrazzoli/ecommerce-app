@@ -5,7 +5,7 @@ import NewsLetterBox from '../components/NewsLetterBox';
 
 const About = () => {
   return (
-    <div>
+    <div className='px-4 sm:px-8 lg:px-12'>
       <div className='text-2xl text-center pt-8 border-t'>
         <Title text1={'ABOUT'} text2={'US'} />
       </div>

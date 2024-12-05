@@ -1,25 +1,30 @@
 import React, { useContext, useState } from 'react';
 import { assets } from '../assets/assets';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate(); // Utilizando o hook de navegação
 
-  const {
-    setShowSearch,
-    getCartCount,
-    navigate,
-    token,
-    setToken,
-    setCartItems,
-  } = useContext(ShopContext);
+  const { setShowSearch, getCartCount, token, setToken, setCartItems } =
+    useContext(ShopContext);
 
   const logout = () => {
     navigate('/login');
     localStorage.removeItem('token');
     setToken('');
     setCartItems({});
+  };
+
+  // Função para navegação por categoria
+  const handleCategoryNavigate = category => {
+    navigate('/collection', {
+      state: {
+        category,
+        subCategory: null, // Não seleciona subcategoria de início
+      },
+    });
   };
 
   return (
@@ -39,6 +44,7 @@ const Navbar = () => {
             <p>HOME</p>
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
           </NavLink>
+
           {/* Collection Dropdown */}
           <div className='group relative'>
             <NavLink
@@ -49,96 +55,65 @@ const Navbar = () => {
               <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
             </NavLink>
             <div className='absolute left-1/2 transform -translate-x-1/2 top-full hidden group-hover:block bg-white shadow-lg w-[900px] p-6 rounded-md z-50'>
-              <div className='grid grid-cols-5 gap-6'>
-                {/* Category 1 */}
-                <div>
+              <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-items-center'>
+                {/* Category 1 - DECKS */}
+                <div
+                  onClick={() => handleCategoryNavigate('Decks')}
+                  className='flex flex-col items-center cursor-pointer'
+                >
                   <img
                     src={assets.productCollection10}
                     alt='Leash'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800'>LEASH</h3>
-                  <ul className='mt-2 text-gray-600 space-y-1'>
-                    <li>Superlite</li>
-                    <li>Reliance</li>
-                    <li>Icon</li>
-                    <li>Bodyboard</li>
-                    <li>Longboard</li>
-                    <li>Grom</li>
-                  </ul>
+                  <h3 className='font-semibold text-gray-800 text-center'>
+                    DECKS
+                  </h3>
                 </div>
 
-                {/* Category 2 */}
-                <div>
+                {/* Category 2 - LEASHES */}
+                <div
+                  onClick={() => handleCategoryNavigate('Leashes')}
+                  className='flex flex-col items-center cursor-pointer'
+                >
                   <img
                     src={assets.productCollection11}
                     alt='Traction'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800'>TRACTION</h3>
-                  <ul className='mt-2 text-gray-600 space-y-1'>
-                    <li>Proto™ 1.4</li>
-                    <li>Team Signature</li>
-                    <li>ECOPURE®</li>
-                    <li>Reliance</li>
-                    <li>Icon</li>
-                    <li>Grom</li>
-                  </ul>
+                  <h3 className='font-semibold text-gray-800 text-center'>
+                    LEASHES
+                  </h3>
                 </div>
 
-                {/* Category 3 */}
-                <div>
+                {/* Category 3 - CAPAS */}
+                <div
+                  onClick={() => handleCategoryNavigate('Capas')}
+                  className='flex flex-col items-center cursor-pointer'
+                >
                   <img
                     src={assets.productCollection9}
                     alt='Boardcovers'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800'>BOARDCOVERS</h3>
-                  <ul className='mt-2 text-gray-600 space-y-1'>
-                    <li>HardWear Collection</li>
-                    <li>Foil Collection</li>
-                    <li>Board Sox</li>
-                    <li>1 Board</li>
-                    <li>2 Boards</li>
-                    <li>3 Boards</li>
-                  </ul>
+                  <h3 className='font-semibold text-gray-800 text-center'>
+                    CAPAS
+                  </h3>
                 </div>
 
-                {/* Category 4 */}
-                <div>
+                {/* Category 4 - ACESSÓRIOS */}
+                <div
+                  onClick={() => handleCategoryNavigate('Acessórios')}
+                  className='flex flex-col items-center cursor-pointer'
+                >
                   <img
                     src={assets.productCollection8}
                     alt='Shop by Collection'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800'>
-                    SHOP BY COLLECTION
+                  <h3 className='font-semibold text-gray-800 text-center'>
+                    ACESSÓRIOS
                   </h3>
-                  <ul className='mt-2 text-gray-600 space-y-1'>
-                    <li>Shortboard</li>
-                    <li>Longboard</li>
-                    <li>Fish</li>
-                    <li>Bodyboard</li>
-                    <li>Grom</li>
-                    <li>Foil</li>
-                  </ul>
-                </div>
-
-                {/* Category 5 */}
-                <div>
-                  <img
-                    src={assets.productCollection12}
-                    alt='Shop More'
-                    className='w-full h-32 object-cover rounded mb-3'
-                  />
-                  <h3 className='font-semibold text-gray-800'>SHOP MORE</h3>
-                  <ul className='mt-2 text-gray-600 space-y-1'>
-                    <li>Apparel</li>
-                    <li>Auto</li>
-                    <li>Dry Luggage</li>
-                    <li>Surf Essentials</li>
-                    <li>Ear Plugs</li>
-                  </ul>
                 </div>
               </div>
             </div>

@@ -32,15 +32,17 @@ const Collection = () => {
   // Função para alternar a categoria principal e mostrar/ocultar subcategorias
   const toggleCategory = e => {
     const value = e.target.value;
-    setCategory(prev =>
-      prev.includes(value)
-        ? prev.filter(item => item !== value)
-        : [...prev, value]
-    );
-    setExpandedCategories(prev => ({
-      ...prev,
-      [value]: !prev[value], // Toggle visibility
-    }));
+
+    // Fechar outras categorias e desmarcar checkboxes
+    const newExpandedCategories = {};
+    setCategory([value]); // Seleciona apenas a nova categoria
+
+    // Abrir a categoria clicada e fechar as outras
+    newExpandedCategories[value] = !expandedCategories[value];
+
+    // Atualiza o estado de expandedCategories
+    setExpandedCategories(newExpandedCategories);
+    setSubCategory(null); // Resetar subcategoria ao mudar de categoria
   };
 
   const toggleSubCategory = e => {

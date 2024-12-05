@@ -16,31 +16,35 @@ const ShopContextProvider = props => {
   const [token, setToken] = useState('');
   const navigate = useNavigate();
 
-  const addToCart = async (itemId, size) => {
+  const addToCart = async (itemId, size, quantity) => {
     if (!size) {
       toast.error('Select Product Size');
       return;
     }
 
+    // Definir quantidade padrão como 1, caso não tenha sido fornecida
+    const itemQuantity = quantity || 1;
+
     let cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
       if (cartData[itemId][size]) {
-        cartData[itemId][size] += 1;
+        cartData[itemId][size] += itemQuantity; // Incrementa a quantidade
       } else {
-        cartData[itemId][size] = 1;
+        cartData[itemId][size] = itemQuantity;
       }
     } else {
       cartData[itemId] = {};
-      cartData[itemId][size] = 1;
+      cartData[itemId][size] = itemQuantity;
     }
+
     setCartItems(cartData);
 
     if (token) {
       try {
         await axios.post(
           backendUrl + '/api/cart/add',
-          { itemId, size },
+          { itemId, size, quantity: itemQuantity },
           { headers: { token } }
         );
       } catch (error) {

@@ -29,7 +29,7 @@ const Cart = () => {
   }, [cartItems, products]);
 
   return (
-    <div className='border-t pt-14 px-4 sm:px-8 lg:px-12'>
+    <div className='border-t pt-14 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
       <div className=' text-2xl mb-3'>
         <Title text1={'YOUR'} text2={'CART'} />
       </div>
@@ -43,7 +43,7 @@ const Cart = () => {
           return (
             <div
               key={index}
-              className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'
+              className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_1fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'
             >
               <div className=' flex items-start gap-6'>
                 <img
@@ -54,9 +54,6 @@ const Cart = () => {
                 <div>
                   <p className='text-xs sm:text-lg font-medium'>
                     {productData.name}
-                  </p>
-                  <p className='text-xs sm:text-lg font-medium'>
-                    {productData.cod}
                   </p>
                   <div className='flex items-center gap-5 mt-2'>
                     <p>
@@ -69,55 +66,26 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
-
-              <div className='input-group max-w-32' data-input-number>
-                <span className='input-group-text gap-3'>
-                  <button
-                    type='button'
-                    className='btn btn-soft size-[22px] rounded min-h-0 p-0'
-                    aria-label='Decrement button'
-                    data-input-number-decrement
-                    onClick={() =>
-                      updateQuantity(
-                        item._id,
-                        item.size,
-                        Math.max(1, item.quantity - 1)
-                      )
-                    }
-                  >
-                    <span className='icon-[tabler--minus] size-3.5 flex-shrink-0'></span>
-                  </button>
-                </span>
-                <input
-                  className='input text-center'
-                  id='number-input-mini'
-                  type='text'
-                  value={item.quantity}
-                  onChange={e =>
-                    e.target.value === '' || e.target.value === '0'
-                      ? null
-                      : updateQuantity(
-                          item._id,
-                          item.size,
-                          Number(e.target.value)
-                        )
+              <div className='flex items-center gap-2'>
+                <button
+                  className='px-2 py-1 border bg-slate-100 text-lg'
+                  onClick={() =>
+                    item.quantity > 1 &&
+                    updateQuantity(item._id, item.size, item.quantity - 1)
                   }
-                />
-                <span className='input-group-text gap-3'>
-                  <button
-                    type='button'
-                    className='btn btn-soft size-[22px] rounded min-h-0 p-0'
-                    aria-label='Increment button'
-                    data-input-number-increment
-                    onClick={() =>
-                      updateQuantity(item._id, item.size, item.quantity + 1)
-                    }
-                  >
-                    <span className='icon-[tabler--plus] size-3.5 flex-shrink-0'></span>
-                  </button>
-                </span>
+                >
+                  -
+                </button>
+                <span className='px-2'>{item.quantity}</span>
+                <button
+                  className='px-2 py-1 border bg-slate-100 text-lg'
+                  onClick={() =>
+                    updateQuantity(item._id, item.size, item.quantity + 1)
+                  }
+                >
+                  +
+                </button>
               </div>
-
               <img
                 onClick={() => updateQuantity(item._id, item.size, 0)}
                 className='w-4 mr-4 sm:w-5 cursor-pointer'

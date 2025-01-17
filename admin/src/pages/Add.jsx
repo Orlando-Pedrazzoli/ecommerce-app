@@ -40,7 +40,6 @@ const Add = ({ token }) => {
       image2 && formData.append('image2', image2);
       image3 && formData.append('image3', image3);
       image4 && formData.append('image4', image4);
-      image5 && formData.append('image5', image5);
 
       const response = await axios.post(
         backendUrl + '/api/product/add',
@@ -57,7 +56,7 @@ const Add = ({ token }) => {
         setImage2(false);
         setImage3(false);
         setImage4(false);
-        setImage5(false);
+
         setPrice('');
       } else {
         toast.error(response.data.message);
@@ -129,19 +128,6 @@ const Add = ({ token }) => {
               hidden
             />
           </label>
-          <label htmlFor='image5'>
-            <img
-              className='w-20'
-              src={!image5 ? assets.upload_area : URL.createObjectURL(image5)}
-              alt=''
-            />
-            <input
-              onChange={e => setImage5(e.target.files[0])}
-              type='file'
-              id='image5'
-              hidden
-            />
-          </label>
         </div>
       </div>
 
@@ -196,12 +182,14 @@ const Add = ({ token }) => {
             onChange={e => setCategory(e.target.value)}
             className='w-full px-3 py-2'
           >
-            <option value='Capas'>Capas</option>
+            <option value='Capa Combate'>Capa Combate</option>
+            <option value='Capa Premium'>Capa Premium</option>
+            <option value='Capa Stand Up'>Capa Stand Up</option>
+            <option value='Capa Toalha'>Capa Toalha</option>
             <option value='Decks'>Decks</option>
-            <option value='LeashPremium'>Leash Premium</option>
-            <option value='LeashInjetado'>Leash Injetado</option>
-            <option value='LeashNo'>Leash Nó</option>
-            <option value='Sarcofagos'>Sarcófagos</option>
+            <option value='Leash Premium'>Leash Premium</option>
+            <option value='Leash Nó'>Leash Nó</option>
+            <option value='Sarcófagos'>Sarcófagos</option>
             <option value='Acessórios'>Acessórios</option>
           </select>
         </div>
@@ -211,41 +199,88 @@ const Add = ({ token }) => {
             onChange={e => setSubCategory(e.target.value)}
             className='w-full px-3 py-2'
           >
-            <option value='RefletivaCombate'>Refletiva Combate</option>
-            <option value='RefletivaPremium'>Refletiva Premium</option>
-            <option value='RefletivaTermica'>Refletiva Térmica</option>
-            <option value='CapaToalha'>Toalha</option>
-            <option value='Sarcofago'>Sarcófago</option>
-            <option value='CapaSkate'>Skake</option>
+            <option value='Refletiva Fish & Evolution 5`10'>
+              Fish & Evolution 5'10
+            </option>
+            <option value='Refletiva Fish & Evolution 6`2'>
+              Fish & Evolution 6'2
+            </option>
+            <option value='Refletiva Fish & Evolution 6`4'>
+              Fish & Evolution 6'4
+            </option>
+            <option value='Refletiva Fish & Evolution 6`8'>
+              Fish & Evolution 6'8
+            </option>
+            <option value='Refletiva Fish & Evolution 7`2'>
+              Fish & Evolution 7'2
+            </option>
+            <option value='Refletiva MiniTank 6`0'>Mini Tank 6'0</option>
+            <option value='Refletiva short 5`10'>Short-Prancha 5'10</option>
+            <option value='Refletiva short 6`0'>Short-Prancha 6'0</option>
+            <option value='Refletiva short 6`3'>Short-Prancha 6'3</option>
+            <option value='Refletiva short 6`6'>Short-Prancha 6'6</option>
+            <option value='Refletiva Funboard 7`2'>Funboard 7'2</option>
+            <option value='Refletiva Funboard 7`6'>Funboard 7'6</option>
+            <option value='Refletiva Funboard 8`0'>Funboard 8'0</option>
+            <option value='Refletiva Minilong 7`0'>Mini long 7'0</option>
+            <option value='Refletiva Minilong 8`0'>Mini long 8'0</option>
+            <option value='Refletiva Longboard 9`2'>Longboard 9'2</option>
+            <option value='Refletiva Longboard 9`6'>Longboard 9'6</option>
+            <option value='Refletiva Longboard 10`'>Longboard 10'</option>
+            <option value='Refletiva Bodyboard`'>Bodyboard'</option>
+            <option value='Refletiva SUP Remo'>Remo SUP'</option>
+            <option value='Refletiva SUP Wave 8`5'>SUP Wave 8'5'</option>
+            <option value='Refletiva SUP Wave 9`0'>SUP Wave 9'0'</option>
+            <option value='Refletiva SUP 9`2'>SUP 9'2'</option>
+            <option value='Refletiva SUP 9`6'>SUP 9'6'</option>
+            <option value='Refletiva SUP 10`'>SUP 10'</option>
+            <option value='Refletiva SUP 10`5'>SUP 10'5'</option>
+            <option value='Refletiva SUP 11`'>SUP 11'</option>
+            <option value='Refletiva SUP 11`6'>SUP 11'6</option>
+            <option value='Refletiva SUP RACE 12`6'>SUP RACE 12'6</option>
+            <option value='Refletiva SUP RACE 14`'>SUP RACE 14'</option>
             <hr />
-            <option value='DeckSaquarema'>Saquarema</option>
-            <option value='DeckNoronha'>Noronha</option>
-            <option value='DeckJBay'>J-Bay</option>
-            <option value='DeckJBayCnc'>J-Bay Cnc</option>
-            <option value='DeckFijiClassic'>Fiji Classic</option>
-            <option value='DeckFijiCnc'>Fiji Cnc</option>
-            <option value='DeckHawaii'> Hawaii</option>
-            <option value='DeckPeniche'>Peniche</option>
-            <option value='DeckTahiti'>Tahiti</option>
-            <option value='DeckCombate'>Combate</option>
-            <option value='DeckFrontal'>Frontal</option>
-            <option value='DeckLongboard'>Longboard</option>
-            <option value='DeckStandUp'>Stand Up</option>
+            <option value='Toalha Fish 5`10-6`0'>Toalha Fish 5'10-6'0</option>
+            <option value='Toalha Fish 6`1-6`4'>Toalha Fish 6'1-6'4</option>
+            <option value='Toalha Short 5`10-6`0'>Toalha Short 5'10-6'0</option>
+            <option value='Toalha Short 6`1-6`4'>Toalha Short 6'1-6'4</option>
+            <option value='Toalha Short 6`5-6`8'>Toalha Short 6'5-6'8</option>
+            <option value='Toalha Fun 7`2-7`5'>Toalha Fun 7'2-7'5</option>
+            <option value='Toalha Long 9`2-9`5'>Toalha Long 9'2-9'5</option>
+            <option value='Toalha Skimboard (1,40m)'>
+              Toalha Skimboard (1,40m)
+            </option>
             <hr />
-            <option value='LeashSuperComp'>Super Comp</option>
-            <option value='LeashCompetição'>Competição</option>
-            <option value='LeashRegular'>Regular</option>
-            <option value='LeashPipeline'>Pipeline</option>
-            <option value='LeashLongTornozelo'>Long. Tornoz</option>
-            <option value='LeashLongCalfKnee'>Long. Calf Knee</option>
-            <option value='LeashLongboard'>Longboard</option>
-            <option value='LeashStandUp'>Stand Up</option>
-            <option value='LeashStandUpEspiral'>Stand Up Espiral</option>
-            <option value='LeashBody'>Bodyboard</option>
+            <option value='Deck Saquarema'>Saquarema</option>
+            <option value='Deck Saquarema Marine'>Saquarema Marine</option>
+            <option value='Deck Noronha'>Noronha</option>
+            <option value='Deck Noronha Marine'>Noronha Marine</option>
+            <option value='Deck J-Bay'>J-Bay</option>
+            <option value='Deck J-Bay Cnc'>J-Bay Cnc</option>
+            <option value='Deck Fiji Classic'>Fiji Classic</option>
+            <option value='Deck Fiji Cnc'>Fiji Cnc</option>
+            <option value='Deck Hawaii'> Hawaii</option>
+            <option value='Deck Peniche'>Peniche</option>
+            <option value='Deck Tahiti'>Tahiti</option>
+            <option value='Deck Combate'>Combate</option>
+            <option value='Deck Frontal'>Frontal</option>
+            <option value='Deck Longboard'>Longboard</option>
+            <option value='Deck StandUp'>Stand Up</option>
+            <hr />
+            <option value='Super Comp (6"x 5mm)'>Super Comp</option>
+            <option value='Competição (6"x 6mm)'>Competição</option>
+            <option value='Regular (6.6"x 7mm)'>Regular</option>
+            <option value='Pipeline (8"x 7mm)'>Pipeline</option>
+            <option value='Long Tornozelo (9"x 7mm)'>Long. Tornoz</option>
+            <option value='Long Calf Knee (9"x 7mm)'>Long. Calf Knee</option>
+            <option value='Longboard (10"x 7mm)'>Longboard</option>
+            <option value='StandUp (10"x 8mm)'>Stand Up</option>
+            <option value='StandUp Espiral (7mm)'>Stand Up Espiral</option>
+            <option value='Bodyboard (6mm)'>Bodyboard</option>
             <hr />
             <option value='Racks'>Racks</option>
-            <option value='ProtetorEva'>Protetor EVA</option>
-            <option value='WetsuitBag'>Wetsuit Bag</option>
+            <option value='Protetor Eva'>Protetor EVA</option>
+            <option value='Wetsuit Bag'>Wetsuit Bag</option>
           </select>
         </div>
 

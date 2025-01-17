@@ -77,3 +77,29 @@ a.active hr {
 .cursor-zoom {
   cursor: zoom-in;
 }
+/* Estilo para dropdown fixo */
+.dropdown-menu {
+  display: none; /* Escondido por padrão */
+  position: absolute;
+  top: 100%; /* Logo abaixo do ícone */
+  right: 0; /* Alinhado à direita */
+  z-index: 50; /* Garante que estará sobre outros elementos */
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.group:hover .dropdown-menu,
+.dropdown-menu:hover {
+  display: block; /* Mostra o menu ao passar o mouse ou manter o hover */
+}
+
+.dropdown-menu p {
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.dropdown-menu p:hover {
+  color: black; /* Destaque ao passar o mouse */
+}

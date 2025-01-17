@@ -72,17 +72,23 @@ const Navbar = () => {
                 </div>
 
                 {/* Category 2 - LEASHES */}
-                <div
-                  onClick={() => handleCategoryNavigate('Leashes')}
-                  className='flex flex-col items-center cursor-pointer'
-                >
+                <div className='flex flex-col items-center'>
                   <img
                     src={assets.productCollection11}
                     alt='Traction'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800 text-center'>
-                    LEASHES
+                  <h3
+                    onClick={() => handleCategoryNavigate('Leash Nó')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2'
+                  >
+                    LEASH NÓ
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Leash Premium')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer'
+                  >
+                    LEASH PREMIUM
                   </h3>
                 </div>
 
@@ -140,19 +146,22 @@ const Navbar = () => {
             className='w-5 cursor-pointer'
             alt='Search'
           />
-
-          {/* Profile Dropdown */}
           <div className='group relative'>
             <img
               onClick={() => (token ? null : navigate('/login'))}
               className='w-5 cursor-pointer'
               src={assets.profile_icon}
-              alt='Profile'
+              alt='Profile Icon'
             />
             {token && (
-              <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50'>
+              <div className='hidden group-hover:block absolute right-0 pt-4 z-50'>
                 <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded shadow-lg'>
-                  <p className='cursor-pointer hover:text-black'>My Profile</p>
+                  <p
+                    onClick={() => navigate('/profile')}
+                    className='cursor-pointer hover:text-black'
+                  >
+                    My Profile
+                  </p>
                   <p
                     onClick={() => navigate('/orders')}
                     className='cursor-pointer hover:text-black'

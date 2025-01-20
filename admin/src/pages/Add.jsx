@@ -16,8 +16,10 @@ const Add = ({ token }) => {
   const [description, setDescription] = useState('');
   const [description2, setDescription2] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('Capas');
-  const [subCategory, setSubCategory] = useState('Topwear');
+  const [category, setCategory] = useState('Capa Combate');
+  const [subCategory, setSubCategory] = useState(
+    'Refletiva Fish & Evolution 5`10'
+  );
   const [bestseller, setBestseller] = useState(false);
   const [sizes, setSizes] = useState([]);
 

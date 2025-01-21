@@ -201,6 +201,9 @@ const Add = ({ token }) => {
             onChange={e => setSubCategory(e.target.value)}
             className='w-full px-3 py-2'
           >
+            <option value='Refletiva Premium Mini Simmons 6`0'>
+              Mini Simmons & MiniTank 6'0
+            </option>
             <option value='Refletiva Fish & Evolution 5`10'>
               Fish & Evolution 5'10
             </option>
@@ -251,6 +254,51 @@ const Add = ({ token }) => {
             <option value='Toalha Long 9`2-9`5'>Toalha Long 9'2-9'5</option>
             <option value='Toalha Skimboard (1,40m)'>
               Toalha Skimboard (1,40m)
+            </option>
+            <hr />
+            <hr />
+            <option value='Sarcófago Dupla 6`3'>Sarcófago Dupla 6'3</option>
+            <option value='Sarcófago Dupla 6`6'>Sarcófago Dupla 6'6</option>
+            <option value='Sarcófago Dupla 7`0'>Sarcófago Dupla 7'0</option>
+            <option value='Sarcófago Tripla 6`3'>Sarcófago Tripla 6'3</option>
+            <option value='Sarcófago Tripla 6`6'>Sarcófago Tripla 6'6</option>
+            <option value='Sarcófago Tripla 7`0'>Sarcófago Tripla 7'0</option>
+            <option value='Sarcófago Tripla 8`0'>Sarcófago Tripla 8'0</option>
+            <option value='Sarcófago Quadrupla 6`8'>
+              Sarcófago Quadrupla 6'8
+            </option>
+            <option value='Sarcófago Quadrupla 7`2'>
+              Sarcófago Quadrupla 7'2
+            </option>
+            <option value='Sarcófago Longboard Dupla'>
+              Sarcófago Longboard Dupla
+            </option>
+            <option value='Sarcófago Longboard Tripla'>
+              Sarcófago Longboard Tripla
+            </option>
+            <option value='Sarcófago Tripla 6`3 Com Rodas'>
+              Sarcófago Tripla 6'3 Com Rodas
+            </option>
+            <option value='Sarcófago Tripla 6`6 Com Rodas'>
+              Sarcófago Tripla 6'6 Com Rodas
+            </option>
+            <option value='Sarcófago Tripla 7`0 Com Rodas'>
+              Sarcófago Tripla 7'0 Com Rodas
+            </option>
+            <option value='Sarcófago Tripla 8`0 Com Rodas'>
+              Sarcófago Tripla 8'0 Com Rodas
+            </option>
+            <option value='Sarcófago Quadrupla 6`8 Com Rodas'>
+              Sarcófago Quadrupla 6'8 Com Rodas
+            </option>
+            <option value='Sarcófago Quadrupla 7`2 Com Rodas'>
+              Sarcófago Quadrupla 7'2 Com Rodas
+            </option>
+            <option value='Sarcófago Longboard Dupla Com Rodas'>
+              Sarcófago Longboard Dupla Com Rodas
+            </option>
+            <option value='Sarcófago Longboard Tripla Com Rodas'>
+              Sarcófago Longboard Tripla Com Rodas
             </option>
             <hr />
             <option value='Deck Saquarema'>Saquarema</option>

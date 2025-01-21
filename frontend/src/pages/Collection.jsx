@@ -201,7 +201,7 @@ const Collection = () => {
             {
               name: 'Capa Premium',
               subCategories: [
-                'Refletiva MiniTank 6`0',
+                'Refletiva Premium Mini Simmons 6`0',
                 'Refletiva Fish & Evolution 5`10',
                 'Refletiva Fish & Evolution 6`2',
                 'Refletiva Fish & Evolution 6`4',

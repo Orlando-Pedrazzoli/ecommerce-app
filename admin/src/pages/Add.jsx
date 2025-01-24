@@ -192,6 +192,7 @@ const Add = ({ token }) => {
             <option value='Leash Premium'>Leash Premium</option>
             <option value='Leash Nó'>Leash Nó</option>
             <option value='Sarcófagos'>Sarcófagos</option>
+            <option value='Sarcófagos/Rodas'>Sarcófagos</option>
             <option value='Acessórios'>Acessórios</option>
           </select>
         </div>
@@ -252,9 +253,6 @@ const Add = ({ token }) => {
             <option value='Toalha Short 6`5-6`8'>Toalha Short 6'5-6'8</option>
             <option value='Toalha Fun 7`2-7`5'>Toalha Fun 7'2-7'5</option>
             <option value='Toalha Long 9`2-9`5'>Toalha Long 9'2-9'5</option>
-            <option value='Toalha Skimboard (1,40m)'>
-              Toalha Skimboard (1,40m)
-            </option>
             <hr />
             <hr />
             <option value='Sarcófago Dupla 6`3'>Sarcófago Dupla 6'3</option>

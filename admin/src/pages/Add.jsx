@@ -192,7 +192,7 @@ const Add = ({ token }) => {
             <option value='Leash Premium'>Leash Premium</option>
             <option value='Leash Nó'>Leash Nó</option>
             <option value='Sarcófagos'>Sarcófagos</option>
-            <option value='Sarcófagos/Rodas'>Sarcófagos</option>
+            <option value='Sarcófagos/Rodas'>Sarcófago/Rodas</option>
             <option value='Acessórios'>Acessórios</option>
           </select>
         </div>

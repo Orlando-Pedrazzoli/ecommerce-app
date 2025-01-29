@@ -91,19 +91,24 @@ const Navbar = () => {
                     LEASH PREMIUM
                   </h3>
                 </div>
-
-                {/* Category 3 - CAPAS */}
-                <div
-                  onClick={() => handleCategoryNavigate('Capas')}
-                  className='flex flex-col items-center cursor-pointer'
-                >
+                {/* Category 2 - CAPAS */}
+                <div className='flex flex-col items-center'>
                   <img
-                    src={assets.productCollection9}
-                    alt='Boardcovers'
+                    src={assets.productCollection11}
+                    alt='Traction'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800 text-center'>
-                    CAPAS
+                  <h3
+                    onClick={() => handleCategoryNavigate('Capa Combate')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2'
+                  >
+                    CAPAS COMBATE
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Capa Premium')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer'
+                  >
+                    CAPAS PREMIUM
                   </h3>
                 </div>
 

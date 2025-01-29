@@ -326,8 +326,18 @@ const Add = ({ token }) => {
             <option value='StandUp Espiral (7mm)'>Stand Up Espiral</option>
             <option value='Bodyboard (6mm)'>Bodyboard</option>
             <hr />
-            <option value='Racks'>Racks</option>
-            <option value='Protetor Eva'>Protetor EVA</option>
+            <option value='Alça Sup'>Alça SUP</option>
+            <option value='Racks Bastão 65cm'>Rack Bastão 65cm</option>
+            <option value='Racks Bastão 90cm'>Racks Bastão 90cm</option>
+            <option value='Fita Rack (5M par)'>Fita Rack 5M par</option>
+            <option value='Fita Rack P/B (5M par)'>Fita Rack P/B 5M par</option>
+            <option value='Fita Rack Azul (5M par)'>
+              Fita Rack Azul 5M par
+            </option>
+            <option value='Fita Rack (8M)'>Fita Rack 8M</option>
+            <option value='Protetor Eva Squash'>Protetor EVA Squash</option>
+            <option value='Protetor Eva Round'>Protetor EVA Round</option>
+            <option value='Protetor Eva Swallow'>Protetor EVA Swallow</option>
             <option value='Wetsuit Bag'>Wetsuit Bag</option>
           </select>
         </div>

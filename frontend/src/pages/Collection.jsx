@@ -141,7 +141,6 @@ const Collection = () => {
                 'Deck Hawaii',
                 'Deck Peniche',
                 'Deck Tahiti',
-                'Deck Combate',
                 'Deck Frontal',
                 'Deck Longboard',
                 'Deck StandUp',
@@ -281,7 +280,19 @@ const Collection = () => {
             },
             {
               name: 'Acessórios',
-              subCategories: ['Racks', 'Protetor Eva', 'Wetsuit Bag'],
+              subCategories: [
+                'Alça Sup',
+                'Racks Bastão 65cm',
+                'Racks Bastão 90cm',
+                'Fita Rack (5M par)',
+                'Fita Rack P/B (5M par)',
+                'Fita Rack Azul (5M par)',
+                'Fita Rack (8M)',
+                'Protetor Eva Squash',
+                'Protetor Eva Round',
+                'Protetor Eva Swallow',
+                'Wetsuit Bag',
+              ],
             },
           ].map(cat => (
             <div key={cat.name}>

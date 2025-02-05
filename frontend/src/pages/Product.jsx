@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
@@ -10,6 +10,7 @@ const Product = () => {
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState('');
   const [size, setSize] = useState('original');
+  const zoomRef = useRef(null);
 
   const fetchProductData = async () => {
     products.map(item => {
@@ -25,12 +26,24 @@ const Product = () => {
     fetchProductData();
   }, [productId, products]);
 
+  const handleMouseMove = event => {
+    const rect = zoomRef.current.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+    zoomRef.current.style.setProperty('--display', 'block');
+    zoomRef.current.style.setProperty('--zoom-x', `${x}%`);
+    zoomRef.current.style.setProperty('--zoom-y', `${y}%`);
+  };
+
+  const handleMouseOut = () => {
+    zoomRef.current.style.setProperty('--display', 'none');
+  };
+
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
-      {/*----------- Product Data-------------- */}
       <div className='px-4 sm:px-6 lg:px-10'>
         <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
-          {/*---------- Product Images------------- */}
           <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
             <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
               {productData.image.map((item, index) => (
@@ -43,22 +56,43 @@ const Product = () => {
                 />
               ))}
             </div>
-            <div className='w-full sm:w-[80%]'>
+            <div
+              ref={zoomRef}
+              className='w-full sm:w-[80%] relative'
+              onMouseMove={handleMouseMove}
+              onMouseOut={handleMouseOut}
+              style={{
+                '--url': `url(${image})`,
+                '--zoom-x': '0%',
+                '--zoom-y': '0%',
+                '--display': 'none',
+              }}
+            >
+              <div
+                className='absolute inset-0'
+                style={{
+                  backgroundImage: `var(--url)`,
+                  backgroundSize: '200%',
+                  backgroundPosition: 'var(--zoom-x) var(--zoom-y)',
+                  display: 'var(--display)',
+                }}
+              ></div>
               <img className='w-full h-auto' src={image} alt='' />
             </div>
           </div>
-
-          {/* -------- Product Info ---------- */}
           <div className='flex-1'>
             <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
             <h1 className='font-medium text-xl mt-2'>{productData.cod}</h1>
-            <div className=' flex items-center gap-1 mt-2'>
-              <img src={assets.star_icon} alt='' className='w-3 5' />
-              <img src={assets.star_icon} alt='' className='w-3 5' />
-              <img src={assets.star_icon} alt='' className='w-3 5' />
-              <img src={assets.star_icon} alt='' className='w-3 5' />
-              <img src={assets.star_dull_icon} alt='' className='w-3 5' />
-              <p className='pl-2'>(122)</p>
+            <div className='flex items-center gap-1 mt-2'>
+              {[...Array(5)].map((_, index) => (
+                <img
+                  key={index}
+                  src={assets.star_icon}
+                  alt=''
+                  className='w-3 5'
+                />
+              ))}
+              <p className='pl-2'>(0)</p>
             </div>
             <p className='mt-5 text-3xl font-medium'>
               {currency}
@@ -68,7 +102,7 @@ const Product = () => {
               {productData.description}
             </p>
             <div className='flex flex-col gap-4 my-8'>
-              <p>Select Size</p>
+              <p>Selecione o tamanho</p>
               <div className='flex gap-2'>
                 {productData.sizes.map((item, index) => (
                   <button
@@ -87,7 +121,7 @@ const Product = () => {
               onClick={() => addToCart(productData._id, size)}
               className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'
             >
-              ADD TO CART
+              ADICIONAR AO CARRINHO
             </button>
             <hr className='mt-8 sm:w-4/5' />
             <div className='text-sm text-gray-500 mt-5 flex flex-col gap-1'>
@@ -97,34 +131,15 @@ const Product = () => {
             </div>
           </div>
         </div>
-
-        {/* ---------- Description & Review Section ------------- */}
         <div className='mt-20'>
           <div className='flex'>
-            <b className='border px-5 py-3 text-sm'>Description</b>
-            <p className='border px-5 py-3 text-sm'>Reviews (122)</p>
+            <b className='border px-5 py-3 text-sm'>INFORMAÇÕES DO PRODUTO</b>
+            <p className='border px-5 py-3 text-sm'>AVALIAÇÕES (0)</p>
           </div>
           <div className='flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500'>
-            <p>
-              An e-commerce website is an online platform that facilitates the
-              buying and selling of products or services over the internet. It
-              serves as a virtual marketplace where businesses and individuals
-              can showcase their products, interact with customers, and conduct
-              transactions without the need for a physical presence. E-commerce
-              websites have gained immense popularity due to their convenience,
-              accessibility, and the global reach they offer.
-            </p>
-            <p>
-              E-commerce websites typically display products or services along
-              with detailed descriptions, images, prices, and any available
-              variations (e.g., sizes, colors). Each product usually has its own
-              dedicated page with relevant information.
-            </p>
+            <p>{productData.description2}</p>
           </div>
         </div>
-
-        {/* --------- display related products ---------- */}
-
         <RelatedProducts
           category={productData.category}
           subCategory={productData.subCategory}
@@ -132,7 +147,7 @@ const Product = () => {
       </div>
     </div>
   ) : (
-    <div className=' opacity-0'></div>
+    <div className='opacity-0'></div>
   );
 };
 

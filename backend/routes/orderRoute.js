@@ -1,3 +1,4 @@
+// orderRouter.js
 import express from 'express';
 import {
   placeOrder,
@@ -8,6 +9,7 @@ import {
   updateStatus,
   verifyStripe,
   verifyRazorpay,
+  sendOrderEmail, // Import the new function
 } from '../controllers/orderController.js';
 import adminAuth from '../middleware/adminAuth.js';
 import authUser from '../middleware/auth.js';
@@ -26,8 +28,11 @@ orderRouter.post('/razorpay', authUser, placeOrderRazorpay);
 // User Feature
 orderRouter.post('/userorders', authUser, userOrders);
 
-// verify payment
+// Verify payment
 orderRouter.post('/verifyStripe', authUser, verifyStripe);
 orderRouter.post('/verifyRazorpay', authUser, verifyRazorpay);
+
+// Send order details via email
+orderRouter.post('/sendemail', authUser, sendOrderEmail); // Add this line
 
 export default orderRouter;

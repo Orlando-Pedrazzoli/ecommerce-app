@@ -34,23 +34,44 @@ a.active hr {
   margin-bottom: 1rem;
 }
 
-/* Botões de navegação */
+/* Default styles for Swiper navigation buttons */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #c7c1c1; /* Cor dos botões */
-  font-size: 20px; /* Tamanho maior */
-  width: 40px; /* Largura do botão */
-  height: 40px; /* Altura do botão */
-  font-weight: 700; /* Fonte mais grossa (negrito) */
+  color: #c7c1c1; /* Button color */
+  font-size: 20px; /* Font size */
+  width: 40px; /* Button width */
+  height: 40px; /* Button height */
+  font-weight: 700; /* Bold font */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Optional: Add a subtle background */
+  border-radius: 50%; /* Optional: Make buttons circular */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
+/* Hover effect for buttons */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.4
+  ); /* Optional: Change background on hover */
+  color: #fff; /* Optional: Change color on hover */
+}
+
+/* Hide Swiper navigation buttons on small screens (mobile devices) */
 @media (max-width: 640px) {
-  /* Telas pequenas (mobile) */
   .swiper-button-next,
   .swiper-button-prev {
-    font-size: 14px; /* Tamanho menor das setas */
-    width: 40px; /* Largura reduzida para dispositivos menores */
-    height: 40px; /* Altura reduzida para dispositivos menores */
+    display: none; /* Hide buttons on small screens */
   }
 }
 
@@ -102,4 +123,13 @@ a.active hr {
 
 .dropdown-menu p:hover {
   color: black; /* Destaque ao passar o mouse */
+}
+.product-sort-dropdown {
+  height: 2rem; /* Adjust height for mobile */
+}
+
+@media (min-width: 640px) {
+  .product-sort-dropdown {
+    height: auto; /* Reset height for larger screens */
+  }
 }

@@ -24,6 +24,11 @@ import productCollection10 from './productCollection10.jpg';
 import productCollection11 from './productCollection11.jpg';
 import productCollection12 from './productCollection12.jpg';
 import productCollection13 from './productCollection13.jpg';
+import productCollection50 from './productCollection50.jpg';
+import productCollection51 from './productCollection51.jpg';
+import productCollection52 from './productCollection52.jpg';
+import productCollection53 from './productCollection53.jpg';
+import productCollection54 from './productCollection54.jpg';
 import banner04 from './banner04.jpg';
 import banner05 from './banner05.jpg';
 import banner06 from './banner06.jpg';
@@ -31,6 +36,15 @@ import banner07 from './banner07.jpg';
 import banner08 from './banner08.jpg';
 import banner09 from './banner09.jpg';
 import banner10 from './banner10.jpg';
+import banner20 from './banner20.jpg';
+import banner21 from './banner21.jpg';
+import banner22 from './banner22.jpg';
+import banner23 from './banner23.jpg';
+import dropdown1 from './dropdown1.jpg';
+import dropdown2 from './dropdown2.jpg';
+import dropdown3 from './dropdown3.jpg';
+import dropdown4 from './dropdown4.jpg';
+import dropdown5 from './dropdown5.jpg';
 
 export const assets = {
   logo,
@@ -59,6 +73,11 @@ export const assets = {
   productCollection11,
   productCollection12,
   productCollection13,
+  productCollection50,
+  productCollection51,
+  productCollection52,
+  productCollection53,
+  productCollection54,
   banner04,
   banner05,
   banner06,
@@ -66,4 +85,13 @@ export const assets = {
   banner08,
   banner09,
   banner10,
+  banner20,
+  banner21,
+  banner22,
+  banner23,
+  dropdown1,
+  dropdown2,
+  dropdown3,
+  dropdown4,
+  dropdown5,
 };

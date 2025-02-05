@@ -31,7 +31,7 @@ const Cart = () => {
   return (
     <div className='border-t pt-14 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
       <div className=' text-2xl mb-3'>
-        <Title text1={'YOUR'} text2={'CART'} />
+        <Title text1={'CARRINHO'} text2={'DE COMPRAS'} />
       </div>
 
       <div>
@@ -53,7 +53,8 @@ const Cart = () => {
                 />
                 <div>
                   <p className='text-xs sm:text-lg font-medium'>
-                    {productData.name}
+                    {productData.cod}
+                    <span className='ml-4'>{productData.name}</span>
                   </p>
                   <div className='flex items-center gap-5 mt-2'>
                     <p>
@@ -105,7 +106,7 @@ const Cart = () => {
               onClick={() => navigate('/place-order')}
               className='bg-black text-white text-sm my-8 px-8 py-3'
             >
-              PROCEED TO CHECKOUT
+              FINALIZAR COMPRA
             </button>
           </div>
         </div>

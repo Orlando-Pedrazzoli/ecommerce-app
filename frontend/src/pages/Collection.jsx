@@ -6,7 +6,8 @@ import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
 
 const Collection = () => {
-  const { products, search, showSearch } = useContext(ShopContext);
+  const { products, search, setSearch, showSearch, setShowSearch } =
+    useContext(ShopContext);
   const location = useLocation();
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
@@ -43,54 +44,61 @@ const Collection = () => {
     // Atualiza o estado de expandedCategories
     setExpandedCategories(newExpandedCategories);
     setSubCategory(null); // Resetar subcategoria ao mudar de categoria
+    setSearch(''); // Clear search input
+    setShowSearch(false); // Hide search bar
   };
 
   const toggleSubCategory = e => {
     const value = e.target.value;
     setSubCategory(value); // Define a subcategoria quando clicada
+    setSearch(''); // Clear search input
+    setShowSearch(false); // Hide search bar
   };
 
   const applyFilter = () => {
     let productsCopy = products.slice();
 
-    // Filtro por busca
+    // Se houver uma busca ativa, filtrar pelo termo de pesquisa (nome ou cod)
     if (showSearch && search) {
-      productsCopy = productsCopy.filter(item =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    // Filtro por categoria
-    if (category.length > 0) {
-      productsCopy = productsCopy.filter(item =>
-        category.includes(item.category)
-      );
-    }
-
-    // Filtro por subcategoria se houver uma selecionada
-    if (subCategory) {
       productsCopy = productsCopy.filter(
-        item => item.subCategory === subCategory
+        item =>
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          (item.cod?.toLowerCase() || '').includes(search.toLowerCase())
       );
+    } else {
+      // Caso contrário, aplicar os filtros de categoria/subcategoria normalmente
+      if (category.length > 0) {
+        productsCopy = productsCopy.filter(item =>
+          category.includes(item.category)
+        );
+      }
+
+      if (subCategory) {
+        productsCopy = productsCopy.filter(
+          item => item.subCategory === subCategory
+        );
+      }
     }
 
     setFilterProducts(productsCopy);
   };
 
   const sortProduct = () => {
-    let fpCopy = filterProducts.slice();
+    let fpCopy = [...filterProducts]; // Create a new array to avoid mutating state directly
 
     switch (sortType) {
       case 'low-high':
-        setFilterProducts(fpCopy.sort((a, b) => a.price - b.price));
+        fpCopy.sort((a, b) => a.price - b.price);
         break;
       case 'high-low':
-        setFilterProducts(fpCopy.sort((a, b) => b.price - a.price));
+        fpCopy.sort((a, b) => b.price - a.price);
         break;
       default:
-        applyFilter();
+        // No sorting or default sorting
         break;
     }
+
+    setFilterProducts(fpCopy); // Update state with the sorted array
   };
 
   useEffect(() => {
@@ -109,7 +117,7 @@ const Collection = () => {
           onClick={() => setShowFilter(!showFilter)}
           className='my-2 text-xl flex items-center cursor-pointer gap-2'
         >
-          FILTERS
+          FILTRAR POR:
           <img
             className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`}
             src={assets.dropdown_icon}
@@ -123,7 +131,7 @@ const Collection = () => {
             showFilter ? '' : 'hidden'
           } sm:block`}
         >
-          <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
+          <p className='mb-3 text-sm font-medium'>CATEGORIAS</p>
 
           {/* Renderização de Categorias */}
           {[
@@ -143,8 +151,11 @@ const Collection = () => {
                 'Deck Tahiti',
                 'Deck Frontal',
                 'Deck Longboard',
-                'Deck StandUp',
               ],
+            },
+            {
+              name: 'Decks SUP',
+              subCategories: ['Deck StandUp'],
             },
             {
               name: 'Leash Premium',
@@ -330,15 +341,15 @@ const Collection = () => {
       {/* Right Side */}
       <div className='flex-1'>
         <div className='flex justify-between text-base sm:text-2xl mb-4'>
-          <Title text1={'ALL'} text2={'COLLECTIONS'} />
+          <Title text1={'COLEÇÃO'} text2={'2025'} />
           {/* Product Sort */}
           <select
             onChange={e => setSortType(e.target.value)}
-            className='border-2 border-gray-300 text-sm px-2'
+            className='hidden sm:block border-2 border-gray-300 text-sm px-2 w-48'
           >
-            <option value='relavent'>Sort by: Relevant</option>
-            <option value='low-high'>Sort by: Low to High</option>
-            <option value='high-low'>Sort by: High to Low</option>
+            <option value='relavent'>Ordenar por: Relevante</option>
+            <option value='low-high'>Ordenar por: Menor preço</option>
+            <option value='high-low'>Ordenar por: Maior preço</option>
           </select>
         </div>
 

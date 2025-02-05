@@ -2,17 +2,27 @@ import orderModel from '../models/orderModel.js';
 import userModel from '../models/userModel.js';
 import Stripe from 'stripe';
 import razorpay from 'razorpay';
+import nodemailer from 'nodemailer';
 
-// global variables
-const currency = 'eur';
+// Global variables
+const currency = 'R$';
 const deliveryCharge = 10;
 
-// gateway initialize
+// Gateway initialize
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const razorpayInstance = new razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+// Email transporter configuration
+const transporter = nodemailer.createTransport({
+  service: 'Gmail', // Use your email service (e.g., Gmail, Outlook, etc.)
+  auth: {
+    user: process.env.EMAIL_USER, // Your email address
+    pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
+  },
 });
 
 // Placing orders using COD Method
@@ -35,7 +45,7 @@ const placeOrder = async (req, res) => {
 
     await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
-    res.json({ success: true, message: 'Order Placed' });
+    res.json({ success: true, message: 'Pedido Realizado' });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -153,6 +163,7 @@ const placeOrderRazorpay = async (req, res) => {
   }
 };
 
+// Verify Razorpay
 const verifyRazorpay = async (req, res) => {
   try {
     const { userId, razorpay_order_id } = req.body;
@@ -182,7 +193,7 @@ const allOrders = async (req, res) => {
   }
 };
 
-// User Order Data For Forntend
+// User Order Data For Frontend
 const userOrders = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -195,7 +206,7 @@ const userOrders = async (req, res) => {
   }
 };
 
-// update order status from Admin Panel
+// Update order status from Admin Panel
 const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
@@ -208,6 +219,59 @@ const updateStatus = async (req, res) => {
   }
 };
 
+// Send order details via email
+const sendOrderEmail = async (req, res) => {
+  const { orderId, email } = req.body;
+
+  try {
+    // Fetch order details from the database
+    const order = await orderModel.findById(orderId);
+    if (!order) {
+      return res.json({ success: false, message: 'Order not found' });
+    }
+
+    // Format order details for the email
+    const orderDetails = order.items
+      .map(
+        item => `
+        <p><strong>Product:</strong> ${item.name}</p>
+        <p><strong>Price:</strong> ${item.price} ${currency}</p>
+        <p><strong>Quantity:</strong> ${item.quantity}</p>
+        <p><strong>Size:</strong> ${item.size}</p>
+        <hr />
+      `
+      )
+      .join('');
+
+    // Email content
+    const mailOptions = {
+      from: process.env.EMAIL_USER, // Sender email
+      to: email, // Recipient email
+      subject: `Order Details for Order #${orderId}`, // Email subject
+      html: `
+        <h1>Order Details</h1>
+        <p><strong>Order ID:</strong> ${orderId}</p>
+        <p><strong>Date:</strong> ${new Date(
+          order.date
+        ).toLocaleDateString()}</p>
+        <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+        <p><strong>Status:</strong> ${order.status}</p>
+        <h2>Items:</h2>
+        ${orderDetails}
+      `,
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: 'Email sent successfully!' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.json({ success: false, message: 'Failed to send email' });
+  }
+};
+
+// Export all functions
 export {
   verifyRazorpay,
   verifyStripe,
@@ -217,4 +281,5 @@ export {
   allOrders,
   userOrders,
   updateStatus,
+  sendOrderEmail, // Add the new function
 };

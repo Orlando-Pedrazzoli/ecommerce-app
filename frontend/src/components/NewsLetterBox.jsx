@@ -7,11 +7,10 @@ const NewsLetterBox = () => {
   return (
     <div className='text-center'>
       <p className='text-2xl font-medium text-gray-800'>
-        Subscribe now & get 20% off
+        Cadastre-se agora e ganhe 10% de desconto
       </p>
       <p className='text-gray-400 mt-3'>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta
-        possimus unde quae.
+        Receba ofertas exclusivas e novidades em primeira mão!
       </p>
       <form
         onSubmit={onSubmitHandler}
@@ -20,14 +19,14 @@ const NewsLetterBox = () => {
         <input
           className='w-full sm:flex-1 outline-none'
           type='email'
-          placeholder='Enter your email'
+          placeholder='Insira seu e-mail e aproveite!'
           required
         />
         <button
           type='submit'
           className='bg-black text-white text-xs px-10 py-4'
         >
-          SUBSCRIBE
+          CADASTRE-SE
         </button>
       </form>
     </div>

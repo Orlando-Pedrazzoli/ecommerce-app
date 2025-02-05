@@ -41,7 +41,7 @@ const Navbar = () => {
         {/* Navigation Links */}
         <ul className='hidden sm:flex gap-5 text-sm text-gray-700'>
           <NavLink to='/' className='flex flex-col items-center gap-1'>
-            <p>HOME</p>
+            <p>INÍCIO</p>
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
           </NavLink>
 
@@ -51,79 +51,114 @@ const Navbar = () => {
               to='/collection'
               className='flex flex-col items-center gap-1'
             >
-              <p>COLLECTION</p>
+              <p>COLEÇÃO</p>
               <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
             </NavLink>
-            <div className='absolute left-1/2 transform -translate-x-1/2 top-full hidden group-hover:block bg-white shadow-lg w-[900px] p-6 rounded-md z-50'>
-              <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-items-center'>
+            <div className='absolute left-1/2 transform -translate-x-1/2 top-full hidden group-hover:block bg-white shadow-lg w-[1200px] p-6 rounded-md z-50'>
+              {/* Aumentei o width para 1200px */}
+              <div className='grid grid-cols-5 gap-6 justify-items-center'>
                 {/* Category 1 - DECKS */}
-                <div
-                  onClick={() => handleCategoryNavigate('Decks')}
-                  className='flex flex-col items-center cursor-pointer'
-                >
+                <div className='flex flex-col items-center'>
                   <img
-                    src={assets.productCollection10}
+                    src={assets.dropdown1}
                     alt='Leash'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800 text-center'>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Decks')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
+                  >
                     DECKS
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Decks SUP')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
+                  >
+                    STAND UP DECKS
                   </h3>
                 </div>
 
                 {/* Category 2 - LEASHES */}
                 <div className='flex flex-col items-center'>
                   <img
-                    src={assets.productCollection11}
+                    src={assets.dropdown2}
                     alt='Traction'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
                   <h3
                     onClick={() => handleCategoryNavigate('Leash Nó')}
-                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2'
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
                   >
                     LEASH NÓ
                   </h3>
                   <h3
                     onClick={() => handleCategoryNavigate('Leash Premium')}
-                    className='font-semibold text-gray-800 text-center cursor-pointer'
+                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
                   >
                     LEASH PREMIUM
                   </h3>
                 </div>
-                {/* Category 2 - CAPAS */}
+
+                {/* Category 3 - CAPAS */}
                 <div className='flex flex-col items-center'>
                   <img
-                    src={assets.productCollection11}
+                    src={assets.dropdown3}
                     alt='Traction'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
                   <h3
                     onClick={() => handleCategoryNavigate('Capa Combate')}
-                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2'
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
                   >
                     CAPAS COMBATE
                   </h3>
                   <h3
                     onClick={() => handleCategoryNavigate('Capa Premium')}
-                    className='font-semibold text-gray-800 text-center cursor-pointer'
+                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
                   >
                     CAPAS PREMIUM
                   </h3>
                 </div>
 
                 {/* Category 4 - ACESSÓRIOS */}
-                <div
-                  onClick={() => handleCategoryNavigate('Acessórios')}
-                  className='flex flex-col items-center cursor-pointer'
-                >
+                <div className='flex flex-col items-center'>
                   <img
-                    src={assets.productCollection8}
+                    src={assets.dropdown4}
                     alt='Shop by Collection'
                     className='w-full h-32 object-cover rounded mb-3'
                   />
-                  <h3 className='font-semibold text-gray-800 text-center'>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Capa Toalha')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
+                  >
+                    CAPA TOALHA/TECIDO
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Acessórios')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
+                  >
                     ACESSÓRIOS
+                  </h3>
+                </div>
+
+                {/* Category 5 - SARCÓFAGOS */}
+                <div className='flex flex-col items-center'>
+                  <img
+                    src={assets.dropdown5}
+                    alt='Shop by Collection'
+                    className='w-full h-32 object-cover rounded mb-3'
+                  />
+                  <h3
+                    onClick={() => handleCategoryNavigate('Sarcófagos')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
+                  >
+                    SARCÓFAGOS
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Sarcófagos/Rodas')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
+                  >
+                    SARCÓFAGOS C/RODAS
                   </h3>
                 </div>
               </div>
@@ -131,11 +166,11 @@ const Navbar = () => {
           </div>
 
           <NavLink to='/about' className='flex flex-col items-center gap-1'>
-            <p>ABOUT</p>
+            <p>SOBRE NÓS</p>
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
           </NavLink>
           <NavLink to='/contact' className='flex flex-col items-center gap-1'>
-            <p>CONTACT</p>
+            <p>POLÍTICA DE VENDAS</p>
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
           </NavLink>
         </ul>

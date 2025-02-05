@@ -9,21 +9,19 @@ const BestSeller = () => {
 
   useEffect(() => {
     const bestProduct = products.filter(item => item.bestseller);
-    setBestSeller(bestProduct.slice(0, 5));
+    setBestSeller(bestProduct.slice(0, 8));
   }, [products]);
 
   return (
-    <div className='my-10'>
-      <div className='text-center text-3xl py-8'>
+    <div className='px-4 sm:px-6 md:px-8'>
+      <div className='text-center text-3xl py-6 sm:py-8 md:py-10'>
         <Title text1={'MAIS'} text2={'VENDIDOS'} />
         <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600'>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur at
-          voluptates architecto odio nemo similique a, atque, explicabo sequi
-          soluta inventore rem nisi id? Voluptas, quae. Cumque libero optio
-          quam!
+          "Os favoritos dos nossos clientes: alta qualidade e ótimas
+          avaliações!"
         </p>
       </div>
-      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6 px-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 gap-y-6'>
         {bestSeller.map((item, index) => (
           <ProductItem
             key={index}

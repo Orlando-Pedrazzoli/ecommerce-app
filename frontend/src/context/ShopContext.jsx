@@ -13,7 +13,8 @@ const ShopContextProvider = props => {
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
@@ -44,8 +45,13 @@ const ShopContextProvider = props => {
           { headers: { token } }
         );
       } catch (error) {
-        console.log(error);
-        toast.error(error.message);
+        console.error(error);
+        toast.error(error.response?.data?.message || error.message);
+        if (error.response?.status === 401) {
+          localStorage.removeItem('token');
+          setToken('');
+          navigate('/login');
+        }
       }
     }
   };
@@ -79,8 +85,13 @@ const ShopContextProvider = props => {
           { headers: { token } }
         );
       } catch (error) {
-        console.log(error);
-        toast.error(error.message);
+        console.error(error);
+        toast.error(error.response?.data?.message || error.message);
+        if (error.response?.status === 401) {
+          localStorage.removeItem('token');
+          setToken('');
+          navigate('/login');
+        }
       }
     }
   };
@@ -101,6 +112,7 @@ const ShopContextProvider = props => {
   };
 
   const getProductsData = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(backendUrl + '/api/product/list');
       if (response.data.success) {
@@ -109,8 +121,10 @@ const ShopContextProvider = props => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -125,8 +139,13 @@ const ShopContextProvider = props => {
         setCartItems(response.data.cartData);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      console.error(error);
+      toast.error(error.response?.data?.message || error.message);
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+        setToken('');
+        navigate('/login');
+      }
     }
   };
 
@@ -135,10 +154,6 @@ const ShopContextProvider = props => {
   }, []);
 
   useEffect(() => {
-    if (!token && localStorage.getItem('token')) {
-      setToken(localStorage.getItem('token'));
-      getUserCart(localStorage.getItem('token'));
-    }
     if (token) {
       getUserCart(token);
     }
@@ -162,6 +177,7 @@ const ShopContextProvider = props => {
     backendUrl,
     setToken,
     token,
+    isLoading,
   };
 
   return (

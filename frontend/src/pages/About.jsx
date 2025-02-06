@@ -65,22 +65,30 @@ const About = () => {
         <div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5'>
           <b>Garantia de Qualidade:</b>
           <p className='text-gray-600'>
-            Nesciunt molestias exercitationem fuga ipsam, nihil voluptatem
-            quidem illo iste suscipit corporis quam vel.
+            Cada produto é fabricado com os mais altos padrões de qualidade,
+            utilizando materiais premium e técnicas de produção avançadas.
+            Trabalhamos apenas com fornecedores confiáveis, garantindo que
+            nossos acessórios atendam às expectativas dos surfistas mais
+            exigentes.
           </p>
         </div>
         <div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5'>
           <b>Praticidade:</b>
           <p className='text-gray-600'>
-            Nesciunt molestias exercitationem fuga ipsam, nihil voluptatem
-            quidem illo iste suscipit corporis quam vel.
+            Entendemos que a vida de um surfista é dinâmica e cheia de
+            aventuras, por isso, nossos produtos foram pensados para oferecer
+            praticidade em cada detalhe, tornando sua experiência ainda mais
+            agradável.
           </p>
         </div>
         <div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5'>
           <b>Atendimento Excepcional:</b>
           <p className='text-gray-600'>
-            Nesciunt molestias exercitationem fuga ipsam, nihil voluptatem
-            quidem illo iste suscipit corporis quam vel.
+            Acreditamos que o atendimento vai além de resolver problemas; é
+            sobre criar uma experiência única e satisfatória para nossos
+            clientes. Estamos aqui para oferecer o melhor suporte, garantir que
+            suas necessidades sejam atendidas e proporcionar uma jornada
+            tranquila do início ao fim.
           </p>
         </div>
       </div>

@@ -31,7 +31,7 @@ const reviews = [
 
 const Review = () => {
   return (
-    <div className='mt-16  px-4 sm:px-10 py-10 bg-white text-center'>
+    <div className='mt-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] py-16 bg-white text-center space-y-16'>
       <Title text1={'AVALIAÇÕES'} text2={'CLIENTES'} />
 
       {/* Grid responsivo */}

@@ -10,49 +10,90 @@ const Collection = () => {
     useContext(ShopContext);
   const location = useLocation();
   const [showFilter, setShowFilter] = useState(false);
-  const [filterProducts, setFilterProducts] = useState([]);
+  const [filterProducts, setFilterProducts] = useState(products); // Initialize with all products
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState(null); // Subcategoria começa como null
   const [sortType, setSortType] = useState('relavent');
   const [expandedCategories, setExpandedCategories] = useState({});
+  const [stateApplied, setStateApplied] = useState(false);
 
   // Configurar categorias e subcategorias iniciais com base no estado recebido
   useEffect(() => {
-    if (location.state?.category) {
+    if (location.state?.category && !stateApplied) {
       setCategory([location.state.category]); // Define a categoria
       setExpandedCategories(prev => ({
         ...prev,
         [location.state.category]: true, // Expande a categoria
       }));
+      setStateApplied(true); // Mark the state as applied
     }
-    if (location.state?.subCategory) {
+    if (location.state?.subCategory && !stateApplied) {
       setSubCategory(location.state.subCategory); // Define a subcategoria se existirem
+      setStateApplied(true); // Mark the state as applied
     }
-  }, [location.state]);
+  }, [location.state, stateApplied]);
+
+  // Reset state when component unmounts
+  useEffect(() => {
+    return () => {
+      setCategory([]);
+      setSubCategory(null);
+      setExpandedCategories({});
+      setStateApplied(false);
+    };
+  }, []);
 
   // Função para alternar a categoria principal e mostrar/ocultar subcategorias
   const toggleCategory = e => {
     const value = e.target.value;
 
-    // Fechar outras categorias e desmarcar checkboxes
-    const newExpandedCategories = {};
-    setCategory([value]); // Seleciona apenas a nova categoria
+    // If the clicked category is already selected, deselect it and close subcategories
+    if (category.includes(value)) {
+      setCategory([]);
+      setSubCategory(null);
+      setExpandedCategories(prev => {
+        const updatedCategories = { ...prev };
+        delete updatedCategories[value]; // Remove expanded state
+        return updatedCategories;
+      });
+    } else {
+      // If a new category is selected, expand it and deselect previous ones
+      setCategory([value]);
+      setExpandedCategories({ [value]: true });
+      setSubCategory(null);
+    }
 
-    // Abrir a categoria clicada e fechar as outras
-    newExpandedCategories[value] = !expandedCategories[value];
-
-    // Atualiza o estado de expandedCategories
-    setExpandedCategories(newExpandedCategories);
-    setSubCategory(null); // Resetar subcategoria ao mudar de categoria
-    setSearch(''); // Clear search input
-    setShowSearch(false); // Hide search bar
+    setSearch('');
+    setShowSearch(false);
   };
 
   const toggleSubCategory = e => {
     const value = e.target.value;
-    setSubCategory(value); // Define a subcategoria quando clicada
-    setSearch(''); // Clear search input
-    setShowSearch(false); // Hide search bar
+
+    // Se a mesma subcategoria for clicada novamente, desmarcar
+    if (subCategory === value) {
+      setSubCategory(null);
+      setSortType('relavent'); // Resetar o tipo de ordenação para "Relevante"
+    } else {
+      setSubCategory(value);
+    }
+
+    setSearch('');
+    setShowSearch(false);
+  };
+
+  const handleSortChange = e => {
+    const value = e.target.value;
+    setSortType(value);
+
+    if (value === 'relavent') {
+      // Resetar filtros ao selecionar "Relevante"
+      setCategory([]);
+      setSubCategory(null);
+      setSearch('');
+      setShowSearch(false);
+      setFilterProducts(products); // Garantir que todos os produtos apareçam
+    }
   };
 
   const applyFilter = () => {
@@ -92,6 +133,9 @@ const Collection = () => {
         break;
       case 'high-low':
         fpCopy.sort((a, b) => b.price - a.price);
+        break;
+      case 'relavent':
+        // No sorting, keep the original order
         break;
       default:
         // No sorting or default sorting
@@ -344,7 +388,7 @@ const Collection = () => {
           <Title text1={'COLEÇÃO'} text2={'2025'} />
           {/* Product Sort */}
           <select
-            onChange={e => setSortType(e.target.value)}
+            onChange={handleSortChange}
             className='hidden sm:block border-2 border-gray-300 text-sm px-2 w-48'
           >
             <option value='relavent'>Ordenar por: Relevante</option>

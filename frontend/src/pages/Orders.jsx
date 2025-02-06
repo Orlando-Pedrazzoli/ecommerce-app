@@ -9,37 +9,33 @@ const Orders = () => {
 
   const loadOrderData = async () => {
     try {
-      if (!token) {
-        return null;
-      }
+      if (!token) return;
 
       const response = await axios.post(
         backendUrl + '/api/order/userorders',
         {},
         { headers: { token } }
       );
+
       if (response.data.success) {
-        let allOrders = [];
-        response.data.orders.forEach(order => {
-          const orderGroup = {
-            orderId: order._id, // Assuming the backend provides an order ID
-            date: order.date,
-            paymentMethod: order.paymentMethod,
+        const allOrders = response.data.orders.map(order => ({
+          orderId: order._id,
+          date: order.date,
+          paymentMethod: order.paymentMethod,
+          status: order.status,
+          items: order.items.map(item => ({
+            ...item,
             status: order.status,
-            items: order.items.map(item => ({
-              ...item,
-              status: order.status,
-              payment: order.payment,
-              paymentMethod: order.paymentMethod,
-              date: order.date,
-            })),
-          };
-          allOrders.push(orderGroup);
-        });
-        setOrderData(allOrders.reverse()); // Reverse to show latest orders first
+            payment: order.payment,
+            paymentMethod: order.paymentMethod,
+            date: order.date,
+          })),
+        }));
+
+        setOrderData(allOrders.reverse());
       }
     } catch (error) {
-      console.error('Error loading order data:', error);
+      console.error('Erro ao carregar pedidos:', error);
     }
   };
 
@@ -48,15 +44,19 @@ const Orders = () => {
   }, [token]);
 
   return (
-    <div className='border-t pt-16 mx-4 md:mx-8 lg:mx-16'>
+    <div className='border-t pt-16 px-4 sm:px-8 lg:px-16'>
       <div className='text-2xl'>
         <Title text1={'MEUS'} text2={'PEDIDOS'} />
       </div>
 
       {orderData.map((order, orderIndex) => (
-        <div key={orderIndex} className='mt-8'>
-          <h2 className='text-xl font-semibold mb-4'>
-            Pedido #{order.orderId} - Feito em:{' '}
+        <div
+          key={orderIndex}
+          className='mt-8 border p-4 rounded-lg shadow-sm bg-white'
+        >
+          <h2 className='text-lg sm:text-xl font-semibold mb-4'>
+            Pedido <span className='text-gray-500'>#{order.orderId}</span> -
+            Feito em:{' '}
             {new Date(order.date).toLocaleDateString('pt-BR', {
               weekday: 'long',
               year: 'numeric',
@@ -64,17 +64,24 @@ const Orders = () => {
               day: 'numeric',
             })}
           </h2>
+
           <div className='space-y-4'>
             {order.items.map((item, itemIndex) => (
               <div
                 key={itemIndex}
-                className='py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4'
+                className='py-4 border-t text-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'
               >
-                <div className='flex items-start gap-6 text-sm'>
-                  <img className='w-16 sm:w-20' src={item.image[0]} alt='' />
-                  <div>
-                    <p className='sm:text-base font-medium'>{item.name}</p>
-                    <div className='flex items-center gap-3 mt-1 text-base text-gray-700'>
+                <div className='flex items-start gap-4 sm:gap-6 text-sm w-full'>
+                  <img
+                    className='w-16 sm:w-20 rounded-md'
+                    src={item.image[0]}
+                    alt={item.name}
+                  />
+                  <div className='flex-1 min-w-0'>
+                    <p className='sm:text-base font-medium truncate'>
+                      {item.name}
+                    </p>
+                    <div className='flex flex-wrap items-center gap-3 mt-1 text-sm sm:text-base text-gray-700'>
                       <p>
                         {currency}
                         {item.price}
@@ -82,28 +89,23 @@ const Orders = () => {
                       <p>Quantidade: {item.quantity}</p>
                       <p>Tamanho: {item.size}</p>
                     </div>
-                    <p className='mt-1'>
-                      Data:{' '}
-                      <span className='text-gray-400'>
-                        {new Date(item.date).toLocaleDateString('pt-BR')}
-                      </span>
+                    <p className='mt-1 text-gray-500 text-xs sm:text-sm'>
+                      Data: {new Date(item.date).toLocaleDateString('pt-BR')}
                     </p>
-                    <p className='mt-1'>
-                      Pagamento:{' '}
-                      <span className='text-gray-400'>
-                        {item.paymentMethod}
-                      </span>
+                    <p className='mt-1 text-gray-500 text-xs sm:text-sm'>
+                      Pagamento: {item.paymentMethod}
                     </p>
                   </div>
                 </div>
-                <div className='md:w-1/2 flex justify-between'>
+
+                <div className='flex justify-between sm:justify-end items-center w-full sm:w-auto'>
                   <div className='flex items-center gap-2'>
-                    <p className='min-w-2 h-2 rounded-full bg-green-500'></p>
-                    <p className='text-sm md:text-base'>{item.status}</p>
+                    <span className='w-3 h-3 rounded-full bg-green-500'></span>
+                    <p className='text-sm sm:text-base'>{item.status}</p>
                   </div>
                   <button
                     onClick={loadOrderData}
-                    className='border px-4 py-2 text-sm font-medium rounded-sm'
+                    className='border px-3 py-2 text-sm font-medium rounded-md bg-gray-100 hover:bg-gray-200 transition'
                   >
                     Acompanhar Pedido
                   </button>

@@ -10,10 +10,7 @@ const connectDB = async () => {
       console.error('DB Connection Error:', err);
     });
 
-    await mongoose.connect(`${process.env.MONGODB_URL}/e-commerce`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(`${process.env.MONGODB_URL}/e-commerce`);
     console.log('MongoDB Connected Successfully');
   } catch (err) {
     console.error('MongoDB Connection Failed:', err.message);

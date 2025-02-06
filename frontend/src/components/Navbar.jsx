@@ -33,7 +33,7 @@ const Navbar = () => {
         <Link to='/'>
           <img
             src={assets.logo}
-            className='w-24 sm:w-30 md:w-32 lg:w-36 xl:w-38'
+            className='mx-auto sm:mx-0 mt mb-5 w-24 sm:w-32 md:w-35'
             alt='Logo'
           />
         </Link>
@@ -200,13 +200,13 @@ const Navbar = () => {
                     onClick={() => navigate('/profile')}
                     className='cursor-pointer hover:text-black'
                   >
-                    My Profile
+                    Meu Perfil
                   </p>
                   <p
                     onClick={() => navigate('/orders')}
                     className='cursor-pointer hover:text-black'
                   >
-                    Orders
+                    Meus Pedidos
                   </p>
                   <p
                     onClick={logout}
@@ -256,28 +256,28 @@ const Navbar = () => {
             className='py-2 pl-6 border'
             to='/'
           >
-            HOME
+            INÍCIO
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
             className='py-2 pl-6 border'
             to='/collection'
           >
-            COLLECTION
+            COLEÇÃO
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
             className='py-2 pl-6 border'
             to='/about'
           >
-            ABOUT
+            SOBRE NÓS
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
             className='py-2 pl-6 border'
             to='/contact'
           >
-            CONTACT
+            POLÍTICA DE VENDAS
           </NavLink>
         </div>
       </div>

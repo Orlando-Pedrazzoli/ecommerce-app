@@ -26,7 +26,7 @@ const Hero = () => {
   return (
     <section className='w-full relative mb-0'>
       <Swiper
-        spaceBetween={0} // No gaps between slides
+        spaceBetween={0}
         slidesPerView={1}
         loop={true}
         speed={2000}
@@ -38,16 +38,13 @@ const Hero = () => {
         modules={[Autoplay, Navigation]}
         className='w-full'
       >
-        {/* Map through banners and render both desktop and mobile versions */}
         {desktopBanners.map((desktopSrc, index) => (
           <SwiperSlide key={index}>
             <picture>
-              {/* Mobile Banner (800x800) */}
               <source
-                media='(max-width: 767px)' // Applies to screens smaller than 768px (mobile)
-                srcSet={mobileBanners[index]} // Use the corresponding mobile banner
+                media='(max-width: 767px)'
+                srcSet={mobileBanners[index]}
               />
-              {/* Desktop Banner (1920x700) */}
               <img
                 className='w-full h-full object-cover'
                 src={desktopSrc}
@@ -56,6 +53,8 @@ const Hero = () => {
             </picture>
           </SwiperSlide>
         ))}
+
+        {/* Estilizando os botões */}
       </Swiper>
     </section>
   );

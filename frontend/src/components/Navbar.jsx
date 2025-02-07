@@ -170,7 +170,7 @@ const Navbar = () => {
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
           </NavLink>
           <NavLink to='/contact' className='flex flex-col items-center gap-1'>
-            <p>POLÍTICA DE VENDAS</p>
+            <p>POLÍTICA COMERCIAL</p>
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
           </NavLink>
         </ul>
@@ -277,7 +277,7 @@ const Navbar = () => {
             className='py-2 pl-6 border'
             to='/contact'
           >
-            POLÍTICA DE VENDAS
+            POLÍTICA COMERCIAL
           </NavLink>
         </div>
       </div>

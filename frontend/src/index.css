@@ -37,8 +37,8 @@ a.active hr {
 /* Default styles for Swiper navigation buttons */
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 40px !important; /* Adjust the arrow size */
-  color: rgb(168, 168, 168) !important; /* Change the arrow color */
+  font-size: 50px !important; /* Adjust the arrow size */
+  color: rgb(184, 182, 182) !important; /* Change the arrow color */
   content: '›' !important; /* Custom arrow (right) */
   display: flex !important; /* Make sure it's flex */
   justify-content: center !important;

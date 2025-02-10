@@ -15,6 +15,8 @@ import about_img from './about_img.png';
 import contact_img from './contact_img.png';
 import razorpay_logo from './razorpay_logo.png';
 import stripe_logo from './stripe_logo.png';
+import paypal_logo from './paypal_logo.png';
+import boleto_logo from './boleto.png';
 import cross_icon from './cross_icon.png';
 import video_hero from './video_hero.mp4';
 
@@ -64,6 +66,8 @@ export const assets = {
   contact_img,
   razorpay_logo,
   stripe_logo,
+  paypal_logo,
+  boleto_logo,
   cross_icon,
   video_hero,
 

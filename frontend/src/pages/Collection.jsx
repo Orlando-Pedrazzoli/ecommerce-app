@@ -15,23 +15,20 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState(null); // Subcategoria começa como null
   const [sortType, setSortType] = useState('relavent');
   const [expandedCategories, setExpandedCategories] = useState({});
-  const [stateApplied, setStateApplied] = useState(false);
 
-  // Configurar categorias e subcategorias iniciais com base no estado recebido
+  // Reset category and subcategory when location.state changes
   useEffect(() => {
-    if (location.state?.category && !stateApplied) {
-      setCategory([location.state.category]); // Define a categoria
+    if (location.state?.category) {
+      setCategory([location.state.category]); // Set the category
       setExpandedCategories(prev => ({
         ...prev,
-        [location.state.category]: true, // Expande a categoria
+        [location.state.category]: true, // Expand the category
       }));
-      setStateApplied(true); // Mark the state as applied
     }
-    if (location.state?.subCategory && !stateApplied) {
-      setSubCategory(location.state.subCategory); // Define a subcategoria se existirem
-      setStateApplied(true); // Mark the state as applied
+    if (location.state?.subCategory) {
+      setSubCategory(location.state.subCategory); // Set the subcategory if it exists
     }
-  }, [location.state, stateApplied]);
+  }, [location.state]); // Watch for changes in location.state
 
   // Reset state when component unmounts
   useEffect(() => {
@@ -39,7 +36,6 @@ const Collection = () => {
       setCategory([]);
       setSubCategory(null);
       setExpandedCategories({});
-      setStateApplied(false);
     };
   }, []);
 

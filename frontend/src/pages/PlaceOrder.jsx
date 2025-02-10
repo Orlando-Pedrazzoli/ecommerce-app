@@ -5,6 +5,7 @@ import { assets } from '../assets/assets';
 import { ShopContext } from '../context/ShopContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('cod');
@@ -36,37 +37,6 @@ const PlaceOrder = () => {
     setFormData(data => ({ ...data, [name]: value }));
   };
 
-  const initPay = order => {
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: order.amount,
-      currency: order.currency,
-      name: 'Order Payment',
-      description: 'Order Payment',
-      order_id: order.id,
-      receipt: order.receipt,
-      handler: async response => {
-        console.log(response);
-        try {
-          const { data } = await axios.post(
-            backendUrl + '/api/order/verifyRazorpay',
-            response,
-            { headers: { token } }
-          );
-          if (data.success) {
-            navigate('/orders');
-            setCartItems({});
-          }
-        } catch (error) {
-          console.log(error);
-          toast.error(error);
-        }
-      },
-    };
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  };
-
   const onSubmitHandler = async event => {
     event.preventDefault();
     try {
@@ -91,10 +61,10 @@ const PlaceOrder = () => {
         address: formData,
         items: orderItems,
         amount: getCartAmount() + delivery_fee,
+        paymentMethod: method,
       };
 
       switch (method) {
-        // API Calls for COD
         case 'cod':
           const response = await axios.post(
             backendUrl + '/api/order/place',
@@ -123,16 +93,18 @@ const PlaceOrder = () => {
           }
           break;
 
-        case 'razorpay':
-          const responseRazorpay = await axios.post(
-            backendUrl + '/api/order/razorpay',
+        case 'paypal':
+          const responsePayPal = await axios.post(
+            backendUrl + '/api/order/paypal',
             orderData,
             { headers: { token } }
           );
-          if (responseRazorpay.data.success) {
-            initPay(responseRazorpay.data.order);
+          if (responsePayPal.data.success) {
+            const { approvalUrl } = responsePayPal.data;
+            window.location.href = approvalUrl;
+          } else {
+            toast.error(responsePayPal.data.message);
           }
-
           break;
 
         default:
@@ -147,12 +119,12 @@ const PlaceOrder = () => {
   return (
     <form
       onSubmit={onSubmitHandler}
-      className='flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t px-4 sm:px-8 lg:px-12'
+      className='flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t px-4 sm:px-8 lg:px-20'
     >
       {/* ------------- Left Side ---------------- */}
       <div className='flex flex-col gap-4 w-full sm:max-w-[480px]'>
         <div className='text-xl sm:text-2xl my-3'>
-          <Title text1={'DELIVERY'} text2={'INFORMATION'} />
+          <Title text1={'DETALHES DA'} text2={'ENTREGA'} />
         </div>
         <div className='flex gap-3'>
           <input
@@ -243,59 +215,135 @@ const PlaceOrder = () => {
       </div>
 
       {/* ------------- Right Side ------------------ */}
-      <div className='mt-8'>
-        <div className='mt-8 min-w-80'>
+      <div className='mt-8 w-full sm:w-auto'>
+        <div className='mt-8'>
           <CartTotal />
         </div>
 
         <div className='mt-12'>
-          <Title text1={'PAYMENT'} text2={'METHOD'} />
+          <Title text1={'FORMA DE'} text2={'PAGAMENTO'} />
           {/* --------------- Payment Method Selection ------------- */}
-          <div className='flex gap-3 flex-col lg:flex-row'>
+          <div className='flex flex-col sm:flex-row gap-3'>
+            {/* Stripe */}
             <div
               onClick={() => setMethod('stripe')}
-              className='flex items-center gap-3 border p-2 px-3 cursor-pointer'
+              className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer ${
+                method === 'stripe'
+                  ? 'border-green-400 bg-green-50'
+                  : 'border-gray-300'
+              }`}
             >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === 'stripe' ? 'bg-green-400' : ''
+              <div
+                className={`w-4 h-4 border rounded-full flex items-center justify-center ${
+                  method === 'stripe'
+                    ? 'bg-green-400 border-green-400'
+                    : 'border-gray-400'
                 }`}
-              ></p>
-              <img className='h-5 mx-4' src={assets.stripe_logo} alt='' />
+              ></div>
+              <img
+                className='h-8' // Aumentei a altura para 32px
+                src={assets.stripe_logo}
+                alt='Stripe'
+              />
             </div>
+
+            {/* PayPal */}
             <div
-              onClick={() => setMethod('razorpay')}
-              className='flex items-center gap-3 border p-2 px-3 cursor-pointer'
+              onClick={() => setMethod('paypal')}
+              className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer ${
+                method === 'paypal'
+                  ? 'border-green-400 bg-green-50'
+                  : 'border-gray-300'
+              }`}
             >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === 'razorpay' ? 'bg-green-400' : ''
+              <div
+                className={`w-4 h-4 border rounded-full flex items-center justify-center ${
+                  method === 'paypal'
+                    ? 'bg-green-400 border-green-400'
+                    : 'border-gray-400'
                 }`}
-              ></p>
-              <img className='h-5 mx-4' src={assets.razorpay_logo} alt='' />
+              ></div>
+              <img
+                className='h-8' // Aumentei a altura para 32px
+                src={assets.paypal_logo}
+                alt='PayPal'
+              />
             </div>
+
+            {/* Boleto */}
             <div
               onClick={() => setMethod('cod')}
-              className='flex items-center gap-3 border p-2 px-3 cursor-pointer'
+              className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer ${
+                method === 'cod'
+                  ? 'border-green-400 bg-green-50'
+                  : 'border-gray-300'
+              }`}
             >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === 'cod' ? 'bg-green-400' : ''
+              <div
+                className={`w-4 h-4 border rounded-full flex items-center justify-center ${
+                  method === 'cod'
+                    ? 'bg-green-400 border-green-400'
+                    : 'border-gray-400'
                 }`}
-              ></p>
-              <p className='text-gray-500 text-sm font-medium mx-4'>
-                CASH ON DELIVERY
-              </p>
+              ></div>
+              <img
+                className='h-8' // Aumentei a altura para 32px
+                src={assets.boleto_logo}
+                alt='Boleto'
+              />
             </div>
           </div>
 
           <div className='w-full text-end mt-8'>
-            <button
-              type='submit'
-              className='bg-black text-white px-16 py-3 text-sm'
-            >
-              PLACE ORDER
-            </button>
+            {method === 'paypal' ? (
+              <PayPalButtons
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: (getCartAmount() + delivery_fee).toFixed(2),
+                          currency_code: 'BRL',
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={async (data, actions) => {
+                  try {
+                    const details = await actions.order.capture();
+                    console.log('Pagamento aprovado:', details);
+
+                    const response = await axios.post(
+                      backendUrl + '/api/order/verifyPaypal',
+                      { orderId: data.orderID },
+                      { headers: { token } }
+                    );
+
+                    if (response.data.success) {
+                      setCartItems({});
+                      navigate('/orders');
+                    } else {
+                      toast.error(response.data.message);
+                    }
+                  } catch (error) {
+                    console.error('Erro ao processar pagamento:', error);
+                    toast.error('Erro ao processar pagamento.');
+                  }
+                }}
+                onError={error => {
+                  console.error('Erro no PayPal:', error);
+                  toast.error('Erro no PayPal. Tente novamente.');
+                }}
+              />
+            ) : (
+              <button
+                type='submit'
+                className='bg-black text-white px-16 py-3 text-sm rounded-lg hover:bg-gray-800 transition-colors'
+              >
+                FINALIZAR COMPRA
+              </button>
+            )}
           </div>
         </div>
       </div>

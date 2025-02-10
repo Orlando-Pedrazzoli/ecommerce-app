@@ -15,6 +15,7 @@ const ShopContextProvider = props => {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
@@ -54,6 +55,8 @@ const ShopContextProvider = props => {
         }
       }
     }
+
+    setIsCartModalOpen(true); // Abre o modal após adicionar ao carrinho
   };
 
   const getCartCount = () => {
@@ -178,6 +181,8 @@ const ShopContextProvider = props => {
     setToken,
     token,
     isLoading,
+    isCartModalOpen, // Adicione isso
+    setIsCartModalOpen, // Adicione isso
   };
 
   return (

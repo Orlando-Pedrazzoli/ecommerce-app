@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
+import CartModal from '../components/CartModal';
 
 const Product = () => {
   const { productId } = useParams();
@@ -145,6 +146,9 @@ const Product = () => {
           subCategory={productData.subCategory}
         />
       </div>
+
+      {/* Modal do Carrinho */}
+      <CartModal />
     </div>
   ) : (
     <div className='opacity-0'></div>

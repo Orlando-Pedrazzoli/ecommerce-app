@@ -3,9 +3,11 @@ import userModel from '../models/userModel.js';
 import Stripe from 'stripe';
 import razorpay from 'razorpay';
 import nodemailer from 'nodemailer';
+import paypal from '@paypal/checkout-server-sdk';
+import paypalClient from '../config/paypal.js'; // Importe o cliente PayPal
 
 // Global variables
-const currency = 'R$';
+const currency = 'BRL'; // Moeda brasileira
 const deliveryCharge = 10;
 
 // Gateway initialize
@@ -18,14 +20,85 @@ const razorpayInstance = new razorpay({
 
 // Email transporter configuration
 const transporter = nodemailer.createTransport({
-  service: 'Gmail', // Use your email service (e.g., Gmail, Outlook, etc.)
+  service: 'Gmail', // Use seu serviço de e-mail (ex: Gmail, Outlook, etc.)
   auth: {
-    user: process.env.EMAIL_USER, // Your email address
-    pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
+    user: process.env.EMAIL_USER, // Seu e-mail
+    pass: process.env.EMAIL_PASSWORD, // Sua senha ou senha de app
   },
 });
 
-// Placing orders using COD Method
+// Função para criar um pedido no PayPal
+const placeOrderPaypal = async (req, res) => {
+  try {
+    const { userId, items, amount, address } = req.body;
+
+    // Salvar o pedido no banco de dados
+    const orderData = {
+      userId,
+      items,
+      address,
+      amount,
+      paymentMethod: 'PayPal',
+      payment: false,
+      date: Date.now(),
+    };
+
+    const newOrder = new orderModel(orderData);
+    await newOrder.save();
+
+    // Criar o pedido no PayPal
+    const request = new paypal.orders.OrdersCreateRequest();
+    request.requestBody({
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          amount: {
+            currency_code: currency, // BRL (Real brasileiro)
+            value: amount.toString(), // Valor total do pedido
+          },
+        },
+      ],
+    });
+
+    // Executar a requisição e obter a URL de aprovação
+    const response = await paypalClient.execute(request);
+    const approvalUrl = response.result.links.find(
+      link => link.rel === 'approve'
+    ).href;
+
+    res.json({ success: true, approvalUrl, orderId: newOrder._id });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Função para verificar o pagamento no PayPal
+const verifyPaypal = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+
+    // Capturar o pagamento no PayPal
+    const request = new paypal.orders.OrdersCaptureRequest(orderId);
+    request.requestBody({});
+
+    const response = await paypalClient.execute(request);
+
+    // Verificar se o pagamento foi aprovado
+    if (response.result.status === 'COMPLETED') {
+      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      res.json({ success: true, message: 'Pagamento aprovado!' });
+    } else {
+      await orderModel.findByIdAndDelete(orderId);
+      res.json({ success: false, message: 'Pagamento falhou.' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Função para criar um pedido (COD)
 const placeOrder = async (req, res) => {
   try {
     const { userId, items, amount, address } = req.body;
@@ -45,14 +118,14 @@ const placeOrder = async (req, res) => {
 
     await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
-    res.json({ success: true, message: 'Pedido Realizado' });
+    res.json({ success: true, message: 'Pedido realizado!' });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-// Placing orders using Stripe Method
+// Função para criar um pedido com Stripe
 const placeOrderStripe = async (req, res) => {
   try {
     const { userId, items, amount, address } = req.body;
@@ -86,7 +159,7 @@ const placeOrderStripe = async (req, res) => {
       price_data: {
         currency: currency,
         product_data: {
-          name: 'Delivery Charges',
+          name: 'Taxa de entrega',
         },
         unit_amount: deliveryCharge * 100,
       },
@@ -107,7 +180,7 @@ const placeOrderStripe = async (req, res) => {
   }
 };
 
-// Verify Stripe
+// Função para verificar o pagamento com Stripe
 const verifyStripe = async (req, res) => {
   const { orderId, success, userId } = req.body;
 
@@ -126,7 +199,7 @@ const verifyStripe = async (req, res) => {
   }
 };
 
-// Placing orders using Razorpay Method
+// Função para criar um pedido com Razorpay
 const placeOrderRazorpay = async (req, res) => {
   try {
     const { userId, items, amount, address } = req.body;
@@ -163,7 +236,7 @@ const placeOrderRazorpay = async (req, res) => {
   }
 };
 
-// Verify Razorpay
+// Função para verificar o pagamento com Razorpay
 const verifyRazorpay = async (req, res) => {
   try {
     const { userId, razorpay_order_id } = req.body;
@@ -172,9 +245,9 @@ const verifyRazorpay = async (req, res) => {
     if (orderInfo.status === 'paid') {
       await orderModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
       await userModel.findByIdAndUpdate(userId, { cartData: {} });
-      res.json({ success: true, message: 'Payment Successful' });
+      res.json({ success: true, message: 'Pagamento aprovado!' });
     } else {
-      res.json({ success: false, message: 'Payment Failed' });
+      res.json({ success: false, message: 'Pagamento falhou.' });
     }
   } catch (error) {
     console.log(error);
@@ -182,7 +255,7 @@ const verifyRazorpay = async (req, res) => {
   }
 };
 
-// All Orders data for Admin Panel
+// Função para listar todos os pedidos (Admin)
 const allOrders = async (req, res) => {
   try {
     const orders = await orderModel.find({});
@@ -193,7 +266,7 @@ const allOrders = async (req, res) => {
   }
 };
 
-// User Order Data For Frontend
+// Função para listar pedidos do usuário
 const userOrders = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -206,80 +279,81 @@ const userOrders = async (req, res) => {
   }
 };
 
-// Update order status from Admin Panel
+// Função para atualizar o status do pedido (Admin)
 const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
 
     await orderModel.findByIdAndUpdate(orderId, { status });
-    res.json({ success: true, message: 'Status Updated' });
+    res.json({ success: true, message: 'Status atualizado!' });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-// Send order details via email
+// Função para enviar detalhes do pedido por e-mail
 const sendOrderEmail = async (req, res) => {
   const { orderId, email } = req.body;
 
   try {
-    // Fetch order details from the database
+    // Buscar detalhes do pedido
     const order = await orderModel.findById(orderId);
     if (!order) {
-      return res.json({ success: false, message: 'Order not found' });
+      return res.json({ success: false, message: 'Pedido não encontrado.' });
     }
 
-    // Format order details for the email
+    // Formatar detalhes do pedido para o e-mail
     const orderDetails = order.items
       .map(
         item => `
-        <p><strong>Product:</strong> ${item.name}</p>
-        <p><strong>Price:</strong> ${item.price} ${currency}</p>
-        <p><strong>Quantity:</strong> ${item.quantity}</p>
-        <p><strong>Size:</strong> ${item.size}</p>
+        <p><strong>Produto:</strong> ${item.name}</p>
+        <p><strong>Preço:</strong> ${item.price} ${currency}</p>
+        <p><strong>Quantidade:</strong> ${item.quantity}</p>
         <hr />
       `
       )
       .join('');
 
-    // Email content
+    // Configurar o e-mail
     const mailOptions = {
-      from: process.env.EMAIL_USER, // Sender email
-      to: email, // Recipient email
-      subject: `Order Details for Order #${orderId}`, // Email subject
+      from: process.env.EMAIL_USER, // Remetente
+      to: email, // Destinatário
+      subject: `Detalhes do Pedido #${orderId}`, // Assunto
       html: `
-        <h1>Order Details</h1>
-        <p><strong>Order ID:</strong> ${orderId}</p>
-        <p><strong>Date:</strong> ${new Date(
+        <h1>Detalhes do Pedido</h1>
+        <p><strong>ID do Pedido:</strong> ${orderId}</p>
+        <p><strong>Data:</strong> ${new Date(
           order.date
         ).toLocaleDateString()}</p>
-        <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+        <p><strong>Método de Pagamento:</strong> ${order.paymentMethod}</p>
         <p><strong>Status:</strong> ${order.status}</p>
-        <h2>Items:</h2>
+        <h2>Itens:</h2>
         ${orderDetails}
       `,
     };
 
-    // Send email
+    // Enviar e-mail
     await transporter.sendMail(mailOptions);
 
-    res.json({ success: true, message: 'Email sent successfully!' });
+    res.json({ success: true, message: 'E-mail enviado com sucesso!' });
   } catch (error) {
-    console.error('Error sending email:', error);
-    res.json({ success: false, message: 'Failed to send email' });
+    console.error('Erro ao enviar e-mail:', error);
+    res.json({ success: false, message: 'Falha ao enviar e-mail.' });
   }
 };
 
-// Export all functions
+// Exportar todas as funções
 export {
-  verifyRazorpay,
-  verifyStripe,
   placeOrder,
   placeOrderStripe,
   placeOrderRazorpay,
+  placeOrderPaypal,
+  verifyPaypal,
   allOrders,
   userOrders,
   updateStatus,
-  sendOrderEmail, // Add the new function
+  verifyStripe,
+  verifyRazorpay,
+  sendOrderEmail,
 };

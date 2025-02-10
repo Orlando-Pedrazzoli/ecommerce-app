@@ -3,6 +3,7 @@ import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import { assets } from '../assets/assets';
 import CartTotal from '../components/CartTotal';
+import { toast } from 'react-toastify'; // Importe o toast
 
 const Cart = () => {
   const { products, currency, cartItems, updateQuantity, navigate } =
@@ -27,6 +28,15 @@ const Cart = () => {
       setCartData(tempData);
     }
   }, [cartItems, products]);
+
+  // Função para verificar se o carrinho está vazio
+  const handleCheckout = () => {
+    if (cartData.length === 0) {
+      toast.error('Carrinho vazio. Adicione produtos para finalizar a compra.'); // Exibe uma notificação
+    } else {
+      navigate('/place-order'); // Redireciona para a página de finalização de compra
+    }
+  };
 
   return (
     <div className='border-t pt-14 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
@@ -105,9 +115,9 @@ const Cart = () => {
       <div className='flex justify-end my-20'>
         <div className='w-full sm:w-[450px]'>
           <CartTotal />
-          <div className=' w-full text-end'>
+          <div className='w-full text-end'>
             <button
-              onClick={() => navigate('/place-order')}
+              onClick={handleCheckout} // Usa a função handleCheckout
               className='bg-black text-white text-sm my-8 px-8 py-3'
             >
               FINALIZAR COMPRA

@@ -4,7 +4,7 @@ import Title from '../components/Title';
 const Contact = () => {
   return (
     <section className='dark:bg-gray-100 dark:text-gray-800'>
-      <div className='container flex flex-col justify-center px-4 py-8 mx-auto md:p-8'>
+      <div className='container max-w-6xl flex flex-col justify-center px-4 py-8 mx-auto md:p-8'>
         <Title text1={'POLÍTICA'} text2={'COMERCIAL'} />
         <h2 className='mt-8 text-2xl font-semibold sm:text-3xl'>
           Pedidos, Trocas, Devoluções e Garantia

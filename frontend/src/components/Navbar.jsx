@@ -5,7 +5,7 @@ import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate(); // Utilizando o hook de navegação
+  const navigate = useNavigate();
 
   const { setShowSearch, getCartCount, token, setToken, setCartItems } =
     useContext(ShopContext);
@@ -17,13 +17,10 @@ const Navbar = () => {
     setCartItems({});
   };
 
-  // Função para navegação por categoria
-  const handleCategoryNavigate = category => {
+  // Updated: Pass both category and subCategory (optional)
+  const handleCategoryNavigate = (category, subCategory = null) => {
     navigate('/collection', {
-      state: {
-        category,
-        subCategory: null, // Não seleciona subcategoria de início
-      },
+      state: { category, subCategory },
     });
   };
 
@@ -52,10 +49,10 @@ const Navbar = () => {
               className='flex flex-col items-center gap-1'
             >
               <p>COLEÇÃO</p>
-              <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
+              {/* Show underline on hover */}
+              <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden group-hover:block' />
             </NavLink>
             <div className='absolute left-1/2 transform -translate-x-1/2 top-full hidden group-hover:block bg-white shadow-lg w-[1200px] p-6 rounded-md z-50'>
-              {/* Aumentei o width para 1200px */}
               <div className='grid grid-cols-5 gap-6 justify-items-center'>
                 {/* Category 1 - DECKS */}
                 <div className='flex flex-col items-center'>
@@ -241,7 +238,7 @@ const Navbar = () => {
       <div
         className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
           visible ? 'w-full' : 'w-0'
-        } z-50`} // Set z-index to ensure it's above the carousel
+        } z-50`}
       >
         <div className='flex flex-col text-gray-600'>
           <div

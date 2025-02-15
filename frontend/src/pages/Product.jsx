@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
@@ -12,6 +12,11 @@ const Product = () => {
   const [image, setImage] = useState('');
   const [size, setSize] = useState('original');
   const zoomRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Estado da subcategoria que foi passado ao navegar para esta página
+  const subCategory = location.state?.subCategory;
 
   const fetchProductData = async () => {
     products.map(item => {
@@ -41,9 +46,22 @@ const Product = () => {
     zoomRef.current.style.setProperty('--display', 'none');
   };
 
+  // Função para voltar para a subcategoria
+  const handleGoBack = () => {
+    navigate('/collection', { state: { subCategory } });
+  };
+
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
       <div className='px-4 sm:px-6 lg:px-10'>
+        {/* Botão VOLTAR */}
+        <button
+          onClick={handleGoBack}
+          className='bg-gray-300 text-black px-4 py-2 mb-4 text-sm rounded-lg hover:bg-gray-400 transition-colors'
+        >
+          VOLTAR
+        </button>
+
         <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
           <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
             <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>

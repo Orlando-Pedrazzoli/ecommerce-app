@@ -14,8 +14,8 @@ const Contact = () => {
           transparência aos nossos clientes.
         </p>
         <div className='space-y-4'>
-          <details className='w-full border rounded-lg'>
-            <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
+            <summary className='px-4 py-6 cursor-pointer focus:outline-none focus-visible:ring-violet-600'>
               Pedido Mínimo e Prazo de pagamento
             </summary>
             <p className='px-4 py-6 pt-0 ml-4  dark:text-gray-600'>
@@ -85,7 +85,7 @@ const Contact = () => {
               </tbody>
             </table>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Desistência de compra
             </summary>
@@ -105,7 +105,7 @@ const Contact = () => {
               pago no pedido de volta, incluindo eventuais gastos com frete.
             </p>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Trocas por erro de compra.
             </summary>
@@ -123,7 +123,7 @@ const Contact = () => {
               possíveis marcas de uso, avarias no produto e/ou na embalagem.
             </p>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Produto avariado e embalagem violada
             </summary>
@@ -137,7 +137,7 @@ const Contact = () => {
               suporte ao cliente.
             </p>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Produto em desacordo com o pedido
             </summary>
@@ -149,7 +149,7 @@ const Contact = () => {
               da forma mais rápida, e agilziar assim a entrega do pedido.
             </p>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Defeito de fabricação constatado antes uso do produto
             </summary>
@@ -165,15 +165,15 @@ const Contact = () => {
               do consumidor, o valor pago será devolvido integralmente ao mesmo.
             </p>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Defeito de fabricação constatado após o uso do produto
             </summary>
             <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-gray-600'>
               Se você percebeu o defeito ou ele se manifestou apenas depois de
               você já ter usado o produto, todos os produtos por lei, tem no
-              mínimo 3 meses de garantia a partir da data da compra, mas a WET
-              DREAMS oferece garatias de até 12 meses, dependendo do produto.
+              mínimo 3 meses de garantia a partir da data da compra, mas a ELITE
+              SURFING oferece garatias de até 12 meses, dependendo do produto.
               Cada caso será analisado conforme seu prazo de garantia. Faremos
               uma avaliação detalhada do produto, e uma vez confirmado o defeito
               de fabricação, faremos a troca do produto, sem custo adicional
@@ -183,7 +183,7 @@ const Contact = () => {
               do cliente).
             </p>
           </details>
-          <details className='w-full border rounded-lg'>
+          <details className='w-full border rounded-lg open:bg-gray-200'>
             <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
               Política de Reembolso
             </summary>

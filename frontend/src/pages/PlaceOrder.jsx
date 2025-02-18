@@ -134,7 +134,7 @@ const PlaceOrder = () => {
             value={formData.firstName}
             className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
             type='text'
-            placeholder='First name'
+            placeholder='Nome'
           />
           <input
             required
@@ -143,7 +143,7 @@ const PlaceOrder = () => {
             value={formData.lastName}
             className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
             type='text'
-            placeholder='Last name'
+            placeholder='Sobrenome'
           />
         </div>
         <input
@@ -153,7 +153,7 @@ const PlaceOrder = () => {
           value={formData.email}
           className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
           type='email'
-          placeholder='Email address'
+          placeholder='Email'
         />
         <input
           required
@@ -162,7 +162,7 @@ const PlaceOrder = () => {
           value={formData.street}
           className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
           type='text'
-          placeholder='Street'
+          placeholder='Endereço'
         />
         <div className='flex gap-3'>
           <input
@@ -172,7 +172,7 @@ const PlaceOrder = () => {
             value={formData.city}
             className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
             type='text'
-            placeholder='City'
+            placeholder='Cidade'
           />
           <input
             onChange={onChangeHandler}
@@ -180,7 +180,7 @@ const PlaceOrder = () => {
             value={formData.state}
             className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
             type='text'
-            placeholder='State'
+            placeholder='Estado'
           />
         </div>
         <div className='flex gap-3'>
@@ -191,7 +191,7 @@ const PlaceOrder = () => {
             value={formData.zipcode}
             className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
             type='text'
-            placeholder='Zipcode'
+            placeholder='CEP'
           />
           <input
             required
@@ -200,7 +200,7 @@ const PlaceOrder = () => {
             value={formData.country}
             className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
             type='text'
-            placeholder='Country'
+            placeholder='País'
           />
         </div>
         <input
@@ -210,7 +210,7 @@ const PlaceOrder = () => {
           value={formData.phone}
           className='border border-gray-300 rounded py-1.5 px-3.5 w-full'
           type='number'
-          placeholder='Phone'
+          placeholder='Telefone'
         />
       </div>
 

@@ -99,6 +99,7 @@ const Product = () => {
               <img className='w-full h-auto' src={image} alt='' />
             </div>
           </div>
+
           <div className='flex-1'>
             <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
             <h1 className='font-medium text-xl mt-2'>{productData.cod}</h1>
@@ -115,13 +116,15 @@ const Product = () => {
             </div>
             <p className='mt-5 text-3xl font-medium'>
               {currency}
-              {productData.price}
+              {(Number(productData.price) || 0).toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </p>
             <p className='mt-5 text-gray-500 md:w-4/5'>
               {productData.description}
             </p>
             <div className='flex flex-col gap-4 my-8'>
-              <p>Selecione o tamanho</p>
               <div className='flex gap-2'>
                 {productData.sizes.map((item, index) => (
                   <button
@@ -142,11 +145,12 @@ const Product = () => {
             >
               ADICIONAR AO CARRINHO
             </button>
-            <hr className='mt-8 sm:w-4/5' />
-            <div className='text-sm text-gray-500 mt-5 flex flex-col gap-1'>
-              <p>100% Original product.</p>
-              <p>Cash on delivery is available on this product.</p>
-              <p>Easy return and exchange policy within 7 days.</p>
+
+            <div className='text-sm text-gray-500 -mt-10  flex flex-col gap-1'>
+              <RelatedProducts
+                category={productData.category}
+                subCategory={productData.subCategory}
+              />
             </div>
           </div>
         </div>
@@ -159,10 +163,6 @@ const Product = () => {
             <p>{productData.description2}</p>
           </div>
         </div>
-        <RelatedProducts
-          category={productData.category}
-          subCategory={productData.subCategory}
-        />
       </div>
 
       {/* Modal do Carrinho */}

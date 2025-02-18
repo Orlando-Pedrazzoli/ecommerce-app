@@ -62,16 +62,28 @@ const Navbar = () => {
                     className='w-full h-32 object-cover rounded mb-3'
                   />
                   <h3
-                    onClick={() => handleCategoryNavigate('Decks')}
+                    onClick={() => handleCategoryNavigate('Decks Fresados')}
                     className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
                   >
-                    DECKS
+                    DECKS FRESADOS
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Decks CNC')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
+                  >
+                    DECKS CNC
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Decks Marine')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
+                  >
+                    DECKS MARINE
                   </h3>
                   <h3
                     onClick={() => handleCategoryNavigate('Decks SUP')}
                     className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
                   >
-                    STAND UP DECKS
+                    DECKS SUP
                   </h3>
                 </div>
 
@@ -111,9 +123,15 @@ const Navbar = () => {
                   </h3>
                   <h3
                     onClick={() => handleCategoryNavigate('Capa Premium')}
-                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
+                    className='font-semibold text-gray-800 text-center cursor-pointer mb-2 hover:text-blue-500'
                   >
                     CAPAS PREMIUM
+                  </h3>
+                  <h3
+                    onClick={() => handleCategoryNavigate('Capa Térmica')}
+                    className='font-semibold text-gray-800 text-center cursor-pointer hover:text-blue-500'
+                  >
+                    CAPAS TÉRMICAS
                   </h3>
                 </div>
 

@@ -5,27 +5,31 @@ import Title from './Title';
 const reviews = [
   {
     id: 1,
-    name: 'Olga M.',
-    date: '22/01/2025',
-    comment: 'Excelente experiência. foi muito solícita em tudo o que...',
+    name: 'André Oliveira Granha',
+    date: '14/01/2025',
+    comment:
+      'Finalmente um sistema que entende as necessidades dos distribuidores! O processo de pedidos é extremamente rápido e intuitivo. Em poucos cliques, consigo repor meu estoque sem complicação. A navegação é fluida, e a organização dos produtos facilita muito a compra.',
   },
   {
     id: 2,
-    name: 'Alex S.',
+    name: 'Amaury Fonseca',
     date: '22/01/2025',
-    comment: 'Muito bom',
+    comment:
+      'O e-commerce superou minhas expectativas. O catálogo é muito bem estruturado, com imagens nítidas e informações detalhadas dos produtos. Isso evita erros nos pedidos e agiliza a tomada de decisão. Além disso, a busca por categorias e subcategorias torna tudo mais prático.',
   },
   {
     id: 3,
-    name: 'Victor C.',
-    date: '17/01/2025',
-    comment: 'Foi ótima!',
+    name: 'José Francisco',
+    date: '03/02/2025',
+    comment:
+      'Além da plataforma ser eficiente, o suporte é excelente! Sempre que tenho dúvidas, sou atendido rapidamente. A integração com nosso sistema de gestão também foi simples, tornando a conferência de pedidos mais ágil e reduzindo erros operacionais.',
   },
   {
     id: 4,
-    name: 'Alexandre V.',
-    date: '14/01/2025',
-    comment: 'Ótimo atendimento e negociação',
+    name: 'Pedro Ramos',
+    date: '11/02/2025',
+    comment:
+      'O sistema oferece um controle incrível sobre os pedidos. Consigo acompanhar o status em tempo real e prever melhor meus prazos de entrega. Isso faz toda a diferença para a organização do meu estoque e atendimento aos meus clientes.',
   },
 ];
 

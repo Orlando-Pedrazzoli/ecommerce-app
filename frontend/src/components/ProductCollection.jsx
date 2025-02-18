@@ -7,19 +7,27 @@ const ProductCollection = () => {
   const navigate = useNavigate();
 
   const categoryMap = {
-    [assets.productCollection11]: 'Decks',
-    [assets.productCollection13]: 'Leash Premium',
-    [assets.productCollection51]: 'Capa Premium',
+    [assets.productCollection11]: 'DECKS',
+    [assets.productCollection13]: 'LEASHES',
+    [assets.productCollection51]: 'CAPAS',
     [assets.productCollection50]: 'Capa Toalha',
     [assets.productCollection54]: 'Sarcófagos',
     [assets.productCollection53]: 'Acessórios',
   };
 
   const handleNavigate = category => {
+    const categoryRedirectMap = {
+      DECKS: 'Decks Fresados',
+      LEASHES: 'Leash Premium',
+      CAPAS: 'Capa Premium',
+    };
+
+    const targetCategory = categoryRedirectMap[category] || category;
+
     navigate('/collection', {
       state: {
-        category,
-        subCategory: null, // Não seleciona subcategoria de início
+        category: targetCategory,
+        subCategory: null,
       },
     });
   };

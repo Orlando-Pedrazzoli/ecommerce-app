@@ -18,20 +18,7 @@ const Collection = () => {
 
   // Reset category and subcategory when location.state changes
   useEffect(() => {
-    if (location.state?.category) {
-      setCategory([location.state.category]); // Set the category
-      setExpandedCategories(prev => ({
-        ...prev,
-        [location.state.category]: true, // Expand the category
-      }));
-    }
-    if (location.state?.subCategory) {
-      setSubCategory(location.state.subCategory); // Set the subcategory if it exists
-    }
-  }, [location.state]); // Watch for changes in location.state
-
-  // Reset state when component unmounts
-  useEffect(() => {
+    // Resetar estado ao desmontar o componente
     return () => {
       setCategory([]);
       setSubCategory(null);
@@ -43,20 +30,22 @@ const Collection = () => {
   const toggleCategory = e => {
     const value = e.target.value;
 
-    // If the clicked category is already selected, deselect it and close subcategories
     if (category.includes(value)) {
       setCategory([]);
       setSubCategory(null);
       setExpandedCategories(prev => {
         const updatedCategories = { ...prev };
-        delete updatedCategories[value]; // Remove expanded state
+        delete updatedCategories[value];
         return updatedCategories;
       });
+      localStorage.removeItem('selectedCategory');
+      localStorage.removeItem('selectedSubCategory');
     } else {
-      // If a new category is selected, expand it and deselect previous ones
       setCategory([value]);
       setExpandedCategories({ [value]: true });
       setSubCategory(null);
+      localStorage.setItem('selectedCategory', JSON.stringify([value]));
+      localStorage.removeItem('selectedSubCategory');
     }
 
     setSearch('');
@@ -66,12 +55,13 @@ const Collection = () => {
   const toggleSubCategory = e => {
     const value = e.target.value;
 
-    // Se a mesma subcategoria for clicada novamente, desmarcar
     if (subCategory === value) {
       setSubCategory(null);
-      setSortType('relavent'); // Resetar o tipo de ordenação para "Relevante"
+      setSortType('relavent');
+      localStorage.removeItem('selectedSubCategory');
     } else {
       setSubCategory(value);
+      localStorage.setItem('selectedSubCategory', value);
     }
 
     setSearch('');
@@ -149,6 +139,51 @@ const Collection = () => {
     sortProduct();
   }, [sortType]);
 
+  useEffect(() => {
+    const savedCategory = JSON.parse(localStorage.getItem('selectedCategory'));
+    const savedSubCategory = localStorage.getItem('selectedSubCategory');
+
+    if (savedCategory && Array.isArray(savedCategory)) {
+      setCategory(savedCategory);
+      setExpandedCategories(prev => ({
+        ...prev,
+        [savedCategory[0]]: true,
+      }));
+    }
+    if (savedSubCategory) {
+      setSubCategory(savedSubCategory);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.category) {
+      const savedCategory = JSON.parse(
+        localStorage.getItem('selectedCategory')
+      );
+      if (!savedCategory || savedCategory[0] !== location.state.category) {
+        setCategory([location.state.category]);
+        setExpandedCategories(prev => ({
+          ...prev,
+          [location.state.category]: true,
+        }));
+        localStorage.setItem(
+          'selectedCategory',
+          JSON.stringify([location.state.category])
+        );
+      }
+    }
+    if (location.state?.subCategory) {
+      const savedSubCategory = localStorage.getItem('selectedSubCategory');
+      if (
+        !savedSubCategory ||
+        savedSubCategory !== location.state.subCategory
+      ) {
+        setSubCategory(location.state.subCategory);
+        localStorage.setItem('selectedSubCategory', location.state.subCategory);
+      }
+    }
+  }, [location.state]);
+
   return (
     <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 sm:px-6 lg:px-10'>
       {/* Filter Options */}
@@ -176,22 +211,26 @@ const Collection = () => {
           {/* Renderização de Categorias */}
           {[
             {
-              name: 'Decks',
+              name: 'Decks Fresados',
               subCategories: [
                 'Deck Saquarema',
-                'Deck Saquarema Marine',
                 'Deck Noronha',
-                'Deck Noronha Marine',
                 'Deck J-Bay',
-                'Deck J-Bay Cnc',
                 'Deck Fiji Classic',
-                'Deck Fiji Cnc',
                 'Deck Hawaii',
                 'Deck Peniche',
                 'Deck Tahiti',
                 'Deck Frontal',
                 'Deck Longboard',
               ],
+            },
+            {
+              name: 'Decks CNC',
+              subCategories: ['Deck J-Bay Cnc', 'Deck Fiji Cnc'],
+            },
+            {
+              name: 'Decks Marine',
+              subCategories: ['Deck Saquarema Marine', 'Deck Noronha Marine'],
             },
             {
               name: 'Decks SUP',
@@ -270,6 +309,22 @@ const Collection = () => {
                 'Refletiva Longboard 9`6',
                 'Refletiva Longboard 10`',
                 'Refletiva Bodyboard`',
+              ],
+            },
+            {
+              name: 'Capa Térmica',
+              subCategories: [
+                'Térmica Fish & Evolution 5`10',
+                'Térmica Fish & Evolution 6`2',
+                'Térmica short 5`10',
+                'Térmica short 6`0',
+                'Térmica short 6`3',
+                'Térmica short 6`6',
+                'Térmica Funboard 7`2',
+                'Térmica Funboard 7`6',
+                'Térmica Funboard 8`0',
+                'Térmica Longboard 9`2',
+                'Térmica Longboard 9`6',
               ],
             },
             {

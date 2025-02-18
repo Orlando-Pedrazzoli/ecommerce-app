@@ -186,9 +186,12 @@ const Add = ({ token }) => {
           >
             <option value='Capa Combate'>Capa Combate</option>
             <option value='Capa Premium'>Capa Premium</option>
+            <option value='Capa Térmica'>Capa Térmica</option>
             <option value='Capa Stand Up'>Capa Stand Up</option>
             <option value='Capa Toalha'>Capa Toalha</option>
-            <option value='Decks'>Decks</option>
+            <option value='Decks Fresados'>Decks Fresados</option>
+            <option value='Decks CNC'>Decks CNC</option>
+            <option value='Decks Marine'>Decks Marine</option>
             <option value='Decks SUP'>Decks SUP</option>
             <option value='Leash Premium'>Leash Premium</option>
             <option value='Leash Nó'>Leash Nó</option>
@@ -209,8 +212,14 @@ const Add = ({ token }) => {
             <option value='Refletiva Fish & Evolution 5`10'>
               Fish & Evolution 5'10
             </option>
+            <option value='Térmica Fish & Evolution 5`10'>
+              Térmica Fish & Evolution 5'10
+            </option>
             <option value='Refletiva Fish & Evolution 6`2'>
               Fish & Evolution 6'2
+            </option>
+            <option value='Térmica Fish & Evolution 6`2'>
+              Térmica Fish & Evolution 6'2
             </option>
             <option value='Refletiva Fish & Evolution 6`4'>
               Fish & Evolution 6'4
@@ -223,16 +232,25 @@ const Add = ({ token }) => {
             </option>
             <option value='Refletiva MiniTank 6`0'>Mini Tank 6'0</option>
             <option value='Refletiva short 5`10'>Short-Prancha 5'10</option>
+            <option value='Térmica short 5`10'>Short-Térmica 5'10</option>
             <option value='Refletiva short 6`0'>Short-Prancha 6'0</option>
+            <option value='Térmica short 6`0'>Short-Térmica 6'0</option>
             <option value='Refletiva short 6`3'>Short-Prancha 6'3</option>
+            <option value='Térmica short 6`3'>Short-Térmica 6'3</option>
             <option value='Refletiva short 6`6'>Short-Prancha 6'6</option>
+            <option value='Térmica short 6`6'>Short-Térmica 6'6</option>
             <option value='Refletiva Funboard 7`2'>Funboard 7'2</option>
+            <option value='Térmica Funboard 7`2'>Funboard Térmica 7'2</option>
             <option value='Refletiva Funboard 7`6'>Funboard 7'6</option>
+            <option value='Térmica Funboard 7`6'>Funboard Térmica 7'6</option>
             <option value='Refletiva Funboard 8`0'>Funboard 8'0</option>
+            <option value='Térmica Funboard 8`0'>Funboard Térmica 8'0</option>
             <option value='Refletiva Minilong 7`0'>Mini long 7'0</option>
             <option value='Refletiva Minilong 8`0'>Mini long 8'0</option>
             <option value='Refletiva Longboard 9`2'>Longboard 9'2</option>
+            <option value='Térmica Longboard 9`2'>Longboard Térmica 9'2</option>
             <option value='Refletiva Longboard 9`6'>Longboard 9'6</option>
+            <option value='Térmica Longboard 9`6'>Longboard Térmica 9'6</option>
             <option value='Refletiva Longboard 10`'>Longboard 10'</option>
             <option value='Refletiva Bodyboard`'>Bodyboard'</option>
             <option value='Refletiva SUP Remo'>Remo SUP'</option>

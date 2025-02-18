@@ -4,6 +4,7 @@ import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
 import CartModal from '../components/CartModal';
+import FullScreenImageModal from '../components/FullScreenImageModal';
 
 const Product = () => {
   const { productId } = useParams();
@@ -11,11 +12,11 @@ const Product = () => {
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState('');
   const [size, setSize] = useState('original');
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const zoomRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Estado da subcategoria que foi passado ao navegar para esta página
   const subCategory = location.state?.subCategory;
 
   const fetchProductData = async () => {
@@ -46,15 +47,21 @@ const Product = () => {
     zoomRef.current.style.setProperty('--display', 'none');
   };
 
-  // Função para voltar para a subcategoria
   const handleGoBack = () => {
     navigate('/collection', { state: { subCategory } });
+  };
+
+  const handleMainImageClick = () => {
+    setIsModalOpen(true); // Open modal when main image is clicked
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close modal
   };
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
       <div className='px-4 sm:px-6 lg:px-10'>
-        {/* Botão VOLTAR */}
         <button
           onClick={handleGoBack}
           className='bg-gray-300 text-black px-4 py-2 mb-4 text-sm rounded-lg hover:bg-gray-400 transition-colors'
@@ -94,9 +101,15 @@ const Product = () => {
                   backgroundSize: '200%',
                   backgroundPosition: 'var(--zoom-x) var(--zoom-y)',
                   display: 'var(--display)',
+                  pointerEvents: 'none', // Add this line
                 }}
               ></div>
-              <img className='w-full h-auto' src={image} alt='' />
+              <img
+                className='w-full h-auto cursor-pointer'
+                src={image}
+                alt=''
+                onClick={handleMainImageClick} // Add click handler to main image
+              />
             </div>
           </div>
 
@@ -167,6 +180,11 @@ const Product = () => {
 
       {/* Modal do Carrinho */}
       <CartModal />
+
+      {/* Full Screen Image Modal */}
+      {isModalOpen && (
+        <FullScreenImageModal image={image} onClose={closeModal} />
+      )}
     </div>
   ) : (
     <div className='opacity-0'></div>

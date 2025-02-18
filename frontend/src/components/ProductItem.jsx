@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { Link } from 'react-router-dom';
 
-const ProductItem = ({ id, image, name, price, cod }) => {
+const ProductItem = ({ id, image, name, price, cod, onlyImage = false }) => {
   const { currency } = useContext(ShopContext);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -21,15 +21,22 @@ const ProductItem = ({ id, image, name, price, cod }) => {
           alt=''
         />
       </div>
-      <p className='pt-3 pb-1 text-sm'>
-        <span>{cod}</span>
-        <span className='ml-2'>{name}</span>
-      </p>
 
-      <p className='text-lg font-medium'>
-        {currency}
-        {price}
-      </p>
+      {!onlyImage && (
+        <>
+          <p className='pt-3 pb-1 text-sm'>
+            <span>{cod}</span>
+            <span className='ml-2'>{name}</span>
+          </p>
+          <p className='text-lg font-medium'>
+            {currency}
+            {(Number(price) || 0).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </>
+      )}
     </Link>
   );
 };

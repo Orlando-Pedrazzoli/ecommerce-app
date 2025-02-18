@@ -26,7 +26,7 @@ const reviews = [
   },
   {
     id: 4,
-    name: 'Pedro Ramos',
+    name: 'Orlando Pedrazzoli',
     date: '11/02/2025',
     comment:
       'O sistema oferece um controle incrível sobre os pedidos. Consigo acompanhar o status em tempo real e prever melhor meus prazos de entrega. Isso faz toda a diferença para a organização do meu estoque e atendimento aos meus clientes.',

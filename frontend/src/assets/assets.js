@@ -18,7 +18,6 @@ import stripe_logo from './stripe_logo.png';
 import paypal_logo from './paypal_logo.png';
 import boleto_logo from './boleto.png';
 import cross_icon from './cross_icon.png';
-import video_hero from './video_hero.mp4';
 
 import productCollection8 from './productCollection8.jpg';
 import productCollection9 from './productCollection9.jpg';
@@ -38,6 +37,8 @@ import banner07 from './banner07.jpg';
 import banner08 from './banner08.jpg';
 import banner09 from './banner09.jpg';
 import banner10 from './banner10.jpg';
+import banner17 from './banner17.jpg';
+import banner18 from './banner18.jpg';
 import banner19 from './banner19.jpg';
 import banner20 from './banner20.jpg';
 import banner21 from './banner21.jpg';
@@ -70,7 +71,6 @@ export const assets = {
   paypal_logo,
   boleto_logo,
   cross_icon,
-  video_hero,
 
   productCollection8,
   productCollection9,
@@ -90,6 +90,8 @@ export const assets = {
   banner08,
   banner09,
   banner10,
+  banner17,
+  banner18,
   banner19,
   banner20,
   banner21,

@@ -38,6 +38,7 @@ import banner07 from './banner07.jpg';
 import banner08 from './banner08.jpg';
 import banner09 from './banner09.jpg';
 import banner10 from './banner10.jpg';
+import banner19 from './banner19.jpg';
 import banner20 from './banner20.jpg';
 import banner21 from './banner21.jpg';
 import banner22 from './banner22.jpg';
@@ -89,6 +90,7 @@ export const assets = {
   banner08,
   banner09,
   banner10,
+  banner19,
   banner20,
   banner21,
   banner22,

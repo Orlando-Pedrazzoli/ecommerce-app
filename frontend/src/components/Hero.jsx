@@ -17,7 +17,7 @@ const Hero = () => {
 
   // Mobile banners (800x800)
   const mobileBanners = [
-    assets.banner20, // Replace with your new 800x800 banners
+    assets.banner19, // Replace with your new 800x800 banners
     assets.banner21,
     assets.banner22,
     assets.banner23,

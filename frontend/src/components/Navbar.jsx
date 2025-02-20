@@ -25,7 +25,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className='w-full px-4 sm:px-[5vw] md:px-[7vw] lg:px-[5vw] py-2 fixed top-0 bg-white z-50 shadow-sm'>
+    <div className='w-full px-4 sm:px-[5vw] md:px-[7vw] lg:px-[5vw] py-2 fixed top-0 bg-white z-50 shadow-[0_2px_4px_rgba(0,0,0,0.15)]'>
       <div className='flex items-center justify-between'>
         <Link to='/'>
           <img
@@ -253,48 +253,64 @@ const Navbar = () => {
       </div>
 
       {/* Sidebar for Small Screens */}
+      {/* Overlay para efeito escurecido ao fundo */}
+      {visible && (
+        <div
+          className='fixed inset-0 bg-black bg-opacity-80 z-50 transition-opacity'
+          onClick={() => setVisible(false)}
+        ></div>
+      )}
+
+      {/* Sidebar */}
       <div
-        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
-          visible ? 'w-full' : 'w-0'
-        } z-50`}
+        className={`fixed top-0 right-0 h-screen w-3/4 max-w-sm bg-white shadow-lg z-[60] transform ${
+          visible ? 'translate-x-0' : 'translate-x-full'
+        } transition-transform duration-300`}
       >
-        <div className='flex flex-col text-gray-600'>
-          <div
-            onClick={() => setVisible(false)}
-            className='flex items-center gap-4 p-3 cursor-pointer'
-          >
-            <img className='h-4 rotate-180' src={assets.dropdown_icon} alt='' />
-            <p>Back</p>
-          </div>
+        {/* Botão de voltar */}
+        <div
+          onClick={() => setVisible(false)}
+          className='flex items-center gap-4 p-4 cursor-pointer text-gray-700 font-semibold text-lg'
+        >
+          <img
+            className='h-5 rotate-180'
+            src={assets.dropdown_icon}
+            alt='Voltar'
+          />
+          <p>Voltar</p>
+        </div>
+
+        {/* Links */}
+        <nav className='flex flex-col text-gray-700'>
           <NavLink
             onClick={() => setVisible(false)}
-            className='py-2 pl-6 border'
+            className='py-3 pl-6 border-b hover:bg-gray-100 transition'
             to='/'
           >
             INÍCIO
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
-            className='py-2 pl-6 border'
+            className='py-3 pl-6 border-b hover:bg-gray-100 transition'
             to='/collection'
           >
             COLEÇÃO
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
-            className='py-2 pl-6 border'
+            className='py-3 pl-6 border-b hover:bg-gray-100 transition'
             to='/about'
           >
             SOBRE NÓS
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
-            className='py-2 pl-6 border'
+            className='py-3 pl-6 border-b hover:bg-gray-100 transition'
             to='/contact'
           >
             POLÍTICA COMERCIAL
           </NavLink>
-        </div>
+        </nav>
       </div>
     </div>
   );

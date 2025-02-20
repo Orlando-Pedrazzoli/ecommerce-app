@@ -3,9 +3,9 @@ import React from 'react';
 const Title = ({ text1, text2 }) => {
   return (
     <div className='inline-flex gap-3 sm:gap-4 md:gap-5 items-center mb-4 sm:mb-5 md:mb-6'>
-      <p className='text-gray-500 text-base sm:text-lg md:text-xl lg:text-2xl'>
+      <p className='text-gray-500 text-lg sm:text-base md:text-xl lg:text-3xl'>
         {text1}{' '}
-        <span className='text-gray-700 font-medium text-base sm:text-lg md:text-xl lg:text-2xl'>
+        <span className='text-gray-700 font-medium text-lg sm:text-base md:text-xl lg:text-3xl'>
           {text2}
         </span>
       </p>

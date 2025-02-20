@@ -36,10 +36,11 @@ const ProductCollection = () => {
     <section className='sm:mx-6 lg:mx-8'>
       <div className='w-full px-4 py-4 sm:px-6 sm:py-12 lg:px-8'>
         <header className='text-center py-8 text-3xl'>
-          <Title text2={'PRODUTOS'} />
-          <p className='w-full md:w-3/4 mx-auto text-xs sm:text-sm md:text-base text-gray-600'>
-            Explore nossas coleções incríveis e escolha o que mais combina com
-            você!
+          <Title text1={'COLEÇÃO DE'} text2={'PRODUTOS'} />
+          <p className='w-full md:w-2/3 mx-auto text-xs sm:text-sm md:text-base text-gray-600'>
+            Explore nossa Coleção de Produtos, uma seleção de acessórios de surf
+            de alta qualidade, projetados para desempenho, durabilidade e
+            inovação dentro e fora d’água.
           </p>
         </header>
 

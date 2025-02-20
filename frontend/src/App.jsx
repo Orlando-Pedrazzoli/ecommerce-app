@@ -36,30 +36,35 @@ const App = () => {
         <ToastContainer />
         <Navbar />
         <SearchBar />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            {/* Public Route (Login Page) */}
-            <Route path='/login' element={<Login />} />
+        {/* Adicione uma classe ao div que envolve o Suspense */}
+        <div className='pt-4 sm:pt-10'>
+          {' '}
+          {/* pt-20 equivale a 80px (ajuste conforme necessário) */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              {/* Public Route (Login Page) */}
+              <Route path='/login' element={<Login />} />
 
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path='/' element={<Home />} />
-              <Route path='/collection' element={<Collection />} />
-              <Route
-                path='/product-collection'
-                element={<ProductCollection />}
-              />
-              <Route path='/about' element={<About />} />
-              <Route path='/contact' element={<Contact />} />
-              <Route path='/accordion' element={<Accordion />} />
-              <Route path='/product/:productId' element={<Product />} />
-              <Route path='/cart' element={<Cart />} />
-              <Route path='/place-order' element={<PlaceOrder />} />
-              <Route path='/orders' element={<Orders />} />
-              <Route path='/verify' element={<Verify />} />
-            </Route>
-          </Routes>
-        </Suspense>
+              {/* Protected Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path='/' element={<Home />} />
+                <Route path='/collection' element={<Collection />} />
+                <Route
+                  path='/product-collection'
+                  element={<ProductCollection />}
+                />
+                <Route path='/about' element={<About />} />
+                <Route path='/contact' element={<Contact />} />
+                <Route path='/accordion' element={<Accordion />} />
+                <Route path='/product/:productId' element={<Product />} />
+                <Route path='/cart' element={<Cart />} />
+                <Route path='/place-order' element={<PlaceOrder />} />
+                <Route path='/orders' element={<Orders />} />
+                <Route path='/verify' element={<Verify />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </div>
         <Footer />
       </div>
     </div>

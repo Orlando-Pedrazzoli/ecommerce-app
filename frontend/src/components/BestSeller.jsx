@@ -25,7 +25,7 @@ const BestSeller = () => {
         {bestSeller.map((item, index) => (
           <div
             key={index}
-            className='w-[90%] mx-auto sm:w-full sm:mx-0 p-2 sm:p-0 bg-gray-200 sm:bg-transparent rounded-lg'
+            className='w-[90%] mx-auto sm:w-full sm:mx-0 p-2 sm:p-0 bg-gray-100 sm:bg-transparent rounded-lg'
           >
             <ProductItem
               id={item._id}

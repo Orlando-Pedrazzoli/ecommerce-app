@@ -193,14 +193,26 @@ const Collection = () => {
           className='my-2 text-xl flex items-center cursor-pointer gap-2'
         >
           FILTRAR POR:
-          <img
-            className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`}
-            src={assets.dropdown_icon}
-            alt=''
-          />
+          {showFilter ? (
+            <img
+              className='h-3 sm:hidden'
+              src={assets.cross_icon} // Ícone de "cross" para fechar o filtro
+              alt='Fechar Filtro'
+              onClick={e => {
+                e.stopPropagation(); // Evita que o evento de clique no "FILTRAR POR:" seja acionado
+                setShowFilter(false); // Fecha o filtro
+              }}
+            />
+          ) : (
+            <img
+              className='h-3 sm:hidden'
+              src={assets.dropdown_icon} // Ícone de dropdown para abrir o filtro
+              alt='Abrir Filtro'
+            />
+          )}
         </p>
 
-        {/* Categoria Capas */}
+        {/* Filtros */}
         <div
           className={`border border-gray-300 pl-5 py-3 mt-6 ${
             showFilter ? '' : 'hidden'

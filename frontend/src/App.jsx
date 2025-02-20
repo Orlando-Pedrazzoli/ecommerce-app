@@ -20,6 +20,7 @@ const PlaceOrder = lazy(() => import('./pages/PlaceOrder'));
 const Orders = lazy(() => import('./pages/Orders'));
 const Verify = lazy(() => import('./pages/Verify'));
 const ProductCollection = lazy(() => import('./components/ProductCollection'));
+const Decks = lazy(() => import('./pages/Decks'));
 const Accordion = lazy(() => import('./components/Accordion'));
 
 const App = () => {
@@ -56,6 +57,7 @@ const App = () => {
                 <Route path='/about' element={<About />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route path='/accordion' element={<Accordion />} />
+                <Route path='/decks' element={<Decks />} />
                 <Route path='/product/:productId' element={<Product />} />
                 <Route path='/cart' element={<Cart />} />
                 <Route path='/place-order' element={<PlaceOrder />} />

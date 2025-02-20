@@ -12,10 +12,6 @@ a.active hr {
   font-family: Outfit;
 }
 
-main {
-  padding-top: 80px; /* Ajuste conforme a altura da sua navbar */
-}
-
 .prata-regular {
   font-family: 'Prata', serif;
   font-weight: 400;

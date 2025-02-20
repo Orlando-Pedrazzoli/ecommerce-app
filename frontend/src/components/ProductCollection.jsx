@@ -16,20 +16,24 @@ const ProductCollection = () => {
   };
 
   const handleNavigate = category => {
-    const categoryRedirectMap = {
-      DECKS: 'Decks Fresados',
-      LEASHES: 'Leash Premium',
-      CAPAS: 'Capa Premium',
-    };
+    if (category === 'DECKS') {
+      // Redireciona diretamente para a página /decks
+      navigate('/decks');
+    } else {
+      const categoryRedirectMap = {
+        LEASHES: 'Leash Premium',
+        CAPAS: 'Capa Premium',
+      };
 
-    const targetCategory = categoryRedirectMap[category] || category;
+      const targetCategory = categoryRedirectMap[category] || category;
 
-    navigate('/collection', {
-      state: {
-        category: targetCategory,
-        subCategory: null,
-      },
-    });
+      navigate('/collection', {
+        state: {
+          category: targetCategory,
+          subCategory: null,
+        },
+      });
+    }
   };
 
   return (

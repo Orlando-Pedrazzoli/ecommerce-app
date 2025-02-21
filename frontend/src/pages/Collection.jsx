@@ -341,6 +341,12 @@ const Collection = () => {
     }
     setSearch('');
     setShowSearch(false);
+
+    // Fechar o filtro ao selecionar uma subcategoria (apenas em mobile)
+    if (window.innerWidth <= 640) {
+      // 640px é o breakpoint para mobile (sm) no Tailwind
+      setShowFilter(false);
+    }
   };
 
   return (

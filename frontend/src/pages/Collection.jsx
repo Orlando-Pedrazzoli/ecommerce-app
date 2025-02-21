@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'; // Importe useLocation
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
@@ -8,84 +8,29 @@ import ProductItem from '../components/ProductItem';
 const Collection = () => {
   const { products, search, setSearch, showSearch, setShowSearch } =
     useContext(ShopContext);
-  const location = useLocation();
+  const location = useLocation(); // Hook para acessar o estado da navegação
   const [showFilter, setShowFilter] = useState(false);
-  const [filterProducts, setFilterProducts] = useState(products); // Initialize with all products
+  const [filterProducts, setFilterProducts] = useState(products);
   const [category, setCategory] = useState([]);
-  const [subCategory, setSubCategory] = useState(null); // Subcategoria começa como null
+  const [subCategory, setSubCategory] = useState(null);
   const [sortType, setSortType] = useState('relavent');
   const [expandedCategories, setExpandedCategories] = useState({});
 
-  // Reset category and subcategory when location.state changes
+  // Ler o subCategoryId do estado da navegação
+  const subCategoryId = location.state?.subCategoryId;
+
+  // Aplicar o filtro da subcategoria ao carregar a página
   useEffect(() => {
-    // Resetar estado ao desmontar o componente
-    return () => {
-      setCategory([]);
-      setSubCategory(null);
-      setExpandedCategories({});
-    };
-  }, []);
-
-  // Função para alternar a categoria principal e mostrar/ocultar subcategorias
-  const toggleCategory = e => {
-    const value = e.target.value;
-
-    if (category.includes(value)) {
-      setCategory([]);
-      setSubCategory(null);
-      setExpandedCategories(prev => {
-        const updatedCategories = { ...prev };
-        delete updatedCategories[value];
-        return updatedCategories;
-      });
-      localStorage.removeItem('selectedCategory');
-      localStorage.removeItem('selectedSubCategory');
-    } else {
-      setCategory([value]);
-      setExpandedCategories({ [value]: true });
-      setSubCategory(null);
-      localStorage.setItem('selectedCategory', JSON.stringify([value]));
-      localStorage.removeItem('selectedSubCategory');
+    if (subCategoryId) {
+      setSubCategory(subCategoryId); // Define a subcategoria com base no ID
+      setExpandedCategories({ [subCategoryId.split('.')[0]]: true }); // Expande a categoria correspondente
     }
+  }, [subCategoryId]);
 
-    setSearch('');
-    setShowSearch(false);
-  };
-
-  const toggleSubCategory = e => {
-    const value = e.target.value;
-
-    if (subCategory === value) {
-      setSubCategory(null);
-      setSortType('relavent');
-      localStorage.removeItem('selectedSubCategory');
-    } else {
-      setSubCategory(value);
-      localStorage.setItem('selectedSubCategory', value);
-    }
-
-    setSearch('');
-    setShowSearch(false);
-  };
-
-  const handleSortChange = e => {
-    const value = e.target.value;
-    setSortType(value);
-
-    if (value === 'relavent') {
-      // Resetar filtros ao selecionar "Relevante"
-      setCategory([]);
-      setSubCategory(null);
-      setSearch('');
-      setShowSearch(false);
-      setFilterProducts(products); // Garantir que todos os produtos apareçam
-    }
-  };
-
+  // Função para aplicar filtros
   const applyFilter = () => {
     let productsCopy = products.slice();
 
-    // Se houver uma busca ativa, filtrar pelo termo de pesquisa (nome ou cod)
     if (showSearch && search) {
       productsCopy = productsCopy.filter(
         item =>
@@ -93,25 +38,40 @@ const Collection = () => {
           (item.cod?.toLowerCase() || '').includes(search.toLowerCase())
       );
     } else {
-      // Caso contrário, aplicar os filtros de categoria/subcategoria normalmente
       if (category.length > 0) {
-        productsCopy = productsCopy.filter(item =>
-          category.includes(item.category)
+        const selectedCategory = categoriesWithIds.find(
+          cat => cat.id === category[0]
         );
+        if (selectedCategory) {
+          productsCopy = productsCopy.filter(
+            item => item.category === selectedCategory.name
+          );
+        }
       }
 
       if (subCategory) {
-        productsCopy = productsCopy.filter(
-          item => item.subCategory === subCategory
-        );
+        const selectedSubCategory = categoriesWithIds
+          .flatMap(cat => cat.subCategories)
+          .find(subCat => subCat.id === subCategory);
+        if (selectedSubCategory) {
+          productsCopy = productsCopy.filter(
+            item => item.subCategory === selectedSubCategory.name
+          );
+        }
       }
     }
 
     setFilterProducts(productsCopy);
   };
 
+  // Aplicar filtros quando o estado mudar
+  useEffect(() => {
+    applyFilter();
+  }, [category, subCategory, search, showSearch, products]);
+
+  // Função para ordenar produtos
   const sortProduct = () => {
-    let fpCopy = [...filterProducts]; // Create a new array to avoid mutating state directly
+    let fpCopy = [...filterProducts];
 
     switch (sortType) {
       case 'low-high':
@@ -120,97 +80,286 @@ const Collection = () => {
       case 'high-low':
         fpCopy.sort((a, b) => b.price - a.price);
         break;
-      case 'relavent':
-        // No sorting, keep the original order
-        break;
       default:
-        // No sorting or default sorting
         break;
     }
 
-    setFilterProducts(fpCopy); // Update state with the sorted array
+    setFilterProducts(fpCopy);
   };
 
-  useEffect(() => {
-    applyFilter();
-  }, [category, subCategory, search, showSearch, products]);
-
+  // Ordenar produtos quando o tipo de ordenação mudar
   useEffect(() => {
     sortProduct();
   }, [sortType]);
 
-  useEffect(() => {
-    const savedCategory = JSON.parse(localStorage.getItem('selectedCategory'));
-    const savedSubCategory = localStorage.getItem('selectedSubCategory');
+  // Array de categorias e subcategorias com IDs
+  const categoriesWithIds = [
+    {
+      id: '1',
+      name: 'Decks Fresados',
+      subCategories: [
+        { id: '1.1', name: 'Deck Saquarema' },
+        { id: '1.2', name: 'Deck Noronha' },
+        { id: '1.3', name: 'Deck J-Bay' },
+        { id: '1.4', name: 'Deck Fiji Classic' },
+        { id: '1.5', name: 'Deck Hawaii' },
+        { id: '1.6', name: 'Deck Peniche' },
+        { id: '1.7', name: 'Deck Tahiti' },
+        { id: '1.8', name: 'Deck Frontal' },
+        { id: '1.9', name: 'Deck Longboard' },
+      ],
+    },
+    {
+      id: '2',
+      name: 'Decks CNC',
+      subCategories: [
+        { id: '2.1', name: 'Deck J-Bay Cnc' },
+        { id: '2.2', name: 'Deck Fiji Cnc' },
+      ],
+    },
+    {
+      id: '3',
+      name: 'Decks Marine',
+      subCategories: [
+        { id: '3.1', name: 'Deck Saquarema Marine' },
+        { id: '3.2', name: 'Deck Noronha Marine' },
+      ],
+    },
+    {
+      id: '4',
+      name: 'Decks SUP',
+      subCategories: [{ id: '4.1', name: 'Deck StandUp' }],
+    },
+    {
+      id: '5',
+      name: 'Leash Premium',
+      subCategories: [
+        { id: '5.1', name: 'Super Comp (6"x 5mm)' },
+        { id: '5.2', name: 'Competição (6"x 6mm)' },
+        { id: '5.3', name: 'Regular (6.6"x 7mm)' },
+        { id: '5.4', name: 'Pipeline (8"x 7mm)' },
+        { id: '5.5', name: 'Long Tornozelo (9"x 7mm)' },
+        { id: '5.6', name: 'Long Calf Knee (9"x 7mm)' },
+        { id: '5.7', name: 'Longboard (10"x 7mm)' },
+        { id: '5.8', name: 'StandUp (10"x 8mm)' },
+        { id: '5.9', name: 'StandUp Espiral (7mm)' },
+        { id: '5.10', name: 'Bodyboard (6mm)' },
+      ],
+    },
+    {
+      id: '6',
+      name: 'Leash Nó',
+      subCategories: [
+        { id: '6.1', name: 'Super Comp (6"x 5mm)' },
+        { id: '6.2', name: 'Competição (6"x 6mm)' },
+        { id: '6.3', name: 'Regular (6.6"x 7mm)' },
+        { id: '6.4', name: 'Pipeline (8"x 7mm)' },
+        { id: '6.5', name: 'Long Calf Knee (9"x 7mm)' },
+        { id: '6.6', name: 'Longboard (10"x 7mm)' },
+        { id: '6.7', name: 'StandUp (10"x 8mm)' },
+        { id: '6.8', name: 'StandUp Espiral (7mm)' },
+        { id: '6.9', name: 'Bodyboard (6mm)' },
+      ],
+    },
+    {
+      id: '7',
+      name: 'Capa Combate',
+      subCategories: [
+        { id: '7.1', name: 'Refletiva Fish & Evolution 5`10' },
+        { id: '7.2', name: 'Refletiva Fish & Evolution 6`2' },
+        { id: '7.3', name: 'Refletiva Fish & Evolution 6`4' },
+        { id: '7.4', name: 'Refletiva Fish & Evolution 6`8' },
+        { id: '7.5', name: 'Refletiva Fish & Evolution 7`2' },
+        { id: '7.6', name: 'Refletiva short 5`10' },
+        { id: '7.7', name: 'Refletiva short 6`0' },
+        { id: '7.8', name: 'Refletiva short 6`3' },
+        { id: '7.9', name: 'Refletiva short 6`6' },
+        { id: '7.10', name: 'Refletiva Funboard 7`2' },
+        { id: '7.11', name: 'Refletiva Funboard 7`6' },
+        { id: '7.12', name: 'Refletiva Funboard 8`0' },
+        { id: '7.13', name: 'Refletiva Minilong 7`0' },
+        { id: '7.14', name: 'Refletiva Minilong 8`0' },
+        { id: '7.15', name: 'Refletiva Longboard 9`2' },
+        { id: '7.16', name: 'Refletiva Longboard 9`6' },
+        { id: '7.17', name: 'Refletiva Longboard 10`' },
+      ],
+    },
+    {
+      id: '8',
+      name: 'Capa Premium',
+      subCategories: [
+        { id: '8.1', name: 'Refletiva Premium Mini Simmons 6`0' },
+        { id: '8.2', name: 'Refletiva Fish & Evolution 5`10' },
+        { id: '8.3', name: 'Refletiva Fish & Evolution 6`2' },
+        { id: '8.4', name: 'Refletiva Fish & Evolution 6`4' },
+        { id: '8.5', name: 'Refletiva Fish & Evolution 6`8' },
+        { id: '8.6', name: 'Refletiva Fish & Evolution 7`2' },
+        { id: '8.7', name: 'Refletiva short 5`10' },
+        { id: '8.8', name: 'Refletiva short 6`0' },
+        { id: '8.9', name: 'Refletiva short 6`3' },
+        { id: '8.10', name: 'Refletiva short 6`6' },
+        { id: '8.11', name: 'Refletiva Funboard 7`2' },
+        { id: '8.12', name: 'Refletiva Funboard 7`6' },
+        { id: '8.13', name: 'Refletiva Funboard 8`0' },
+        { id: '8.14', name: 'Refletiva Minilong 7`0' },
+        { id: '8.15', name: 'Refletiva Minilong 8`0' },
+        { id: '8.16', name: 'Refletiva Longboard 9`2' },
+        { id: '8.17', name: 'Refletiva Longboard 9`6' },
+        { id: '8.18', name: 'Refletiva Longboard 10`' },
+        { id: '8.19', name: 'Refletiva Bodyboard`' },
+      ],
+    },
+    {
+      id: '9',
+      name: 'Capa Térmica',
+      subCategories: [
+        { id: '9.1', name: 'Térmica Fish & Evolution 5`10' },
+        { id: '9.2', name: 'Térmica Fish & Evolution 6`2' },
+        { id: '9.3', name: 'Térmica short 5`10' },
+        { id: '9.4', name: 'Térmica short 6`0' },
+        { id: '9.5', name: 'Térmica short 6`3' },
+        { id: '9.6', name: 'Térmica short 6`6' },
+        { id: '9.7', name: 'Térmica Funboard 7`2' },
+        { id: '9.8', name: 'Térmica Funboard 7`6' },
+        { id: '9.9', name: 'Térmica Funboard 8`0' },
+        { id: '9.10', name: 'Térmica Longboard 9`2' },
+        { id: '9.11', name: 'Térmica Longboard 9`6' },
+      ],
+    },
+    {
+      id: '10',
+      name: 'Capa Stand Up',
+      subCategories: [
+        { id: '10.1', name: 'Refletiva SUP Remo' },
+        { id: '10.2', name: 'Refletiva SUP Wave 8`5' },
+        { id: '10.3', name: 'Refletiva SUP Wave 9`0' },
+        { id: '10.4', name: 'Refletiva SUP 9`2' },
+        { id: '10.5', name: 'Refletiva SUP 9`6' },
+        { id: '10.6', name: 'Refletiva SUP 10`' },
+        { id: '10.7', name: 'Refletiva SUP 10`5' },
+        { id: '10.8', name: 'Refletiva SUP 11`' },
+        { id: '10.9', name: 'Refletiva SUP 11`6' },
+        { id: '10.10', name: 'Refletiva SUP RACE 12`6' },
+        { id: '10.11', name: 'Refletiva SUP RACE 14`' },
+      ],
+    },
+    {
+      id: '11',
+      name: 'Capa Toalha',
+      subCategories: [
+        { id: '11.1', name: 'Toalha Fish 5`10-6`0' },
+        { id: '11.2', name: 'Toalha Fish 6`1-6`4' },
+        { id: '11.3', name: 'Toalha Short 5`10-6`0' },
+        { id: '11.4', name: 'Toalha Short 6`1-6`4' },
+        { id: '11.5', name: 'Toalha Short 6`5-6`8' },
+        { id: '11.6', name: 'Toalha Fun 7`2-7`5' },
+        { id: '11.7', name: 'Toalha Long 9`2-9`5' },
+      ],
+    },
+    {
+      id: '12',
+      name: 'Sarcófagos',
+      subCategories: [
+        { id: '12.1', name: 'Sarcófago Dupla 6`3' },
+        { id: '12.2', name: 'Sarcófago Dupla 6`6' },
+        { id: '12.3', name: 'Sarcófago Dupla 7`0' },
+        { id: '12.4', name: 'Sarcófago Tripla 6`3' },
+        { id: '12.5', name: 'Sarcófago Tripla 6`6' },
+        { id: '12.6', name: 'Sarcófago Tripla 7`0' },
+        { id: '12.7', name: 'Sarcófago Tripla 8`0' },
+        { id: '12.8', name: 'Sarcófago Quadrupla 6`8' },
+        { id: '12.9', name: 'Sarcófago Quadrupla 7`2' },
+        { id: '12.10', name: 'Sarcófago Longboard Dupla' },
+        { id: '12.11', name: 'Sarcófago Longboard Tripla' },
+      ],
+    },
+    {
+      id: '13',
+      name: 'Sarcófagos/Rodas',
+      subCategories: [
+        { id: '13.1', name: 'Sarcófago Tripla 6`3 Com Rodas' },
+        { id: '13.2', name: 'Sarcófago Tripla 6`6 Com Rodas' },
+        { id: '13.3', name: 'Sarcófago Tripla 7`0 Com Rodas' },
+        { id: '13.4', name: 'Sarcófago Tripla 8`0 Com Rodas' },
+        { id: '13.5', name: 'Sarcófago Quadrupla 6`8 Com Rodas' },
+        { id: '13.6', name: 'Sarcófago Quadrupla 7`2 Com Rodas' },
+        { id: '13.7', name: 'Sarcófago Longboard Dupla Com Rodas' },
+        { id: '13.8', name: 'Sarcófago Longboard Tripla Com Rodas' },
+      ],
+    },
+    {
+      id: '14',
+      name: 'Acessórios',
+      subCategories: [
+        { id: '14.1', name: 'Alça Sup' },
+        { id: '14.2', name: 'Racks Bastão 65cm' },
+        { id: '14.3', name: 'Racks Bastão 90cm' },
+        { id: '14.4', name: 'Fita Rack (5M par)' },
+        { id: '14.5', name: 'Fita Rack P/B (5M par)' },
+        { id: '14.6', name: 'Fita Rack Azul (5M par)' },
+        { id: '14.7', name: 'Fita Rack (8M)' },
+        { id: '14.8', name: 'Protetor Eva Squash' },
+        { id: '14.9', name: 'Protetor Eva Round' },
+        { id: '14.10', name: 'Protetor Eva Swallow' },
+        { id: '14.11', name: 'Wetsuit Bag' },
+      ],
+    },
+  ];
 
-    if (savedCategory && Array.isArray(savedCategory)) {
-      setCategory(savedCategory);
-      setExpandedCategories(prev => ({
-        ...prev,
-        [savedCategory[0]]: true,
-      }));
-    }
-    if (savedSubCategory) {
-      setSubCategory(savedSubCategory);
-    }
+  // Resetar estado ao desmontar o componente
+  useEffect(() => {
+    return () => {
+      setCategory([]);
+      setSubCategory(null);
+      setExpandedCategories({});
+      localStorage.removeItem('selectedCategory');
+      localStorage.removeItem('selectedSubCategory');
+    };
   }, []);
 
-  useEffect(() => {
-    if (location.state?.category) {
-      const savedCategory = JSON.parse(
-        localStorage.getItem('selectedCategory')
-      );
-      if (!savedCategory || savedCategory[0] !== location.state.category) {
-        setCategory([location.state.category]);
-        setExpandedCategories(prev => ({
-          ...prev,
-          [location.state.category]: true,
-        }));
-        localStorage.setItem(
-          'selectedCategory',
-          JSON.stringify([location.state.category])
-        );
-      }
+  // Função para alternar a categoria principal
+  const toggleCategory = id => {
+    if (category.includes(id)) {
+      setCategory([]);
+      setSubCategory(null);
+      setExpandedCategories({});
+    } else {
+      setCategory([id]);
+      setExpandedCategories({ [id]: true });
+      setSubCategory(null);
     }
-    if (location.state?.subCategory) {
-      const savedSubCategory = localStorage.getItem('selectedSubCategory');
-      if (
-        !savedSubCategory ||
-        savedSubCategory !== location.state.subCategory
-      ) {
-        setSubCategory(location.state.subCategory);
-        localStorage.setItem('selectedSubCategory', location.state.subCategory);
-      }
+    setSearch('');
+    setShowSearch(false);
+  };
+
+  // Função para alternar a subcategoria
+  const toggleSubCategory = id => {
+    if (subCategory === id) {
+      setSubCategory(null);
+    } else {
+      setSubCategory(id);
     }
-  }, [location.state]);
+    setSearch('');
+    setShowSearch(false);
+  };
 
   return (
     <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 sm:px-6 lg:px-10'>
-      {/* Filter Options */}
+      {/* Botão de Filtro para Mobile */}
       <div className='min-w-60'>
-        <p
+        <button
           onClick={() => setShowFilter(!showFilter)}
-          className='my-2 text-xl flex items-center cursor-pointer gap-2'
+          className='my-2 text-xl flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-md sm:bg-transparent sm:p-0'
+          aria-expanded={showFilter}
+          aria-label='Abrir ou fechar filtros'
         >
-          FILTRAR POR:
-          {showFilter ? (
-            <img
-              className='h-3 sm:hidden'
-              src={assets.cross_icon} // Ícone de "cross" para fechar o filtro
-              alt='Fechar Filtro'
-              onClick={e => {
-                e.stopPropagation(); // Evita que o evento de clique no "FILTRAR POR:" seja acionado
-                setShowFilter(false); // Fecha o filtro
-              }}
-            />
-          ) : (
-            <img
-              className='h-3 sm:hidden'
-              src={assets.dropdown_icon} // Ícone de dropdown para abrir o filtro
-              alt='Abrir Filtro'
-            />
-          )}
-        </p>
+          FILTRAR
+          <img
+            className='h-3 sm:hidden'
+            src={showFilter ? assets.cross_icon : assets.dropdown_icon}
+            alt={showFilter ? 'Fechar Filtro' : 'Abrir Filtro'}
+          />
+        </button>
 
         {/* Filtros */}
         <div
@@ -221,221 +370,30 @@ const Collection = () => {
           <p className='mb-3 text-sm font-medium'>CATEGORIAS</p>
 
           {/* Renderização de Categorias */}
-          {[
-            {
-              name: 'Decks Fresados',
-              subCategories: [
-                'Deck Saquarema',
-                'Deck Noronha',
-                'Deck J-Bay',
-                'Deck Fiji Classic',
-                'Deck Hawaii',
-                'Deck Peniche',
-                'Deck Tahiti',
-                'Deck Frontal',
-                'Deck Longboard',
-              ],
-            },
-            {
-              name: 'Decks CNC',
-              subCategories: ['Deck J-Bay Cnc', 'Deck Fiji Cnc'],
-            },
-            {
-              name: 'Decks Marine',
-              subCategories: ['Deck Saquarema Marine', 'Deck Noronha Marine'],
-            },
-            {
-              name: 'Decks SUP',
-              subCategories: ['Deck StandUp'],
-            },
-            {
-              name: 'Leash Premium',
-              subCategories: [
-                'Super Comp (6"x 5mm)',
-                'Competição (6"x 6mm)',
-                'Regular (6.6"x 7mm)',
-                'Pipeline (8"x 7mm)',
-                'Long Tornozelo (9"x 7mm)',
-                'Long Calf Knee (9"x 7mm)',
-                'Longboard (10"x 7mm)',
-                'StandUp (10"x 8mm)',
-                'StandUp Espiral (7mm)',
-                'Bodyboard (6mm)',
-              ],
-            },
-            {
-              name: 'Leash Nó',
-              subCategories: [
-                'Super Comp (6"x 5mm)',
-                'Competição (6"x 6mm)',
-                'Regular (6.6"x 7mm)',
-                'Pipeline (8"x 7mm)',
-                'Long Calf Knee (9"x 7mm)',
-                'Longboard (10"x 7mm)',
-                'StandUp (10"x 8mm)',
-                'StandUp Espiral (7mm)',
-                'Bodyboard (6mm)',
-              ],
-            },
-            {
-              name: 'Capa Combate',
-              subCategories: [
-                'Refletiva Fish & Evolution 5`10',
-                'Refletiva Fish & Evolution 6`2',
-                'Refletiva Fish & Evolution 6`4',
-                'Refletiva Fish & Evolution 6`8',
-                'Refletiva Fish & Evolution 7`2',
-                'Refletiva short 5`10',
-                'Refletiva short 6`0',
-                'Refletiva short 6`3',
-                'Refletiva short 6`6',
-                'Refletiva Funboard 7`2',
-                'Refletiva Funboard 7`6',
-                'Refletiva Funboard 8`0',
-                'Refletiva Minilong 7`0',
-                'Refletiva Minilong 8`0',
-                'Refletiva Longboard 9`2',
-                'Refletiva Longboard 9`6',
-                'Refletiva Longboard 10`',
-              ],
-            },
-            {
-              name: 'Capa Premium',
-              subCategories: [
-                'Refletiva Premium Mini Simmons 6`0',
-                'Refletiva Fish & Evolution 5`10',
-                'Refletiva Fish & Evolution 6`2',
-                'Refletiva Fish & Evolution 6`4',
-                'Refletiva Fish & Evolution 6`8',
-                'Refletiva Fish & Evolution 7`2',
-                'Refletiva short 5`10',
-                'Refletiva short 6`0',
-                'Refletiva short 6`3',
-                'Refletiva short 6`6',
-                'Refletiva Funboard 7`2',
-                'Refletiva Funboard 7`6',
-                'Refletiva Funboard 8`0',
-                'Refletiva Minilong 7`0',
-                'Refletiva Minilong 8`0',
-                'Refletiva Longboard 9`2',
-                'Refletiva Longboard 9`6',
-                'Refletiva Longboard 10`',
-                'Refletiva Bodyboard`',
-              ],
-            },
-            {
-              name: 'Capa Térmica',
-              subCategories: [
-                'Térmica Fish & Evolution 5`10',
-                'Térmica Fish & Evolution 6`2',
-                'Térmica short 5`10',
-                'Térmica short 6`0',
-                'Térmica short 6`3',
-                'Térmica short 6`6',
-                'Térmica Funboard 7`2',
-                'Térmica Funboard 7`6',
-                'Térmica Funboard 8`0',
-                'Térmica Longboard 9`2',
-                'Térmica Longboard 9`6',
-              ],
-            },
-            {
-              name: 'Capa Stand Up',
-              subCategories: [
-                'Refletiva SUP Remo',
-                'Refletiva SUP Wave 8`5',
-                'Refletiva SUP Wave 9`0',
-                'Refletiva SUP 9`2',
-                'Refletiva SUP 9`6',
-                'Refletiva SUP 10`',
-                'Refletiva SUP 10`5',
-                'Refletiva SUP 11`',
-                'Refletiva SUP 11`6',
-                'Refletiva SUP RACE 12`6',
-                'Refletiva SUP RACE 14`',
-              ],
-            },
-            {
-              name: 'Capa Toalha',
-              subCategories: [
-                'Toalha Fish 5`10-6`0',
-                'Toalha Fish 6`1-6`4',
-                'Toalha Short 5`10-6`0',
-                'Toalha Short 6`1-6`4',
-                'Toalha Short 6`5-6`8',
-                'Toalha Fun 7`2-7`5',
-                'Toalha Long 9`2-9`5',
-              ],
-            },
-            {
-              name: 'Sarcófagos',
-              subCategories: [
-                'Sarcófago Dupla 6`3',
-                'Sarcófago Dupla 6`6',
-                'Sarcófago Dupla 7`0',
-                'Sarcófago Tripla 6`3',
-                'Sarcófago Tripla 6`6',
-                'Sarcófago Tripla 7`0',
-                'Sarcófago Tripla 8`0',
-                'Sarcófago Quadrupla 6`8',
-                'Sarcófago Quadrupla 7`2',
-                'Sarcófago Longboard Dupla',
-                'Sarcófago Longboard Tripla',
-              ],
-            },
-            {
-              name: 'Sarcófagos/Rodas',
-              subCategories: [
-                'Sarcófago Tripla 6`3 Com Rodas',
-                'Sarcófago Tripla 6`6 Com Rodas',
-                'Sarcófago Tripla 7`0 Com Rodas',
-                'Sarcófago Tripla 8`0 Com Rodas',
-                'Sarcófago Quadrupla 6`8 Com Rodas',
-                'Sarcófago Quadrupla 7`2 Com Rodas',
-                'Sarcófago Longboard Dupla Com Rodas',
-                'Sarcófago Longboard Tripla Com Rodas',
-              ],
-            },
-            {
-              name: 'Acessórios',
-              subCategories: [
-                'Alça Sup',
-                'Racks Bastão 65cm',
-                'Racks Bastão 90cm',
-                'Fita Rack (5M par)',
-                'Fita Rack P/B (5M par)',
-                'Fita Rack Azul (5M par)',
-                'Fita Rack (8M)',
-                'Protetor Eva Squash',
-                'Protetor Eva Round',
-                'Protetor Eva Swallow',
-                'Wetsuit Bag',
-              ],
-            },
-          ].map(cat => (
-            <div key={cat.name}>
+          {categoriesWithIds.map(cat => (
+            <div key={cat.id}>
               <p className='flex gap-3 m-2 text-gray-900'>
                 <input
-                  className='w-3'
+                  className='w-3 scale-125'
                   type='checkbox'
-                  value={cat.name}
-                  checked={category.includes(cat.name)}
-                  onChange={toggleCategory}
+                  value={cat.id}
+                  checked={category.includes(cat.id)}
+                  onChange={() => toggleCategory(cat.id)}
                 />
                 {cat.name}
               </p>
-              {expandedCategories[cat.name] && (
+              {expandedCategories[cat.id] && (
                 <div className='pl-4 text-sm text-gray-600'>
                   {cat.subCategories.map(subCat => (
-                    <p key={subCat} className='flex gap-3 m-2'>
+                    <p key={subCat.id} className='flex gap-3 m-2'>
                       <input
-                        className='w-3'
+                        className='w-3 scale-110'
                         type='checkbox'
-                        value={subCat}
-                        checked={subCategory === subCat} // Verifica se é a subcategoria selecionada
-                        onChange={toggleSubCategory}
+                        value={subCat.id}
+                        checked={subCategory === subCat.id}
+                        onChange={() => toggleSubCategory(subCat.id)}
                       />
-                      {subCat}
+                      {subCat.name}
                     </p>
                   ))}
                 </div>
@@ -451,7 +409,7 @@ const Collection = () => {
           <Title text1={'COLEÇÃO'} text2={'2025'} />
           {/* Product Sort */}
           <select
-            onChange={handleSortChange}
+            onChange={e => setSortType(e.target.value)}
             className='hidden sm:block border-2 border-gray-300 text-sm px-2 w-48'
           >
             <option value='relavent'>Ordenar por: Relevante</option>

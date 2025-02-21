@@ -37,9 +37,7 @@ const App = () => {
         <ToastContainer />
         <Navbar />
         <SearchBar />
-        {/* Adicione uma classe ao div que envolve o Suspense */}
         <div className='pt-4 sm:pt-10'>
-          {' '}
           {/* pt-20 equivale a 80px (ajuste conforme necessário) */}
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>

@@ -19,6 +19,10 @@ const ProductCollection = () => {
     if (category === 'DECKS') {
       // Redireciona diretamente para a página /decks
       navigate('/decks');
+    }
+    if (category === 'LEASHES') {
+      // Redireciona diretamente para a página /decks
+      navigate('/leashes');
     } else {
       const categoryRedirectMap = {
         LEASHES: 'Leash Premium',

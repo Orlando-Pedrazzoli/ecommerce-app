@@ -21,6 +21,7 @@ const Orders = lazy(() => import('./pages/Orders'));
 const Verify = lazy(() => import('./pages/Verify'));
 const ProductCollection = lazy(() => import('./components/ProductCollection'));
 const Decks = lazy(() => import('./pages/Decks'));
+const Leashes = lazy(() => import('./pages/Leashes'));
 const Accordion = lazy(() => import('./components/Accordion'));
 
 const App = () => {
@@ -55,6 +56,8 @@ const App = () => {
                 <Route path='/about' element={<About />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route path='/accordion' element={<Accordion />} />
+                <Route path='/decks' element={<Decks />} />
+                <Route path='/leashes' element={<Leashes />} />
                 <Route path='/decks' element={<Decks />} />
                 <Route path='/product/:productId' element={<Product />} />
                 <Route path='/cart' element={<Cart />} />

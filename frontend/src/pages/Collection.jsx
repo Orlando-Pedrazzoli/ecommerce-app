@@ -381,9 +381,9 @@ const Collection = () => {
           {/* Renderização de Categorias */}
           {categoriesWithIds.map(cat => (
             <div key={cat.id}>
-              <p className='flex gap-3 m-2 text-gray-900'>
+              <p className='flex gap-3 m-3 text-gray-900'>
                 <input
-                  className='w-3 scale-125'
+                  className='w-3 scale-150'
                   type='checkbox'
                   value={cat.id}
                   checked={category.includes(cat.id)}
@@ -396,7 +396,7 @@ const Collection = () => {
                   {cat.subCategories.map(subCat => (
                     <p key={subCat.id} className='flex gap-3 m-2'>
                       <input
-                        className='w-3 scale-110'
+                        className='w-3 scale-150'
                         type='checkbox'
                         value={subCat.id}
                         checked={subCategory === subCat.id}

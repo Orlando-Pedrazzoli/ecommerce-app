@@ -102,7 +102,7 @@ const Cart = () => {
                 </div>
                 <img
                   onClick={() => updateQuantity(item._id, item.size, 0)}
-                  className='w-4 mr-2 sm:w-5 cursor-pointer'
+                  className='w-5 sm:w-5 mr-2 cursor-pointer'
                   src={assets.bin_icon}
                   alt=''
                 />
@@ -118,7 +118,7 @@ const Cart = () => {
           <div className='w-full text-end'>
             <button
               onClick={handleCheckout} // Usa a função handleCheckout
-              className='bg-black text-white text-sm my-8 px-8 py-3'
+              className='bg-black text-white text-sm my-8 px-8 py-3 rounded-lg'
             >
               FINALIZAR COMPRA
             </button>

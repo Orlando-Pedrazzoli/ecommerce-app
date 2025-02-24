@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -15,7 +15,7 @@ const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Product = lazy(() => import('./pages/Product'));
 const Cart = lazy(() => import('./pages/Cart'));
-const Login = lazy(() => import('./pages/Login')); // Login page
+const Login = lazy(() => import('./pages/Login'));
 const PlaceOrder = lazy(() => import('./pages/PlaceOrder'));
 const Orders = lazy(() => import('./pages/Orders'));
 const Verify = lazy(() => import('./pages/Verify'));
@@ -28,9 +28,16 @@ const Accordion = lazy(() => import('./components/Accordion'));
 
 const App = () => {
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Simula carregamento das páginas
+    setIsLoading(true);
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Ajuste o tempo conforme necessário
+
+    return () => clearTimeout(timeout);
   }, [location.pathname]);
 
   return (
@@ -41,36 +48,38 @@ const App = () => {
         <Navbar />
         <SearchBar />
         <div className='pt-4 sm:pt-10'>
-          {/* pt-20 equivale a 80px (ajuste conforme necessário) */}
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              {/* Public Route (Login Page) */}
-              <Route path='/login' element={<Login />} />
-
-              {/* Protected Routes */}
-              <Route element={<ProtectedRoute />}>
-                <Route path='/' element={<Home />} />
-                <Route path='/collection' element={<Collection />} />
-                <Route
-                  path='/product-collection'
-                  element={<ProductCollection />}
-                />
-                <Route path='/about' element={<About />} />
-                <Route path='/contact' element={<Contact />} />
-                <Route path='/accordion' element={<Accordion />} />
-                <Route path='/decks' element={<Decks />} />
-                <Route path='/leashes' element={<Leashes />} />
-                <Route path='/acessorios' element={<Acessorios />} />
-                <Route path='/capas' element={<Capas />} />
-                <Route path='/decks' element={<Decks />} />
-                <Route path='/product/:productId' element={<Product />} />
-                <Route path='/cart' element={<Cart />} />
-                <Route path='/place-order' element={<PlaceOrder />} />
-                <Route path='/orders' element={<Orders />} />
-                <Route path='/verify' element={<Verify />} />
-              </Route>
-            </Routes>
-          </Suspense>
+          {/* Se estiver carregando, exibe um spinner */}
+          {isLoading ? (
+            <div className='flex justify-center items-center h-screen'>
+              <div className='animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500'></div>
+            </div>
+          ) : (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path='/login' element={<Login />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/collection' element={<Collection />} />
+                  <Route
+                    path='/product-collection'
+                    element={<ProductCollection />}
+                  />
+                  <Route path='/about' element={<About />} />
+                  <Route path='/contact' element={<Contact />} />
+                  <Route path='/accordion' element={<Accordion />} />
+                  <Route path='/decks' element={<Decks />} />
+                  <Route path='/leashes' element={<Leashes />} />
+                  <Route path='/acessorios' element={<Acessorios />} />
+                  <Route path='/capas' element={<Capas />} />
+                  <Route path='/product/:productId' element={<Product />} />
+                  <Route path='/cart' element={<Cart />} />
+                  <Route path='/place-order' element={<PlaceOrder />} />
+                  <Route path='/orders' element={<Orders />} />
+                  <Route path='/verify' element={<Verify />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          )}
         </div>
         <Footer />
       </div>

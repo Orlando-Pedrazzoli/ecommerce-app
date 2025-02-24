@@ -81,55 +81,55 @@ const Leashes = () => {
           id: '6.1',
           name: 'Super Comp (6"x 5mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1734099253/q0czusipe72xnqcrriew.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737034914/bacuub9ekin2jif1wljq.jpg',
         },
         {
           id: '6.2',
           name: 'Competição (6"x 6mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1734650738/pqcz3d3slxajjqt2h2so.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737035401/vlajyjopnzqab28k2ddq.jpg',
         },
         {
           id: '6.3',
           name: 'Regular (6.6"x 7mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1739394981/DECK_J-BAY_CINZA1_fpsbkk.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737035564/lnkjifb1pbe4w4bmouzx.jpg',
         },
         {
           id: '6.4',
           name: 'Pipeline (8"x 7mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1739718145/FIJI_CLASSIC_PRETO-BRANCOnew_yqz9uo.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737035705/qkvizxnspcnux2quoyc3.jpg',
         },
         {
           id: '6.5',
           name: 'Long Calf Knee (9"x 7mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1739370069/DECK_HAWAII_VERDEmusgo_gsiwat.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737035903/lf9bxw9jigkohmcwhxhn.jpg',
         },
         {
           id: '6.6',
           name: 'Longboard (10"x 7mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1732629510/apx7m5o4flwpvw2n9djo.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737036280/xjx8iucdms1xndumv97v.jpg',
         },
         {
           id: '6.7',
           name: 'StandUp (10"x 8mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1732572321/gmwbltgsc8bgw2wq70hi.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737036430/kilq01meyz0zdxogpjbq.jpg',
         },
         {
           id: '6.8',
           name: 'StandUp Espiral (7mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1732628376/mq2bhv9imueyiwkarbvt.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737036599/ytq0sxho0nli23t4pqcb.jpg',
         },
         {
           id: '6.9',
           name: 'Bodyboard (6mm)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1739718252/DECK_J-BAY_CNC_PRETO-BRANCO1_fqgdep.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1737037509/ivqwj5sdyleenr8zwzha.jpg',
         },
       ],
     },

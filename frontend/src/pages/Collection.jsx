@@ -16,16 +16,19 @@ const Collection = () => {
   const [sortType, setSortType] = useState('relavent');
   const [expandedCategories, setExpandedCategories] = useState({});
 
-  // Ler o subCategoryId do estado da navegação
-  const subCategoryId = location.state?.subCategoryId;
+  // Ler o categoryId e subCategoryId do estado da navegação
+  const { categoryId, subCategoryId } = location.state || {};
 
-  // Aplicar o filtro da subcategoria ao carregar a página
+  // Aplicar o filtro da categoria e subcategoria ao carregar a página
   useEffect(() => {
-    if (subCategoryId) {
-      setSubCategory(subCategoryId); // Define a subcategoria com base no ID
-      setExpandedCategories({ [subCategoryId.split('.')[0]]: true }); // Expande a categoria correspondente
+    if (categoryId) {
+      setCategory([categoryId]);
+      setExpandedCategories({ [categoryId]: true });
     }
-  }, [subCategoryId]);
+    if (subCategoryId) {
+      setSubCategory(subCategoryId);
+    }
+  }, [categoryId, subCategoryId]);
 
   // Função para aplicar filtros
   const applyFilter = () => {

@@ -6,38 +6,41 @@ import Title from './Title';
 const ProductCollection = () => {
   const navigate = useNavigate();
 
-  const categoryMap = {
-    [assets.productCollection11]: 'DECKS',
-    [assets.productCollection13]: 'LEASHES',
-    [assets.productCollection51]: 'CAPAS',
-    [assets.productCollection50]: 'Capa Toalha',
-    [assets.productCollection54]: 'Sarcófagos',
-    [assets.productCollection53]: 'Acessórios',
-  };
+  const products = [
+    { img: assets.productCollection11, category: 'DECKS', path: '/decks' },
+    { img: assets.productCollection13, category: 'LEASHES', path: '/leashes' },
+    {
+      img: assets.productCollection51,
+      category: 'CAPAS',
+      path: '/collection',
+      state: { category: 'Capa Premium', subCategory: null },
+    },
+    {
+      img: assets.productCollection50,
+      category: 'Capa Toalha',
+      path: '/collection',
+      state: { category: 'Capa Toalha', subCategory: null },
+    },
+    {
+      img: assets.productCollection54,
+      category: 'Sarcófagos',
+      path: '/collection',
+      state: { category: 'Sarcófagos', subCategory: null },
+    },
+    {
+      img: assets.productCollection53,
+      category: 'Acessórios',
+      path: '/collection',
+      state: { category: 'Acessórios', subCategory: null },
+    },
+  ];
 
   const handleNavigate = category => {
-    if (category === 'DECKS') {
-      // Redireciona diretamente para a página /decks
-      navigate('/decks');
-    }
-    if (category === 'LEASHES') {
-      // Redireciona diretamente para a página /decks
-      navigate('/leashes');
-    } else {
-      const categoryRedirectMap = {
-        LEASHES: 'Leash Premium',
-        CAPAS: 'Capa Premium',
-      };
-
-      const targetCategory = categoryRedirectMap[category] || category;
-
-      navigate('/collection', {
-        state: {
-          category: targetCategory,
-          subCategory: null,
-        },
-      });
-    }
+    const product = products.find(p => p.category === category);
+    navigate(
+      product.path,
+      product.state ? { state: product.state } : undefined
+    );
   };
 
   return (
@@ -45,7 +48,7 @@ const ProductCollection = () => {
       <div className='w-full px-4 py-4 sm:px-6 sm:py-12 lg:px-8'>
         <header className='text-center py-8 text-3xl'>
           <Title text1={'COLEÇÃO DE'} text2={'PRODUTOS'} />
-          <p className='w-full md:w-2/3 mx-auto text-xs sm:text-sm md:text-base text-gray-600'>
+          <p className='w-full md:w-2/3 mx-auto text-xs sm:text-sm md:text-base text-gray-600 line-clamp-3'>
             Explore nossa Coleção de Produtos, uma seleção de acessórios de surf
             de alta qualidade, projetados para desempenho, durabilidade e
             inovação dentro e fora d’água.
@@ -53,20 +56,25 @@ const ProductCollection = () => {
         </header>
 
         <ul className='mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
-          {Object.entries(categoryMap).map(([img, category], index) => (
+          {products.map(product => (
             <li
-              key={index}
-              onClick={() => handleNavigate(category)}
+              key={product.category}
+              onClick={() => handleNavigate(product.category)}
+              onKeyDown={e =>
+                e.key === 'Enter' && handleNavigate(product.category)
+              }
+              role='button'
+              tabIndex={0}
               className='group block relative overflow-hidden cursor-pointer'
             >
               <img
-                src={img}
-                alt={category}
+                src={product.img}
+                alt={product.category}
                 className='h-[200px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[300px] lg:h-[400px]'
               />
               <div className='absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50'>
                 <span className='text-white text-xl sm:text-3xl lg:text-4xl font-bold transition-transform duration-500 group-hover:scale-110'>
-                  {category.toUpperCase()}
+                  {product.category.toUpperCase()}
                 </span>
               </div>
             </li>

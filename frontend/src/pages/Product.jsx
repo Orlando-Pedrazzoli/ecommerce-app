@@ -114,7 +114,9 @@ const Product = () => {
           </div>
 
           <div className='flex-1'>
-            <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
+            <h1 className='font-medium text-2xl mt-2 lg:-mt-10'>
+              {productData.name}
+            </h1>
             <h1 className='font-medium text-xl mt-2'>{productData.cod}</h1>
             <div className='flex items-center gap-1 mt-2'>
               {[...Array(5)].map((_, index) => (

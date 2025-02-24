@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 import Title from '../components/Title';
 
 const Acessorios = () => {
   const navigate = useNavigate(); // Hook para navegação
+  useEffect(() => {
+    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+  }, []);
 
   // Array de categorias e subcategorias com IDs e URLs das imagens
   const categoriesWithIds = [
@@ -104,35 +107,42 @@ const Acessorios = () => {
   return (
     <section>
       <div className='mx-auto max-w-screen-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-4'>
-        {/* Leash Premium */}
-        <header className='text-center'>
-          <Title text1={'ACESSÓRIOS'} text2={'COLEÇÃO 2025'} />
-          <p className='mx-auto mt-4 max-w-md text-gray-500'></p>
-        </header>
+        {categoriesWithIds.map(category => (
+          <div key={category.id}>
+            <header className='text-center'>
+              <Title
+                text1={category.name.toUpperCase()}
+                text2={'COLEÇÃO 2025'}
+              />
+            </header>
 
-        <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
-          {categoriesWithIds[0].subCategories.map(subCat => (
-            <li key={subCat.id}>
-              <div
-                onClick={() =>
-                  handleImageClick(categoriesWithIds[0].id, subCat.name)
-                }
-                className='relative block overflow-hidden group cursor-pointer'
-              >
-                <div className='absolute inset-0 flex items-center justify-center bg-black/60 transition duration-300 group-hover:bg-black/20'>
-                  <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
-                    {subCat.name}
-                  </h3>
-                </div>
-                <img
-                  src={subCat.imageUrl} // Usando a URL da imagem da subcategoria
-                  alt=''
-                  className='h-[300px] sm:h-[250px] md:h-[300px] lg:h-[450px] w-full object-cover'
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
+            {/* Grid responsiva */}
+            <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
+              {category.subCategories.map(subCat => (
+                <li key={subCat.id} className='w-full'>
+                  <div
+                    onClick={() => handleImageClick(category.id, subCat.name)}
+                    className='relative group cursor-pointer w-full'
+                  >
+                    {/* Garantindo que a div seja quadrada e responsiva */}
+                    <div className='relative w-full pb-[100%] overflow-hidden'>
+                      <img
+                        src={subCat.imageUrl}
+                        alt=''
+                        className='absolute top-0 left-0 w-full h-full object-cover'
+                      />
+                      <div className='absolute inset-0 flex items-center justify-center bg-black/30 transition duration-300'>
+                        <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
+                          {subCat.name}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );

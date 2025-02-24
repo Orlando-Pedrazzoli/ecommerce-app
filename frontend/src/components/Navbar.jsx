@@ -45,7 +45,7 @@ const Navbar = () => {
               {/* Show underline on hover */}
               <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden group-hover:block' />
             </NavLink>
-            <div className='absolute left-1/2 transform -translate-x-1/2 top-full hidden group-hover:block bg-white shadow-lg w-[1200px] p-6 rounded-md z-50'>
+            <div className='absolute left-1/2 transform -translate-x-1/2 top-full hidden group-hover:block bg-white shadow-lg w-[1100px] p-6 rounded-md z-50'>
               <div className='grid grid-cols-4 gap-6 justify-items-center'>
                 {/* Category 1 - DECKS */}
                 <div
@@ -180,7 +180,7 @@ const Navbar = () => {
           <img
             onClick={() => setVisible(true)}
             src={assets.menu_icon}
-            className='w-5 cursor-pointer sm:hidden'
+            className='w-7 cursor-pointer sm:hidden'
             alt='Menu'
           />
         </div>

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Title from '../components/Title';
 
 const Contact = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+  }, []);
   return (
     <section className='dark:bg-gray-100 dark:text-gray-800'>
       <div className='container max-w-6xl flex flex-col justify-center px-4 py-8 mx-auto md:p-8'>

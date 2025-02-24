@@ -1,56 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Title from '../components/Title';
 import { assets } from '../assets/assets';
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+  }, []);
   return (
     <div className='px-4 sm:px-8 lg:px-12'>
       <div className='text-2xl text-center pt-8 border-t'>
         <Title text1={'ELITE'} text2={'SURFING'} />
       </div>
       <div className='my-10 flex flex-col md:flex-row gap-16'>
-        <img
-          className='w-full max-w-[450px] md:w-1/2 object-cover rounded-md'
-          src={assets.about_img}
-          alt='Sobre a Elite Surfing'
-        />
+        <div className='w-full max-w-[450px] md:w-1/2'>
+          <div className='w-full aspect-square'>
+            <img
+              className='w-full h-full object-cover rounded-md'
+              src={assets.about_img}
+              alt='Sobre a Elite Surfing'
+            />
+          </div>
+        </div>
 
         <div className='flex flex-col justify-center gap-6 md:w-2/4 text-gray-600'>
           <p>
-            A jornada da Elite Surfing começou em 1999, quando Orlando
-            Pedrazzoli, natural de São Paulo, decidiu embarcar para a Austrália
-            com o objetivo de aprender inglês e se dedicar à sua grande paixão:
-            o surfe. Escolhendo a costa oeste australiana, conhecida por suas
-            ondas excepcionais, Orlando se conectou profundamente com o universo
-            do esporte. Foi lá que ele teve a oportunidade de trabalhar em uma
-            renomada fábrica de acessórios de surfe chamada Wet Dreams. Durante
-            dois anos, Orlando mergulhou no dia a dia da produção de
-            equipamentos de alta qualidade, adquirindo todo o conhecimento
-            técnico e estratégico do setor. Em 2001, ele decidiu trazer a marca
-            para o Brasil, iniciando uma ousada empreitada em um mercado ainda
-            em desenvolvimento no país. No início, os produtos da Wet Dreams
-            eram todos importados, mas com o tempo, Orlando começou a
-            desenvolver, junto a fornecedores de matérias-primas de alta
-            qualidade, uma linha de produtos 100% nacional.
+            A Elite Surfing nasceu da paixão pelo surfe de Orlando Pedrazzoli,
+            que em 1999 foi à Austrália para aprender inglês e se aprofundar no
+            esporte. Trabalhando em uma renomada marca de acessórios para surfe,
+            adquiriu conhecimento técnico e estratégico. Em 2001, trouxe esse
+            aprendizado para o Brasil, inicialmente importando produtos, mas
+            logo desenvolvendo uma linha nacional de alta qualidade.
           </p>
           <p>
-            Essa estratégia trouxe ao Brasil acessórios de qualidade equivalente
-            – ou até superior – aos importados, consolidando a marca no mercado.
-            Com muita dedicação, Orlando formou uma ampla rede de representantes
-            e distribuidores ao longo de toda a costa brasileira, além de marcar
-            presença nas principais feiras e eventos de surfe do país. Em 2006,
-            após construir uma marca sólida e de grande sucesso, Orlando vendeu
-            a Wet Dreams e passou a colaborar com a PLP, empresa responsável por
-            marcas icônicas como FCS, Bullys, Creatures e X-Trak. Essa parceria
-            durou até 2011, gerando grandes frutos e fortalecendo ainda mais o
-            nome de Orlando no mercado. Foi nesse momento que Orlando decidiu
-            transformar sua vasta experiência e relacionamentos no setor em um
-            sonho próprio. Nascia assim a Elite Surfing, uma marca criada para
-            atender às demandas dos surfistas mais exigentes, oferecendo
-            produtos de qualidade superior e inovação contínua. Desde o início,
-            a Elite Surfing conquistou prestígio e cresceu rapidamente, reflexo
-            do talento, do conhecimento e da paixão de seu fundador.
+            O sucesso foi imediato, consolidando a marca no mercado. Em 2006,
+            Orlando vendeu sua primeira empresa e colaborou com grandes marcas
+            até 2011. Com essa experiência, criou a Elite Surfing, focada em
+            atender surfistas exigentes com produtos inovadores e de alta
+            performance. A marca rapidamente conquistou prestígio e continua
+            crescendo, refletindo a dedicação de seu fundador.
           </p>
+
           <b className='text-gray-800'>Nossa Missão</b>
           <p>
             {' '}

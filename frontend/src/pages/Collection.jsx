@@ -21,6 +21,10 @@ const Collection = () => {
 
   // Aplicar o filtro da categoria e subcategoria ao carregar a página
   useEffect(() => {
+    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+  }, []);
+
+  useEffect(() => {
     if (categoryId) {
       setCategory([categoryId]);
       setExpandedCategories({ [categoryId]: true });

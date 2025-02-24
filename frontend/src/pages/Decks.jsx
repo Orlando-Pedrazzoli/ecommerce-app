@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 import Title from '../components/Title';
 
 const Decks = () => {
   const navigate = useNavigate(); // Hook para navegação
+  useEffect(() => {
+    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+  }, []);
 
   // Array de categorias e subcategorias com IDs e URLs das imagens
   const categoriesWithIds = [
@@ -148,12 +151,6 @@ const Decks = () => {
                 text2={'COLEÇÃO 2025'}
               />
             </header>
-            <p className='mx-auto mt-4 max-w-md text-gray-500'>
-              Produzidos com EVA de alta qualidade, garantem durabilidade,
-              tração e um design moderno. Com inovações em texturas e cortes
-              anatômicos, nossos decks oferecem precisão nas manobras e
-              desempenho no surf.
-            </p>
 
             {/* Grid responsiva */}
             <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>

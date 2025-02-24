@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 import Title from '../components/Title';
 
 const Leashes = () => {
   const navigate = useNavigate(); // Hook para navegação
+  useEffect(() => {
+    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+  }, []);
 
   // Array de categorias e subcategorias com IDs e URLs das imagens
   const categoriesWithIds = [
@@ -166,23 +169,26 @@ const Leashes = () => {
 
         <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
           {categoriesWithIds[0].subCategories.map(subCat => (
-            <li key={subCat.id}>
+            <li key={subCat.id} className='w-full'>
               <div
                 onClick={() =>
                   handleImageClick(categoriesWithIds[0].id, subCat.name)
                 }
-                className='relative block overflow-hidden group cursor-pointer'
+                className='relative group cursor-pointer w-full'
               >
-                <div className='absolute inset-0 flex items-center justify-center bg-black/60 transition duration-300 group-hover:bg-black/20'>
-                  <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
-                    {subCat.name}
-                  </h3>
+                {/* Mantendo a proporção quadrada */}
+                <div className='relative w-full pb-[100%] overflow-hidden'>
+                  <img
+                    src={subCat.imageUrl}
+                    alt=''
+                    className='absolute top-0 left-0 w-full h-full object-cover'
+                  />
+                  <div className='absolute inset-0 flex items-center justify-center bg-black/60 transition duration-300 group-hover:bg-black/20'>
+                    <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
+                      {subCat.name}
+                    </h3>
+                  </div>
                 </div>
-                <img
-                  src={subCat.imageUrl} // Usando a URL da imagem da subcategoria
-                  alt=''
-                  className='h-[300px] sm:h-[250px] md:h-[300px] lg:h-[450px] w-full object-cover'
-                />
               </div>
             </li>
           ))}
@@ -196,23 +202,26 @@ const Leashes = () => {
 
         <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
           {categoriesWithIds[1].subCategories.map(subCat => (
-            <li key={subCat.id}>
+            <li key={subCat.id} className='w-full'>
               <div
                 onClick={() =>
                   handleImageClick(categoriesWithIds[1].id, subCat.name)
                 }
-                className='relative block overflow-hidden group cursor-pointer'
+                className='relative group cursor-pointer w-full'
               >
-                <div className='absolute inset-0 flex items-center justify-center bg-black/60 transition duration-300 group-hover:bg-black/20'>
-                  <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
-                    {subCat.name}
-                  </h3>
+                {/* Mantendo a proporção quadrada */}
+                <div className='relative w-full pb-[100%] overflow-hidden'>
+                  <img
+                    src={subCat.imageUrl}
+                    alt=''
+                    className='absolute top-0 left-0 w-full h-full object-cover'
+                  />
+                  <div className='absolute inset-0 flex items-center justify-center bg-black/60 transition duration-300 group-hover:bg-black/20'>
+                    <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
+                      {subCat.name}
+                    </h3>
+                  </div>
                 </div>
-                <img
-                  src={subCat.imageUrl} // Usando a URL da imagem da subcategoria
-                  alt=''
-                  className='h-[300px] sm:h-[250px] md:h-[300px] lg:h-[450px] w-full object-cover'
-                />
               </div>
             </li>
           ))}

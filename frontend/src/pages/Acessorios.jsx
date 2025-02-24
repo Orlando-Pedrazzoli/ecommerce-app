@@ -39,7 +39,7 @@ const Acessorios = () => {
           id: '14.5',
           name: 'Fita Rack P/B (5M par)',
           imageUrl:
-            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1738102127/tuekr12daspy0isbpojm.jpg',
+            'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1738101859/ksdydh1zulkuebmfsgmz.jpg',
         },
         {
           id: '14.6',

@@ -140,25 +140,21 @@ const Decks = () => {
   return (
     <section>
       <div className='mx-auto max-w-screen-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-4'>
-        <header className='text-center'>
-          <Title text1={'DECKS'} text2={'COLEÇÃO 2025'} />
-
-          <p className='mx-auto mt-4 max-w-md text-gray-500'>
-            Produzidos com EVA de alta qualidade, garantem durabilidade, tração
-            e um design moderno. Com inovações em texturas e cortes anatômicos,
-            nossos decks oferecem precisão nas manobras e desempenho no surf.
-          </p>
-        </header>
-
         {/* Renderização das categorias e subcategorias */}
         {categoriesWithIds.map(category => (
           <div key={category.id}>
-            <header className='text-center mt-12'>
+            <header className='text-center '>
               <Title
                 text1={category.name.toUpperCase()}
                 text2={'COLEÇÃO 2025'}
               />
             </header>
+            <p className='mx-auto mt-4 max-w-md text-gray-500'>
+              Produzidos com EVA de alta qualidade, garantem durabilidade,
+              tração e um design moderno. Com inovações em texturas e cortes
+              anatômicos, nossos decks oferecem precisão nas manobras e
+              desempenho no surf.
+            </p>
 
             <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
               {category.subCategories.map(subCat => (

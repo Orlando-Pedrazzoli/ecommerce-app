@@ -9,38 +9,17 @@ const ProductCollection = () => {
   const products = [
     { img: assets.productCollection11, category: 'DECKS', path: '/decks' },
     { img: assets.productCollection13, category: 'LEASHES', path: '/leashes' },
-    {
-      img: assets.productCollection51,
-      category: 'CAPAS',
-      path: '/collection',
-      state: { category: 'Capa Premium', subCategory: null },
-    },
-    {
-      img: assets.productCollection50,
-      category: 'Capa Toalha',
-      path: '/collection',
-      state: { category: 'Capa Toalha', subCategory: null },
-    },
-    {
-      img: assets.productCollection54,
-      category: 'Sarcófagos',
-      path: '/collection',
-      state: { category: 'Sarcófagos', subCategory: null },
-    },
+    { img: assets.productCollection51, category: 'CAPAS', path: '/capas' }, // Conectado à página Capas.jsx
     {
       img: assets.productCollection53,
-      category: 'Acessórios',
-      path: '/collection',
-      state: { category: 'Acessórios', subCategory: null },
-    },
+      category: 'ACESSÓRIOS',
+      path: '/acessorios',
+    }, // Conectado à página Acessórios
   ];
 
   const handleNavigate = category => {
     const product = products.find(p => p.category === category);
-    navigate(
-      product.path,
-      product.state ? { state: product.state } : undefined
-    );
+    navigate(product.path); // Navega para a rota sem estado
   };
 
   return (
@@ -55,7 +34,7 @@ const ProductCollection = () => {
           </p>
         </header>
 
-        <ul className='mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+        <ul className='mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2'>
           {products.map(product => (
             <li
               key={product.category}

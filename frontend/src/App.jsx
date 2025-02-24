@@ -35,7 +35,7 @@ const App = () => {
     setIsLoading(true);
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // Ajuste o tempo conforme necessário
+    }, 300); // Ajuste o tempo conforme necessário
 
     return () => clearTimeout(timeout);
   }, [location.pathname]);

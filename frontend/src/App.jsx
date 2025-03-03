@@ -56,9 +56,14 @@ const App = () => {
           ) : (
             <Suspense fallback={<div>Loading...</div>}>
               <Routes>
+                {/* Página de login */}
                 <Route path='/login' element={<Login />} />
+
+                {/* Página inicial agora está acessível sem autenticação */}
+                <Route path='/' element={<Home />} />
+
+                {/* Rotas protegidas */}
                 <Route element={<ProtectedRoute />}>
-                  <Route path='/' element={<Home />} />
                   <Route path='/collection' element={<Collection />} />
                   <Route
                     path='/product-collection'

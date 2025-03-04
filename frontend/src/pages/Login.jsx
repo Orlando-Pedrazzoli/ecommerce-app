@@ -105,7 +105,7 @@ const Login = () => {
                   : 'Acesse sua conta'
               )
             }
-            className='cursor-pointer text-gray-600 hover:text-black'
+            className='cursor-pointer text-gray-600 hover:text-blue-500'
           >
             {currentState === 'Acesse sua conta'
               ? 'Ainda não tem cadastro? Inscreva-se agora'

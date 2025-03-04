@@ -1,69 +1,132 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importe useNavigate
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types'; // Optional: For type checking
 import Title from '../components/Title';
 
+// Categories data (moved outside the component to avoid re-rendering)
+const categories = [
+  {
+    id: '7',
+    name: 'Capa Combate',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401181/15167350052_15159219421_7694233351_7684721574_7382493188_IMG_2603_vplp1o.jpg',
+  },
+  {
+    id: '8',
+    name: 'Capa Premium',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401396/15159219718_7694178719_7661159757_7384660030_IMG_2638_xz8yzl.jpg',
+  },
+  {
+    id: '9',
+    name: 'Capa Térmica',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401584/15313959811-capa-para-prancha-de-surf-termica-premium-fish_taahbs.jpg',
+  },
+  {
+    id: '10',
+    name: 'Capa Stand Up',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401781/capa-para-stand-up-paddle-sup-refletiva-premium_vzbali.jpg',
+  },
+  {
+    id: '11',
+    name: 'Capa Toalha',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401934/evo_laranja_tykgba.jpg',
+  },
+  {
+    id: '12',
+    name: 'Sarcófagos',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740402062/15159214453_7749594016_CAPASARCOFAGO-edit-510x453_xsit4k.jpg',
+  },
+  {
+    id: '13',
+    name: 'Sarcófagos/Rodas',
+    imageUrl:
+      'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740402211/15166127437_7749584346_CAPASARCOFAGORODAS-edit_mttuaa.jpg',
+  },
+];
+
+// CategoryItem Component for better reusability
+const CategoryItem = ({ category, onClick }) => (
+  <li className='w-full'>
+    <div
+      onClick={onClick}
+      onKeyDown={e => e.key === 'Enter' && onClick()}
+      role='button'
+      tabIndex='0'
+      aria-label={`View ${category.name}`}
+      className='relative group cursor-pointer w-full'
+    >
+      <div className='relative w-full pb-[100%] overflow-hidden'>
+        <img
+          src={category.imageUrl}
+          alt={category.name}
+          className='absolute top-0 left-0 w-full h-full object-cover'
+          onError={e => {
+            e.target.onerror = null; // Prevent infinite loop
+            e.target.src = 'path/to/fallback/image.jpg'; // Fallback image
+          }}
+        />
+        <div className='absolute inset-0 flex items-center justify-center bg-black/30 transition duration-300'>
+          <h3 className='text-xl sm:text-xl md:text-2xl lg:text-2xl text-white text-center font-semibold'>
+            {category.name}
+          </h3>
+        </div>
+      </div>
+    </div>
+  </li>
+);
+
+CategoryItem.propTypes = {
+  category: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+  }).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
 const Capas = () => {
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate();
+
+  // Scroll to top on component mount
   useEffect(() => {
-    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+    window.scrollTo(0, 0);
   }, []);
 
-  // Array de categorias com IDs e URLs das imagens
-  const categories = [
-    {
-      id: '7',
-      name: 'Capa Combate',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401181/15167350052_15159219421_7694233351_7684721574_7382493188_IMG_2603_vplp1o.jpg',
-    },
-    {
-      id: '8',
-      name: 'Capa Premium',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401396/15159219718_7694178719_7661159757_7384660030_IMG_2638_xz8yzl.jpg',
-    },
-    {
-      id: '9',
-      name: 'Capa Térmica',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401584/15313959811-capa-para-prancha-de-surf-termica-premium-fish_taahbs.jpg',
-    },
-    {
-      id: '10',
-      name: 'Capa Stand Up',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401781/capa-para-stand-up-paddle-sup-refletiva-premium_vzbali.jpg',
-    },
-    {
-      id: '11',
-      name: 'Capa Toalha',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740401934/evo_laranja_tykgba.jpg',
-    },
-    {
-      id: '12',
-      name: 'Sarcófagos',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740402062/15159214453_7749594016_CAPASARCOFAGO-edit-510x453_xsit4k.jpg',
-    },
-    {
-      id: '13',
-      name: 'Sarcófagos/Rodas',
-      imageUrl:
-        'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1740402211/15166127437_7749584346_CAPASARCOFAGORODAS-edit_mttuaa.jpg',
-    },
-  ];
-
-  // Função para redirecionar para a coleção com o ID da categoria
+  // Handle image click to navigate to the collection page
   const handleImageClick = categoryId => {
-    navigate('/collection', {
-      state: { categoryId: categoryId },
-    });
+    navigate('/collection', { state: { categoryId } });
   };
+
+  // Preload images for better performance
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = categories.map(category => {
+        const img = new Image();
+        img.src = category.imageUrl;
+        return new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   return (
     <section>
-      <div className='mx-auto max-w-screen-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-4'>
+      <div className='mx-auto max-w-screen-3xl px-4 sm:px-[5vw] md:px-[9vw] lg:px-[9vw] py-8 sm:py-12'>
         {/* Título da Página */}
         <header className='text-center'>
           <Title text1={'CAPAS'} text2={'COLEÇÃO 2025'} />
@@ -72,26 +135,11 @@ const Capas = () => {
         {/* Lista de Categorias */}
         <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
           {categories.map(category => (
-            <li key={category.id} className='w-full'>
-              <div
-                onClick={() => handleImageClick(category.id)}
-                className='relative group cursor-pointer w-full'
-              >
-                {/* Garantindo um formato quadrado para a imagem */}
-                <div className='relative w-full pb-[100%] overflow-hidden'>
-                  <img
-                    src={category.imageUrl}
-                    alt=''
-                    className='absolute top-0 left-0 w-full h-full object-cover'
-                  />
-                  <div className='absolute inset-0 flex items-center justify-center bg-black/60 transition duration-300 group-hover:bg-black/20'>
-                    <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center font-semibold'>
-                      {category.name}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </li>
+            <CategoryItem
+              key={category.id}
+              category={category}
+              onClick={() => handleImageClick(category.id)}
+            />
           ))}
         </ul>
       </div>

@@ -79,7 +79,8 @@ const Orders = () => {
                   />
                   <div className='flex-1 min-w-0'>
                     <p className='sm:text-base font-medium truncate'>
-                      {item.name}
+                      <span>{item.cod}</span>{' '}
+                      <span className='ml-2'>{item.name}</span>
                     </p>
                     <div className='flex flex-wrap items-center gap-3 mt-1 text-sm sm:text-base text-gray-700'>
                       <p>
@@ -87,14 +88,13 @@ const Orders = () => {
                         {item.price}
                       </p>
                       <p>Quantidade: {item.quantity}</p>
-                      <p>Tamanho: {item.size}</p>
                     </div>
                     <p className='mt-1 text-gray-500 text-xs sm:text-sm'>
                       Data: {new Date(item.date).toLocaleDateString('pt-BR')}
                     </p>
-                    <p className='mt-1 text-gray-500 text-xs sm:text-sm'>
+                    {/*  <p className='mt-1 text-gray-500 text-xs sm:text-sm'>
                       Pagamento: {item.paymentMethod}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
 
@@ -107,7 +107,7 @@ const Orders = () => {
                     onClick={loadOrderData}
                     className='border px-3 py-2 text-sm font-medium rounded-md bg-gray-100 hover:bg-gray-200 transition'
                   >
-                    Acompanhar Pedido
+                    Aguarde Status do Pedido
                   </button>
                 </div>
               </div>

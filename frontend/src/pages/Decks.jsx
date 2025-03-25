@@ -38,6 +38,12 @@ const categoriesWithIds = [
           'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1739370069/DECK_HAWAII_VERDEmusgo_gsiwat.jpg',
       },
       {
+        id: '1.10',
+        name: 'Deck Hawaii Grom',
+        imageUrl:
+          'https://res.cloudinary.com/dy2cjyhp6/image/upload/v1742942337/ntlcxpekoyjtytyff61s.jpg',
+      },
+      {
         id: '1.6',
         name: 'Deck Peniche',
         imageUrl:

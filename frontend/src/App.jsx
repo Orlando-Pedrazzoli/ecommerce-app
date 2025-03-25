@@ -6,7 +6,6 @@ import SearchBar from './components/SearchBar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Announcement from './components/Announcement';
-import ProtectedRoute from './components/ProtectedRoute';
 
 // Páginas carregadas de forma assíncrona
 const Home = lazy(() => import('./pages/Home'));
@@ -63,25 +62,24 @@ const App = () => {
                 <Route path='/' element={<Home />} />
 
                 {/* Rotas protegidas */}
-                <Route element={<ProtectedRoute />}>
-                  <Route path='/collection' element={<Collection />} />
-                  <Route
-                    path='/product-collection'
-                    element={<ProductCollection />}
-                  />
-                  <Route path='/about' element={<About />} />
-                  <Route path='/contact' element={<Contact />} />
-                  <Route path='/accordion' element={<Accordion />} />
-                  <Route path='/decks' element={<Decks />} />
-                  <Route path='/leashes' element={<Leashes />} />
-                  <Route path='/acessorios' element={<Acessorios />} />
-                  <Route path='/capas' element={<Capas />} />
-                  <Route path='/product/:productId' element={<Product />} />
-                  <Route path='/cart' element={<Cart />} />
-                  <Route path='/place-order' element={<PlaceOrder />} />
-                  <Route path='/orders' element={<Orders />} />
-                  <Route path='/verify' element={<Verify />} />
-                </Route>
+
+                <Route path='/collection' element={<Collection />} />
+                <Route
+                  path='/product-collection'
+                  element={<ProductCollection />}
+                />
+                <Route path='/about' element={<About />} />
+                <Route path='/contact' element={<Contact />} />
+                <Route path='/accordion' element={<Accordion />} />
+                <Route path='/decks' element={<Decks />} />
+                <Route path='/leashes' element={<Leashes />} />
+                <Route path='/acessorios' element={<Acessorios />} />
+                <Route path='/capas' element={<Capas />} />
+                <Route path='/product/:productId' element={<Product />} />
+                <Route path='/cart' element={<Cart />} />
+                <Route path='/place-order' element={<PlaceOrder />} />
+                <Route path='/orders' element={<Orders />} />
+                <Route path='/verify' element={<Verify />} />
               </Routes>
             </Suspense>
           )}

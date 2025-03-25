@@ -433,16 +433,18 @@ const Collection = () => {
 
         {/* Map Products */}
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-10'>
-          {filterProducts.map((item, index) => (
-            <ProductItem
-              key={index}
-              name={item.name}
-              id={item._id}
-              price={item.price}
-              cod={item.cod}
-              image={item.image}
-            />
-          ))}
+          {[...filterProducts]
+            .sort(() => Math.random() - 0.5)
+            .map((item, index) => (
+              <ProductItem
+                key={index}
+                name={item.name}
+                id={item._id}
+                price={item.price}
+                cod={item.cod}
+                image={item.image}
+              />
+            ))}
         </div>
       </div>
     </div>

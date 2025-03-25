@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Title from '../components/Title';
 
@@ -147,6 +146,10 @@ const SubCategory = ({ subCat, onClick }) => (
           src={subCat.imageUrl}
           alt={subCat.name}
           className='absolute top-0 left-0 w-full h-full object-cover'
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = '/images/default-leash.jpg';
+          }}
         />
         <div className='absolute inset-0 flex items-center justify-center bg-black/30 transition duration-300'>
           <h3 className='text-xl sm:text-xl md:text-2xl lg:text-2xl text-white text-center font-semibold'>
@@ -168,14 +171,43 @@ SubCategory.propTypes = {
 };
 
 const Leashes = () => {
-  const navigate = useNavigate();
-
+  // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Preload images for better performance
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = categoriesWithIds.flatMap(category =>
+        category.subCategories.map(subCat => {
+          const img = new Image();
+          img.src = subCat.imageUrl;
+          return new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+        })
+      );
+
+      try {
+        await Promise.all(imagePromises);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+      }
+    };
+
+    preloadImages();
+  }, []);
+
+  // Handle image click with full page refresh
   const handleImageClick = (categoryId, subCategoryId) => {
-    navigate('/collection', { state: { categoryId, subCategoryId } });
+    // Store selection in localStorage
+    localStorage.setItem('selectedCategory', categoryId);
+    localStorage.setItem('selectedSubCategory', subCategoryId);
+
+    // Force full page refresh with URL parameters
+    window.location.href = `/collection?category=${categoryId}&subcategory=${subCategoryId}`;
   };
 
   return (

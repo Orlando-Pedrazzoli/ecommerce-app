@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types'; // Optional: For type checking
+import PropTypes from 'prop-types';
 import Title from '../components/Title';
 
 // Categories data (moved outside the component to avoid re-rendering)
@@ -49,7 +48,7 @@ const categories = [
   },
 ];
 
-// CategoryItem Component for better reusability
+// CategoryItem Component
 const CategoryItem = ({ category, onClick }) => (
   <li className='w-full'>
     <div
@@ -66,8 +65,8 @@ const CategoryItem = ({ category, onClick }) => (
           alt={category.name}
           className='absolute top-0 left-0 w-full h-full object-cover'
           onError={e => {
-            e.target.onerror = null; // Prevent infinite loop
-            e.target.src = 'path/to/fallback/image.jpg'; // Fallback image
+            e.target.onerror = null;
+            e.target.src = '/images/default-cover.jpg';
           }}
         />
         <div className='absolute inset-0 flex items-center justify-center bg-black/30 transition duration-300'>
@@ -90,17 +89,10 @@ CategoryItem.propTypes = {
 };
 
 const Capas = () => {
-  const navigate = useNavigate();
-
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Handle image click to navigate to the collection page
-  const handleImageClick = categoryId => {
-    navigate('/collection', { state: { categoryId } });
-  };
 
   // Preload images for better performance
   useEffect(() => {
@@ -124,15 +116,22 @@ const Capas = () => {
     preloadImages();
   }, []);
 
+  // Handle image click with full page refresh
+  const handleImageClick = categoryId => {
+    // Store selection in localStorage
+    localStorage.setItem('selectedCategory', categoryId);
+
+    // Force full page refresh with URL parameter
+    window.location.href = `/collection?category=${categoryId}`;
+  };
+
   return (
     <section>
       <div className='mx-auto max-w-screen-3xl px-4 sm:px-[5vw] md:px-[9vw] lg:px-[9vw] py-8 sm:py-12'>
-        {/* Título da Página */}
         <header className='text-center'>
           <Title text1={'CAPAS'} text2={'COLEÇÃO 2025'} />
         </header>
 
-        {/* Lista de Categorias */}
         <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-12 mt-10'>
           {categories.map(category => (
             <CategoryItem

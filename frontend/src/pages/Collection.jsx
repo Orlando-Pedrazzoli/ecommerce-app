@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'; // Importe useLocation
+import { useLocation } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
@@ -8,35 +8,49 @@ import ProductItem from '../components/ProductItem';
 const Collection = () => {
   const { products, search, setSearch, showSearch, setShowSearch } =
     useContext(ShopContext);
-  const location = useLocation(); // Hook para acessar o estado da navegação
+  const location = useLocation();
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState(products);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState(null);
   const [sortType, setSortType] = useState('relavent');
   const [expandedCategories, setExpandedCategories] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Ler o categoryId e subCategoryId do estado da navegação
-  const { categoryId, subCategoryId } = location.state || {};
-
-  // Aplicar o filtro da categoria e subcategoria ao carregar a página
+  // Read from URL parameters first, then localStorage as fallback
   useEffect(() => {
-    window.scrollTo(0, 0); // Sempre rola para o topo ao carregar a página
+    const searchParams = new URLSearchParams(window.location.search);
+    const urlCategory = searchParams.get('category');
+    const urlSubCategory = searchParams.get('subcategory');
+
+    const storedCategory = localStorage.getItem('selectedCategory');
+    const storedSubCategory = localStorage.getItem('selectedSubCategory');
+
+    if (urlCategory) {
+      setCategory([urlCategory]);
+      setExpandedCategories({ [urlCategory]: true });
+    } else if (storedCategory) {
+      setCategory([storedCategory]);
+      setExpandedCategories({ [storedCategory]: true });
+    }
+
+    if (urlSubCategory) {
+      setSubCategory(urlSubCategory);
+    } else if (storedSubCategory) {
+      setSubCategory(storedSubCategory);
+    }
+
+    // Clean up localStorage
+    localStorage.removeItem('selectedCategory');
+    localStorage.removeItem('selectedSubCategory');
+
+    window.scrollTo(0, 0);
+    setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    if (categoryId) {
-      setCategory([categoryId]);
-      setExpandedCategories({ [categoryId]: true });
-    }
-    if (subCategoryId) {
-      setSubCategory(subCategoryId);
-    }
-  }, [categoryId, subCategoryId]);
-
-  // Função para aplicar filtros
+  // Apply filters function
   const applyFilter = () => {
-    let productsCopy = products.slice();
+    let productsCopy = [...products];
 
     if (showSearch && search) {
       productsCopy = productsCopy.filter(
@@ -71,12 +85,14 @@ const Collection = () => {
     setFilterProducts(productsCopy);
   };
 
-  // Aplicar filtros quando o estado mudar
+  // Apply filters when dependencies change
   useEffect(() => {
-    applyFilter();
-  }, [category, subCategory, search, showSearch, products]);
+    if (!isLoading) {
+      applyFilter();
+    }
+  }, [category, subCategory, search, showSearch, products, isLoading]);
 
-  // Função para ordenar produtos
+  // Sort products
   const sortProduct = () => {
     let fpCopy = [...filterProducts];
 
@@ -94,7 +110,6 @@ const Collection = () => {
     setFilterProducts(fpCopy);
   };
 
-  // Ordenar produtos quando o tipo de ordenação mudar
   useEffect(() => {
     sortProduct();
   }, [sortType]);
@@ -313,18 +328,7 @@ const Collection = () => {
     },
   ];
 
-  // Resetar estado ao desmontar o componente
-  useEffect(() => {
-    return () => {
-      setCategory([]);
-      setSubCategory(null);
-      setExpandedCategories({});
-      localStorage.removeItem('selectedCategory');
-      localStorage.removeItem('selectedSubCategory');
-    };
-  }, []);
-
-  // Função para alternar a categoria principal
+  // Toggle category function
   const toggleCategory = id => {
     if (category.includes(id)) {
       setCategory([]);
@@ -339,7 +343,7 @@ const Collection = () => {
     setShowSearch(false);
   };
 
-  // Função para alternar a subcategoria
+  // Toggle subcategory function
   const toggleSubCategory = id => {
     if (subCategory === id) {
       setSubCategory(null);
@@ -349,16 +353,22 @@ const Collection = () => {
     setSearch('');
     setShowSearch(false);
 
-    // Fechar o filtro ao selecionar uma subcategoria (apenas em mobile)
     if (window.innerWidth <= 640) {
-      // 640px é o breakpoint para mobile (sm) no Tailwind
       setShowFilter(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <div className='animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500'></div>
+      </div>
+    );
+  }
+
   return (
     <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 sm:px-6 lg:px-10'>
-      {/* Botão de Filtro para Mobile */}
+      {/* Mobile Filter Button */}
       <div className='min-w-60'>
         <button
           onClick={() => setShowFilter(!showFilter)}
@@ -374,7 +384,7 @@ const Collection = () => {
           />
         </button>
 
-        {/* Filtros */}
+        {/* Filters */}
         <div
           className={`border border-gray-300 pl-5 py-3 mt-6 ${
             showFilter ? '' : 'hidden'
@@ -382,7 +392,6 @@ const Collection = () => {
         >
           <p className='mb-3 text-sm font-medium'>CATEGORIAS</p>
 
-          {/* Renderização de Categorias */}
           {categoriesWithIds.map(cat => (
             <div key={cat.id}>
               <p className='flex gap-3 m-3 text-gray-900'>
@@ -416,11 +425,10 @@ const Collection = () => {
         </div>
       </div>
 
-      {/* Right Side */}
+      {/* Product Grid */}
       <div className='flex-1'>
         <div className='flex justify-between text-base sm:text-2xl mb-4'>
           <Title text1={'COLEÇÃO'} text2={'2025'} />
-          {/* Product Sort */}
           <select
             onChange={e => setSortType(e.target.value)}
             className='hidden sm:block border-2 border-gray-300 text-sm px-2 w-48'
@@ -431,7 +439,6 @@ const Collection = () => {
           </select>
         </div>
 
-        {/* Map Products */}
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-4 sm:px-6 md:px-8 lg:px-10'>
           {[...filterProducts]
             .sort(() => Math.random() - 0.5)

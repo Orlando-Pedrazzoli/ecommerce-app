@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types'; // Optional: For type checking
 import Title from '../components/Title';
 
-// Categories data (moved outside the component to avoid re-rendering)
+// Categories data
 const categoriesWithIds = [
   {
     id: '1',
@@ -115,7 +113,7 @@ const categoriesWithIds = [
   },
 ];
 
-// SubCategory Component for better reusability
+// SubCategory Component
 const SubCategory = ({ subCat, onClick }) => (
   <li className='w-full'>
     <div
@@ -132,8 +130,8 @@ const SubCategory = ({ subCat, onClick }) => (
           alt={subCat.name}
           className='absolute top-0 left-0 w-full h-full object-cover'
           onError={e => {
-            e.target.onerror = null; // Prevent infinite loop
-            e.target.src = 'path/to/fallback/image.jpg'; // Fallback image
+            e.target.onerror = null;
+            e.target.src = '/images/default-deck.jpg';
           }}
         />
         <div className='absolute inset-0 flex items-center justify-center bg-black/30 transition duration-300'>
@@ -146,26 +144,20 @@ const SubCategory = ({ subCat, onClick }) => (
   </li>
 );
 
-SubCategory.propTypes = {
-  subCat: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-  }).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
 const Decks = () => {
-  const navigate = useNavigate();
-
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Handle image click to navigate to the collection page
+  // Handle image click to navigate to the collection page with full refresh
   const handleImageClick = (categoryId, subCategoryId) => {
-    navigate('/collection', { state: { categoryId, subCategoryId } });
+    // Store the selection in localStorage
+    localStorage.setItem('selectedCategory', categoryId);
+    localStorage.setItem('selectedSubCategory', subCategoryId);
+
+    // Force full page refresh with URL parameters
+    window.location.href = `/collection?category=${categoryId}&subcategory=${subCategoryId}`;
   };
 
   // Preload images for better performance

@@ -16,6 +16,7 @@ const Product = () => {
   const zoomRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { fromCollection } = location.state || {};
 
   const subCategory = location.state?.subCategory;
 
@@ -47,10 +48,20 @@ const Product = () => {
     zoomRef.current.style.setProperty('--display', 'none');
   };
 
+  // Product.jsx
   const handleGoBack = () => {
-    navigate('/collection', { state: { subCategory } });
+    if (fromCollection) {
+      localStorage.setItem(
+        'collectionScrollPosition',
+        fromCollection.scrollPosition || 0
+      );
+      window.location.href = `/collection?category=${
+        fromCollection.categoryId || ''
+      }&subcategory=${fromCollection.subCategoryId || ''}`;
+    } else {
+      navigate('/collection');
+    }
   };
-
   const handleMainImageClick = () => {
     setIsModalOpen(true); // Open modal when main image is clicked
   };

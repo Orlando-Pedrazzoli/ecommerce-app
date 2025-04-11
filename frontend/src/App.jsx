@@ -6,6 +6,7 @@ import SearchBar from './components/SearchBar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Announcement from './components/Announcement';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Páginas carregadas de forma assíncrona
 const Home = lazy(() => import('./pages/Home'));
@@ -61,8 +62,6 @@ const App = () => {
                 {/* Página inicial agora está acessível sem autenticação */}
                 <Route path='/' element={<Home />} />
 
-                {/* Rotas protegidas */}
-
                 <Route path='/collection' element={<Collection />} />
                 <Route
                   path='/product-collection'
@@ -77,9 +76,13 @@ const App = () => {
                 <Route path='/capas' element={<Capas />} />
                 <Route path='/product/:productId' element={<Product />} />
                 <Route path='/cart' element={<Cart />} />
-                <Route path='/place-order' element={<PlaceOrder />} />
-                <Route path='/orders' element={<Orders />} />
                 <Route path='/verify' element={<Verify />} />
+
+                {/* Rotas protegidas */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path='/place-order' element={<PlaceOrder />} />
+                  <Route path='/orders' element={<Orders />} />
+                </Route>
               </Routes>
             </Suspense>
           )}

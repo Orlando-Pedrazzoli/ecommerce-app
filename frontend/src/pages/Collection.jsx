@@ -120,8 +120,8 @@ const Collection = () => {
       id: '1',
       name: 'Decks Fresados',
       subCategories: [
-        /*   { id: '1.1', name: 'Deck Saquarema' },
-        { id: '1.2', name: 'Deck Noronha' }, */
+        { id: '1.1', name: 'Deck Saquarema' },
+        { id: '1.2', name: 'Deck Noronha' },
         { id: '1.3', name: 'Deck J-Bay' },
         { id: '1.4', name: 'Deck Fiji Classic' },
         { id: '1.5', name: 'Deck Hawaii' },
@@ -140,14 +140,14 @@ const Collection = () => {
         { id: '2.2', name: 'Deck Fiji Cnc' },
       ],
     },
-    /*  {
+    {
       id: '3',
       name: 'Decks Marine',
       subCategories: [
         { id: '3.1', name: 'Deck Saquarema Marine' },
         { id: '3.2', name: 'Deck Noronha Marine' },
       ],
-    }, */
+    },
     {
       id: '4',
       name: 'Decks SUP',

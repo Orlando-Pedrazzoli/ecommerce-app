@@ -50,7 +50,7 @@ const Orders = ({ token }) => {
 
   return (
     <div>
-      <h3 className='text-lg font-semibold mb-4'>Orders</h3>
+      <h3 className='text-lg font-semibold mb-4'>Pedidos</h3>
       <div>
         {orders.map(order => (
           <div
@@ -113,10 +113,8 @@ const Orders = ({ token }) => {
               value={order.status}
               className='p-2 font-semibold border border-gray-300 rounded-md'
             >
-              <option value='Pedido Realizado'>Pedido Realizado</option>
               <option value='Preparando'>Preparando</option>
               <option value='Enviado'>Enviado</option>
-              <option value='Saiu para entrega'>Saiu para entrega</option>
               <option value='Entregue'>Entregue</option>
             </select>
           </div>

@@ -1,6 +1,7 @@
 import logo from './logo.png';
 import hero_img from './hero_img.png';
 import cart_icon from './cart_icon.png';
+import user_admin from './useradmin.png';
 import bin_icon from './bin_icon.png';
 import dropdown_icon from './dropdown_icon.png';
 import exchange_icon from './exchange_icon.png';
@@ -54,6 +55,7 @@ export const assets = {
   logo,
   hero_img,
   cart_icon,
+  user_admin,
   dropdown_icon,
   exchange_icon,
   profile_icon,

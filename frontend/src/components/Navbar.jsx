@@ -175,6 +175,17 @@ const Navbar = () => {
               {getCartCount()}
             </p>
           </Link>
+          <a
+            href='https://elitesurfing-admin.vercel.app/'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='relative'
+          >
+            <img src={assets.user_admin} className='w-6 min-w-6' alt='Cart' />
+            <p className='absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[7px]'>
+              WKM
+            </p>
+          </a>
 
           {/* Mobile Menu Icon */}
           <img
